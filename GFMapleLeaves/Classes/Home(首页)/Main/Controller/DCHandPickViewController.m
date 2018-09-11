@@ -55,6 +55,7 @@
 @property (strong , nonatomic)NSMutableArray<DCGridItem *> *gridItem;
 /* 推荐商品属性 */
 @property (strong , nonatomic)NSMutableArray<DCRecommendItem *> *youLikeItem;
+@property (strong , nonatomic)NSMutableArray<DCRecommendItem *> *youLikeItems;
 /* 顶部工具View */
 @property (nonatomic, strong) DCHomeTopToolView *topToolView;
 /* 滚回顶部按钮 */
@@ -166,6 +167,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 {
     _gridItem = [DCGridItem mj_objectArrayWithFilename:@"GoodsGrid.plist"];
     _youLikeItem = [DCRecommendItem mj_objectArrayWithFilename:@"HomeHighGoods.plist"];
+    _youLikeItems = [DCRecommendItem mj_objectArrayWithFilename:@"HomeHighGoods2.plist"];
 }
 
 #pragma mark - 滚回顶部
@@ -246,7 +248,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
-        
+
     }else if (indexPath.section == 1) {//广告福利（上2下1）
         DCNewWelfareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCNewWelfareCellID forIndexPath:indexPath];
         gridcell = cell;
@@ -269,8 +271,11 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     else {//猜你喜欢
         DCGoodsYouLikeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsYouLikeCellID forIndexPath:indexPath];
-        cell.lookSameBlock = ^{
-            NSLog(@"点击了第%zd商品的找相似",indexPath.row);
+//        cell.lookSameBlock = ^{
+//            NSLog(@"点击了第%zd商品的找相似",indexPath.row);
+//        };
+        cell.getTicketBlock = ^{
+            NSLog(@"点击了第%zd商品的领券",indexPath.row);
         };
         cell.youLikeItem = _youLikeItem[indexPath.row];
         gridcell = cell;
@@ -293,7 +298,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             reusableview = headerView;
         }else if (indexPath.section == 4){
             DCYouLikeHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCYouLikeHeadViewID forIndexPath:indexPath];
-            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"http://gfs7.gomein.net.cn/T1WudvBm_T1RCvBVdK.png"]];//【优质家电】
+//            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"http://gfs7.gomein.net.cn/T1WudvBm_T1RCvBVdK.png"]];//【优质家电】
+            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"home_icon_guestyoulike"]];//【热门推荐】
             reusableview = headerView;
         }else if (indexPath.section == 5){
             DCYouLikeHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCYouLikeHeadViewID forIndexPath:indexPath];
@@ -326,16 +332,19 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         return CGSizeMake(ScreenW/5 , ScreenW/5 + DCMargin);
     }
     if (indexPath.section == 1) {//广告
-        return CGSizeMake(ScreenW, 180);
+//        return CGSizeMake(ScreenW, 180);
+        return CGSizeMake(ScreenW, 0);
     }
     if (indexPath.section == 2) {//计时
-        return CGSizeMake(ScreenW, 150);
+//        return CGSizeMake(ScreenW, 150);
+        return CGSizeMake(ScreenW, 0);
     }
     if (indexPath.section == 3) {//掌上
-        return CGSizeMake(ScreenW,ScreenW * 0.35 + 120);
+//        return CGSizeMake(ScreenW,ScreenW * 0.35 + 120);
+        return CGSizeMake(ScreenW,0);
     }
     if (indexPath.section == 4) {//推荐组
-        return [self layoutAttributesForItemAtIndexPath:indexPath].size;
+        return [self layoutAttributesForItemAtIndexPath2:indexPath].size;
     }
     if (indexPath.section == 5) {//猜你喜欢
         return CGSizeMake((ScreenW - 4)/2, (ScreenW - 4)/2 + 40);
@@ -356,6 +365,18 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     return layoutAttributes;
 }
+//采用该布局
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath2:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    if (indexPath.section == 4) {
+        if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2){
+            layoutAttributes.size = CGSizeMake(ScreenW * 0.5, ScreenW * 0.35);
+        }else{
+            layoutAttributes.size = CGSizeMake(ScreenW * 0.25, ScreenW * 0.35);
+        }
+    }
+    return layoutAttributes;
+}
 
 #pragma mark - head宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -363,7 +384,17 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (section == 0) {
         return CGSizeMake(ScreenW, 230); //图片滚动的宽高
     }
-    if (section == 2 || section == 4 || section == 5) {//猜你喜欢的宽高
+    
+//    if (section == 2 || section == 4 || section == 5) {//猜你喜欢的宽高
+//        return CGSizeMake(ScreenW, 40);  //推荐适合的宽高
+//    }
+    if (section == 2 ) {
+        return CGSizeMake(ScreenW, 0);
+    }
+    if (section == 4) {
+        return CGSizeMake(ScreenW, 20);
+    }
+    if (section == 5) {//猜你喜欢的宽高
         return CGSizeMake(ScreenW, 40);  //推荐适合的宽高
     }
     return CGSizeZero;
@@ -376,7 +407,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         return CGSizeMake(ScreenW, 120);  //Top头条的宽高
     }
     if (section == 3) {
-        return CGSizeMake(ScreenW, 80); // 滚动广告
+//        return CGSizeMake(ScreenW, 80); // 滚动广告
+        return CGSizeMake(ScreenW, 0); // 滚动广告
     }
     if (section == 5) {
         return CGSizeMake(ScreenW, 40); // 结束

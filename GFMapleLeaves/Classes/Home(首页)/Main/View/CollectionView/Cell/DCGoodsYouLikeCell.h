@@ -16,8 +16,13 @@
 @property (strong , nonatomic)DCRecommendItem *youLikeItem;
 /* 相同 */
 @property (strong , nonatomic)UIButton *sameButton;
+/* 领券 */
+@property (strong , nonatomic)UIButton *getTicketButton;
 
-/** 找相似点击回调 */
-@property (nonatomic, copy) dispatch_block_t lookSameBlock;
+///** 找相似点击回调 */
+//@property (nonatomic, copy) dispatch_block_t lookSameBlock;
+
+/** 领券点击回调 */
+@property (nonatomic, copy) dispatch_block_t getTicketBlock;
 
 @end

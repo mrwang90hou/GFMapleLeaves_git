@@ -2,7 +2,7 @@
 //  DCTabBarController.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/26.
+//  Created by mrwang90hou on 2019/9/11.
 //  Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
@@ -102,7 +102,7 @@
                                 MallImgKey    : @"tab_icon_classify_normal",
                                 MallSelImgKey : @"tab_icon_classify_selected"},
                             
-                            @{MallClassKey  : @"DCMediaListViewController",
+                            @{MallClassKey  : @"GFSuperMemberViewController",
                               MallTitleKey  : @"超级会员",
 //                              MallImgKey    : @"tabr_03_up",
 //                              MallSelImgKey : @"tabr_03_down"},

@@ -62,9 +62,12 @@
 - (void)setHandheldImage:(NSString *)handheldImage
 {
     _handheldImage = handheldImage;
-    
-        [_handheldImageView sd_setImageWithURL:[NSURL URLWithString:handheldImage]];
-//    [_handheldImageView setImage:[UIImage imageNamed:handheldImage]];
+    if ([[handheldImage substringToIndex:4] isEqualToString:@"http"]){
+         [_handheldImageView sd_setImageWithURL:[NSURL URLWithString:handheldImage]];
+    }else{
+         [_handheldImageView setImage:[UIImage imageNamed:handheldImage]];
+    }
+   
     
 }
 

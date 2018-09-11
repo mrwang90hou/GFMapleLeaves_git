@@ -47,7 +47,13 @@
 #import "CDDTopTip.h"
 #import "NetworkUnit.h"
 
-@interface DCHandPickViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+//
+#import "GFSearchViewController.h"
+#import "PYSearchViewController.h"
+#import "PYTempViewController.h"
+
+
+@interface DCHandPickViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,PYSearchViewControllerDelegate>
 
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -196,9 +202,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //        [weakSelf.navigationController pushViewController:dcGMvC animated:YES];
     };
     _topToolView.rightItemClickBlock = ^{
-        NSLog(@"点击了首页分类");
-        DCCommodityViewController *dcComVc = [DCCommodityViewController new];
-        [weakSelf.navigationController pushViewController:dcComVc animated:YES];
+        NSLog(@"点击了消息页面");
+//        DCCommodityViewController *dcComVc = [DCCommodityViewController new];
+//        [weakSelf.navigationController pushViewController:dcComVc animated:YES];
     };
     _topToolView.rightRItemClickBlock = ^{
         NSLog(@"点击了首页购物车");
@@ -209,6 +215,10 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     };
     _topToolView.searchButtonClickBlock = ^{
         NSLog(@"点击了首页搜索");
+//        GFSearchViewController *searchVc = [GFSearchViewController new];
+//        searchVc.title = @"搜索";
+//        [weakSelf presentViewController:searchVc animated:YES completion:nil];
+        [weakSelf trunToSearchView];
     };
     _topToolView.qrCodeButtonClickBlock = ^{
         NSLog(@"点击了首页二维码 扫一扫");
@@ -218,6 +228,69 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     [self.view addSubview:_topToolView];
     
 }
+#pragma mark -跳转至搜索栏
+- (void)trunToSearchView{
+    // 1. Create an Array of popular search
+    //    NSArray *hotSeaches = @[@"Java", @"Python", @"Objective-C", @"Swift", @"C", @"C++", @"PHP", @"C#", @"Perl", @"Go", @"JavaScript", @"R", @"Ruby", @"MATLAB"];
+    NSArray *hotSeaches = @[@"小枫叶🍁", @"汉服", @"女装", @"iPhone X", @"小枫叶🍁", @"小米6", @"MacBook Pro"];
+    // 2. Create a search view controller
+    PYSearchViewController *searchViewController = [PYSearchViewController searchViewControllerWithHotSearches:hotSeaches searchBarPlaceholder:@"请输入您要搜索的内容..." didSearchBlock:^(PYSearchViewController *searchViewController, UISearchBar *searchBar, NSString *searchText) {
+        // Called when search begain.
+        // eg：Push to a temp view controller
+        [searchViewController.navigationController pushViewController:[[PYTempViewController alloc] init] animated:YES];
+        
+    }];
+//    searchViewController.searchBar.backgroundColor = [UIColor grayColor];
+//    searchViewController.view.backgroundColor = [UIColor blueColor];
+    
+    searchViewController.navigationController.navigationBar.alpha = 1;
+    searchViewController.navigationController.navigationBar.backgroundColor = [UIColor blueColor];
+    
+//    UITextField *field = [[UITextField alloc]initWithFrame:CGRectMake(8, 8, ScreenW-20, 28)];
+//    [field setBackgroundColor:[UIColor blueColor]];
+//
+//    UISearchBar *search = [[UISearchBar alloc]initWithFrame:CGRectMake(8, 8, ScreenW-20, 28)];
+//    [search setBackgroundColor:[UIColor blackColor]];
+//    [searchViewController setSearchTextField:field];
+//    [searchViewController setSearchBar:nil];
+//    [searchViewController setSearchBar:search];
+    
+    
+//    searchViewController.cancelButton.enabled = false;
+    
+    
+    UIImageView *qrCodeView = [[UIImageView alloc]init];
+    qrCodeView.image = [UIImage imageNamed:@"group_home_scan"];
+    qrCodeView.contentMode = UIViewContentModeCenter;
+    [searchViewController.searchTextField setRightView:qrCodeView];
+    [searchViewController.searchTextField setRightViewMode:UITextFieldViewModeAlways];
+    
+    
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navigation_back_normal"] style:UIBarButtonItemStylePlain target:self action:nil];
+    [searchViewController.navigationItem  setLeftBarButtonItem:btn];
+    
+    searchViewController.searchBarBackgroundColor = RGB(240, 240, 240);
+    
+//    searchViewController.prefersStatusBarHidden = NO;
+//    [searchViewController.status
+    
+    // 3. Set style for popular search and search history
+    if (/* DISABLES CODE */ (1)) {
+        searchViewController.hotSearchStyle = 1;
+        searchViewController.searchHistoryStyle = PYSearchHistoryStyleNormalTag;
+    } else {
+        searchViewController.hotSearchStyle = PYHotSearchStyleDefault;
+        searchViewController.searchHistoryStyle = 0;
+    }
+    // 4. Set delegate
+    searchViewController.delegate = self;
+    // 5. Present a navigation controller
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchViewController];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+
+
 
 #pragma mark - <UICollectionViewDataSource>
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -462,6 +535,25 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         [[NSNotificationCenter defaultCenter]postNotificationName:HIDETOPTOOLVIEW object:nil];
     }
 }
+
+#pragma mark - PYSearchViewControllerDelegate
+- (void)searchViewController:(PYSearchViewController *)searchViewController searchTextDidChange:(UISearchBar *)seachBar searchText:(NSString *)searchText
+{
+    if (searchText.length) {
+        // Simulate a send request to get a search suggestions
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSMutableArray *searchSuggestionsM = [NSMutableArray array];
+            for (int i = 0; i < arc4random_uniform(5) + 5; i++) {
+                NSString *searchSuggestion = [NSString stringWithFormat:@"相关词 %d", i];
+                [searchSuggestionsM addObject:searchSuggestion];
+            }
+            // Refresh and display the search suggustions
+            searchViewController.searchSuggestions = searchSuggestionsM;
+        });
+    }
+}
+
+
 
 #pragma mark - collectionView滚回顶部
 - (void)ScrollToTop

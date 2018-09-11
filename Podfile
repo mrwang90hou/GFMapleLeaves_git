@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '8.0'
+# platform :ios, '10.0'
 
 pod 'SVProgressHUD'
 pod 'MJExtension'
@@ -13,6 +13,7 @@ pod 'TZImagePickerController'
 pod 'IQKeyboardManager'
 pod 'AFNetworking'
 pod 'CDDPagerController'
+#pod 'PYSearch'
 
 target 'GFMapleLeaves' do
 

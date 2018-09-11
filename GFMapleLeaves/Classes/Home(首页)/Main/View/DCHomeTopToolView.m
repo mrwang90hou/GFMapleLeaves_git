@@ -119,7 +119,7 @@
     WEAKSELF
     _dcObserve = [[NSNotificationCenter defaultCenter]addObserverForName:SHOWTOPTOOLVIEW object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         weakSelf.backgroundColor = [UIColor whiteColor];
-        _topSearchView.backgroundColor = RGB(240, 240, 240);
+        weakSelf.topSearchView.backgroundColor = RGB(240, 240, 240);
         [weakSelf.leftItemButton setImage:[UIImage imageNamed:@"home_icon_menu_gray"] forState:0];
         [weakSelf.rightItemButton setImage:[UIImage imageNamed:@"home_icon_message_gray"] forState:0];
         [weakSelf.rightRItemButton setImage:[UIImage imageNamed:@"icon_gouwuche_title_gray"] forState:0];
@@ -127,7 +127,7 @@
     
     _dcObserve = [[NSNotificationCenter defaultCenter]addObserverForName:HIDETOPTOOLVIEW object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         weakSelf.backgroundColor = [UIColor clearColor];
-        _topSearchView.backgroundColor = [UIColor whiteColor];
+        weakSelf.topSearchView.backgroundColor = [UIColor whiteColor];
         [weakSelf.leftItemButton setImage:[UIImage imageNamed:@"home_icon_menu"] forState:0];
         [weakSelf.rightItemButton setImage:[UIImage imageNamed:@"home_icon_message"] forState:0];
         [weakSelf.rightRItemButton setImage:[UIImage imageNamed:@"icon_gouwuche_title_white"] forState:0];
@@ -146,37 +146,37 @@
     }];
     
     [_rightItemButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_leftItemButton.mas_centerY);
+        make.centerY.equalTo(self.leftItemButton.mas_centerY);
         make.right.equalTo(self.mas_right).offset(-0);
         make.height.equalTo(@44);
         make.width.equalTo(@44);
     }];
     
     [_rightRItemButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_leftItemButton.mas_centerY);
-        make.right.equalTo(_rightItemButton.mas_left).offset(5);
+        make.centerY.equalTo(self.leftItemButton.mas_centerY);
+        make.right.equalTo(self.rightItemButton.mas_left).offset(5);
         make.height.equalTo(@44);
-        make.width.equalTo(@44);
+        make.width.equalTo(@0);//隐藏购物车按钮
     }];
     
     [_topSearchView mas_makeConstraints:^(MASConstraintMaker *make) {
-        [make.left.mas_equalTo(_leftItemButton.mas_right)setOffset:5];
-        [make.right.mas_equalTo(_rightRItemButton.mas_left)setOffset:5];
+        [make.left.mas_equalTo(self.leftItemButton.mas_right)setOffset:0];
+        [make.right.mas_equalTo(self.rightItemButton.mas_left)setOffset:5];
         make.height.mas_equalTo(@(32));
-        make.centerY.mas_equalTo(_rightRItemButton);
+        make.centerY.mas_equalTo(self.rightItemButton);
         
     }];
     
     [_searchButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_topSearchView);
-        make.top.mas_equalTo(_topSearchView);
-        make.height.mas_equalTo(_topSearchView);
-        [make.right.mas_equalTo(_topSearchView)setOffset:-2*DCMargin];
+        make.left.mas_equalTo(self.topSearchView);
+        make.top.mas_equalTo(self.topSearchView);
+        make.height.mas_equalTo(self.topSearchView);
+        [make.right.mas_equalTo(self.topSearchView)setOffset:-2*DCMargin];
     }];
     
     [_qrCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(_topSearchView);
-        make.centerY.mas_equalTo(_topSearchView);
+        make.right.mas_equalTo(self.topSearchView);
+        make.centerY.mas_equalTo(self.topSearchView);
         make.size.mas_equalTo(CGSizeMake(35, 35));
     }];
 }

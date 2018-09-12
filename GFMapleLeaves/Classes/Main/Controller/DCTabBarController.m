@@ -109,7 +109,7 @@
                               MallImgKey    : @"tab_icon_logo",
                               MallSelImgKey : @"tab_icon_logo"},
                             
-                            @{MallClassKey  : @"DCBeautyMessageViewController",
+                            @{MallClassKey  : @"GFSuperMemberViewController",
                               MallTitleKey  : @"动态",
 //                              MallImgKey    : @"tabr_04_up",
 //                              MallSelImgKey : @"tabr_04_down"},

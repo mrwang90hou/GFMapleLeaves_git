@@ -67,6 +67,10 @@
 /* 滚回顶部按钮 */
 @property (strong , nonatomic)UIButton *backTopButton;
 
+@property (nonatomic,strong) PYSearchViewController *pyVC;
+
+
+
 @end
 /* cell */
 static NSString *const DCGoodsCountDownCellID = @"DCGoodsCountDownCell";
@@ -266,7 +270,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     [searchViewController.searchTextField setRightViewMode:UITextFieldViewModeAlways];
     
     
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navigation_back_normal"] style:UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navigation_back_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(backToRootView)];
+    
     [searchViewController.navigationItem  setLeftBarButtonItem:btn];
     
     searchViewController.searchBarBackgroundColor = RGB(240, 240, 240);
@@ -284,10 +289,21 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     // 4. Set delegate
     searchViewController.delegate = self;
+    
+    self.pyVC = searchViewController;
+    
     // 5. Present a navigation controller
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchViewController];
     [self presentViewController:nav animated:YES completion:nil];
 }
+
+- (void)backToRootView{
+    //返回上一视图
+    [self.pyVC.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    //返回根视图
+//    [self.pyVC.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 
 
@@ -501,11 +517,49 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {//10
-        
         DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
         goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
         [self.navigationController pushViewController:goodSetVc animated:YES];
         NSLog(@"点击了10个属性第%zd",indexPath.row);
+        switch (indexPath.row) {
+            case 0:
+                
+                break;
+            case 1:
+                
+                break;
+            case 2:
+                
+                break;
+            case 3:
+                
+                break;
+            case 4:
+                
+                break;
+            case 5:
+                
+                break;
+            case 6:
+                
+                break;
+            case 7:
+                
+                break;
+            case 8:
+                
+                break;
+            case 9:
+                
+                break;
+            case 10:
+                
+                break;
+        }
+        
+        
+        
+        
     }else if (indexPath.section == 5){
         NSLog(@"点击了推荐的第%zd个商品",indexPath.row);
         

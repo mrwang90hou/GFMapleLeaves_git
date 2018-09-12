@@ -53,7 +53,9 @@
 - (void)setImageGroupArray:(NSArray *)imageGroupArray
 {
     _imageGroupArray = imageGroupArray;
-    _cycleScrollView.placeholderImage = [UIImage imageNamed:@"default_160"];
+//    _cycleScrollView.placeholderImage = [UIImage imageNamed:@"default_160"];
+    _cycleScrollView.placeholderImage = [UIImage imageNamed:@"icon_default_loadError128"];
+    
     if (imageGroupArray.count == 0) return;
 //    _cycleScrollView.imageURLStringsGroup = _imageGroupArray;
 //    _cycleScrollView.titlesGroup = _imageGroupArray;

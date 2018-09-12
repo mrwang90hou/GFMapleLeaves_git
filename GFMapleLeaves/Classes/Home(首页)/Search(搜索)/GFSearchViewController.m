@@ -17,7 +17,10 @@
 @implementation GFSearchViewController
 
 #pragma mark - LazyLoad
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
 #pragma mark - LifeCyle
 - (void)viewDidLoad {
     [super viewDidLoad];

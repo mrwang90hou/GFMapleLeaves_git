@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface GFSuperMemberViewController : UIViewController
+#import "DCBaseSetViewController.h"
+@interface GFSuperMemberViewController : DCBaseSetViewController
 
 @end

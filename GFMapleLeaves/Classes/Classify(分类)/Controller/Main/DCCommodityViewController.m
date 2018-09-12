@@ -11,6 +11,7 @@
 
 // Controllers
 #import "DCGoodsSetViewController.h"
+#import "DCGMScanViewController.h"
 // Models
 #import "DCClassMianItem.h"
 #import "DCCalssSubItem.h"
@@ -103,6 +104,18 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     [self setUpData];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 #pragma mark - initizlize
 - (void)setUpTab
 {
@@ -139,7 +152,7 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     
 //    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
 //    self.navigationItem.rightBarButtonItems = @[negativeSpacer];
-    
+//    self.navigationController.navigationBar.backgroundColor = [UIColor grayColor];
     _topSearchView = [[UIView alloc]init];
     _topSearchView.backgroundColor = RGBA(240, 240, 240, 1);
     _topSearchView.layer.cornerRadius = 16;
@@ -209,7 +222,7 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 #pragma mark - <UICollectionViewDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *gridcell = nil;
-    if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"热门品牌"]) {
+    if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"热门推荐"]) {
         if (indexPath.section == _mainItem.count - 1) {//品牌
             DCBrandSortCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCBrandSortCellID forIndexPath:indexPath];
             cell.subItem = _mainItem[indexPath.section].goods[indexPath.row];
@@ -241,7 +254,7 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 }
 #pragma mark - item宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-        if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"热门品牌"]) {
+        if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"热门推荐"]) {
             if (indexPath.section == _mainItem.count - 1) {//品牌
                 return CGSizeMake((ScreenW - tableViewH - 6 - DCMargin)/3, 60);
             }else{//商品
@@ -274,23 +287,21 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 #pragma mark - 搜索点击
 - (void)searchButtonClick
 {
-    
-    
-    
-    
-    
+    [SVProgressHUD showInfoWithStatus:@"待开发..."];
 }
 
 #pragma mark - 二维码按钮点击
 - (void)voiceButtonClick
 {
-    
+    DCGMScanViewController *dcGMvC = [DCGMScanViewController new];
+    [self.navigationController pushViewController:dcGMvC animated:YES];
+
 }
 
 #pragma mark - 消息点击
 - (void)messButtonBarItemClick
 {
-    
+    [SVProgressHUD showInfoWithStatus:@"待开发..."];
 }
 
 @end

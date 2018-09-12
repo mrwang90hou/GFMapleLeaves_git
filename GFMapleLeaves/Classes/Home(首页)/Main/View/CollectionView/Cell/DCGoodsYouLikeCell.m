@@ -114,11 +114,12 @@
     
     _getTicketButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _getTicketButton.titleLabel.font = PFR10Font;
-    [_getTicketButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [_getTicketButton setBackgroundColor:[UIColor orangeColor]];
+    [_getTicketButton setBackgroundImage:[UIImage imageNamed:@"coupons_bg"] forState:UIControlStateNormal];
+    [_getTicketButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_getTicketButton setTitle:@"代金券￥5元" forState:UIControlStateNormal];
     [_getTicketButton addTarget:self action:@selector(getTicketBlock) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_getTicketButton];
-    
     
     [DCSpeedy dc_chageControlCircularWith:_sameButton AndSetCornerRadius:0 SetBorderWidth:1.0 SetBorderColor:[UIColor darkGrayColor] canMasksToBounds:YES];
 }
@@ -202,19 +203,10 @@
     
     _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youLikeItem.price floatValue]];
     _goodsLabel.text = youLikeItem.main_title;
-    
-    
-    
-    
-    
-    
-    
-    
+
     [_commissionLabel setText:@"预估佣金：￥7.86"];
     [_downPriceLabel setText:@"淘宝价：￥29.9"];
     [_mothSalesVolume setText:@"月销：23860"];
-    
-    
 }
 
 //#pragma mark - 点击事件
@@ -226,5 +218,18 @@
 - (void)getTicketBlock
 {
     !_getTicketBlock ? : _getTicketBlock();
+    
+    if (!_getTicketButton.selected) {
+        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"您已成功领取【商品：%@】的代金券",_goodsLabel.text]];
+        _getTicketButton.selected = true;
+        [_getTicketButton setBackgroundColor:[UIColor grayColor]];
+        [_getTicketButton setBackgroundImage:nil forState:UIControlStateNormal];
+        [_getTicketButton setTitle:@"已领取！" forState:UIControlStateNormal];
+    }else{
+        [SVProgressHUD showInfoWithStatus:@"小主，您已经领取过该券啦！"];
+    }
+    
+    
+    
 }
 @end

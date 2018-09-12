@@ -13,6 +13,7 @@ pod 'TZImagePickerController'
 pod 'IQKeyboardManager'
 pod 'AFNetworking'
 pod 'CDDPagerController'
+pod 'SVProgressHUD'
 #pod 'PYSearch'
 
 target 'GFMapleLeaves' do

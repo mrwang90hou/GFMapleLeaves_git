@@ -116,7 +116,8 @@
                               MallImgKey    : @"tab_icon_message_normal",
                               MallSelImgKey : @"tab_icon_message_selected"},
                             
-                            @{MallClassKey  : @"DCMyCenterViewController",
+//                            @{MallClassKey  : @"DCMyCenterViewController",
+                          @{MallClassKey  : @"GFSuperMemberViewController",
                               MallTitleKey  : @"我的",
 //                              MallImgKey    : @"tabr_05_up",
 //                              MallSelImgKey : @"tabr_05_down"},
@@ -162,15 +163,14 @@
 #pragma mark - 控制器跳转拦截
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     
-    if(viewController == [tabBarController.viewControllers objectAtIndex:DCTabBarControllerPerson]){
-        
-        if (![[DCObjManager dc_readUserDataForKey:@"isLogin"] isEqualToString:@"1"]) {
-            
-            DCLoginViewController *dcLoginVc = [DCLoginViewController new];
-            [self presentViewController:dcLoginVc animated:YES completion:nil];
-            return NO;
-        }
-    }
+//    if(viewController == [tabBarController.viewControllers objectAtIndex:DCTabBarControllerPerson]){
+//
+//        if (![[DCObjManager dc_readUserDataForKey:@"isLogin"] isEqualToString:@"1"]) {
+//            DCLoginViewController *dcLoginVc = [DCLoginViewController new];
+//            [self presentViewController:dcLoginVc animated:YES completion:nil];
+//            return NO;
+//        }
+//    }
     return YES;
 }
 

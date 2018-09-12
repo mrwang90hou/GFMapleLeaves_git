@@ -346,7 +346,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         DCGoodsCountDownCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsCountDownCellID forIndexPath:indexPath];
         gridcell = cell;
     }
-    else if (indexPath.section == 3) {//掌上专享（一张长图）
+    else if (indexPath.section == 3) {//掌上专享
         DCExceedApplianceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCExceedApplianceCellID forIndexPath:indexPath];
         cell.goodExceedArray = GoodsRecommendArray;
         gridcell = cell;
@@ -365,13 +365,13 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //        };
         cell.getTicketBlock = ^{
             NSLog(@"点击了第%zd商品的领券",indexPath.row);
+//            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"您已成功领取第%zd商品的代金券",indexPath.row+1]];
         };
         cell.youLikeItem = _youLikeItem[indexPath.row];
         gridcell = cell;
     }
     return gridcell;
 }
-
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
@@ -396,7 +396,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             [headerView.likeImageView setImage:[UIImage imageNamed:@"home_icon_guestyoulike"]];//【猜你喜欢】
            reusableview = headerView;
         }
-
     }
     if (kind == UICollectionElementKindSectionFooter) {
         if (indexPath.section == 0) {
@@ -557,20 +556,17 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
                 break;
         }
         
-        
-        
-        
     }else if (indexPath.section == 5){
         NSLog(@"点击了推荐的第%zd个商品",indexPath.row);
-        
-        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
-        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
-        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
-        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
-        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
-        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
-        
-        [self.navigationController pushViewController:dcVc animated:YES];
+        [SVProgressHUD showInfoWithStatus:@"点击【代金券】领取"];
+//        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
+//        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
+//        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
+//        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
+//        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
+//        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
+//
+//        [self.navigationController pushViewController:dcVc animated:YES];
     }
 }
 
@@ -606,8 +602,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         });
     }
 }
-
-
 
 #pragma mark - collectionView滚回顶部
 - (void)ScrollToTop

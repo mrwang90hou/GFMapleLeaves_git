@@ -142,8 +142,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 //    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
     self.title = @"女装";
     
-    
-    
     _topSearchView = [[UIView alloc] init];
     _topSearchView.backgroundColor = [UIColor whiteColor];
     _topSearchView.layer.cornerRadius = 16;
@@ -240,7 +238,7 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 
 #pragma mark - item宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return (_isSwitchGrid) ? CGSizeMake(ScreenW, 120) : CGSizeMake((ScreenW - 4)/2, (ScreenW - 4)/2 + 60);//列表、网格Cell
+    return (_isSwitchGrid) ? CGSizeMake(ScreenW, 140) : CGSizeMake((ScreenW - 4)/2, (ScreenW - 4)/2 + 60);//列表、网格Cell
 }
 
 #pragma mark - head宽高
@@ -262,23 +260,22 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"点击了商品第%zd",indexPath.row);
-    
-    
-    DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
-    dcVc.goodTitle = _setItem[indexPath.row].main_title;
-    dcVc.goodPrice = _setItem[indexPath.row].price;
-    dcVc.goodSubtitle = _setItem[indexPath.row].goods_title;
-    dcVc.shufflingArray = _setItem[indexPath.row].images;
-    dcVc.goodImageView = _setItem[indexPath.row].image_url;
-    
-    [self.navigationController pushViewController:dcVc animated:YES];
-    
-    WEAKSELF
-    [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.colonView.dc_x = ScreenW;
-    }completion:^(BOOL finished) {
-        [weakSelf.colonView removeFromSuperview];
-    }];
+    [SVProgressHUD showInfoWithStatus:@"等待开发完善！"];
+//    DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
+//    dcVc.goodTitle = _setItem[indexPath.row].main_title;
+//    dcVc.goodPrice = _setItem[indexPath.row].price;
+//    dcVc.goodSubtitle = _setItem[indexPath.row].goods_title;
+//    dcVc.shufflingArray = _setItem[indexPath.row].images;
+//    dcVc.goodImageView = _setItem[indexPath.row].image_url;
+//
+//    [self.navigationController pushViewController:dcVc animated:YES];
+//
+//    WEAKSELF
+//    [UIView animateWithDuration:0.3 animations:^{
+//        weakSelf.colonView.dc_x = ScreenW;
+//    }completion:^(BOOL finished) {
+//        [weakSelf.colonView removeFromSuperview];
+//    }];
 }
 
 

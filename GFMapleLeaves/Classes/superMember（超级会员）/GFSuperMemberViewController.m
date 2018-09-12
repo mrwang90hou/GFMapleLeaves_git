@@ -29,15 +29,16 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.title = @"待开发。。。";
     self.view.backgroundColor = [UIColor orangeColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    [SVProgressHUD showInfoWithStatus:@"待开发..."];
 }
 @end
 

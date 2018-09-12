@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DCBaseSetViewController.h"
-@interface DCCommodityViewController :UIViewController
+@interface DCCommodityViewController :DCBaseSetViewController
 
 @end

@@ -117,7 +117,7 @@
                               MallSelImgKey : @"tab_icon_message_selected"},
                             
 //                            @{MallClassKey  : @"DCMyCenterViewController",
-                          @{MallClassKey  : @"GFSuperMemberViewController",
+                          @{MallClassKey  : @"GKMeViewController",
                               MallTitleKey  : @"我的",
 //                              MallImgKey    : @"tabr_05_up",
 //                              MallSelImgKey : @"tabr_05_down"},

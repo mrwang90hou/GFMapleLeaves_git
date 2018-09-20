@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class DCRecommendItem;
+#import "DCRecommendItem.h"
+//@class DCRecommendItem;
 
 @interface DCSwitchGridCell : UICollectionViewCell
 

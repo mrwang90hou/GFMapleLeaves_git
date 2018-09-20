@@ -14,6 +14,7 @@ pod 'IQKeyboardManager'
 pod 'AFNetworking'
 pod 'CDDPagerController'
 pod 'SVProgressHUD'
+pod 'HMSegmentedControl'
 #pod 'PYSearch'
 
 target 'GFMapleLeaves' do

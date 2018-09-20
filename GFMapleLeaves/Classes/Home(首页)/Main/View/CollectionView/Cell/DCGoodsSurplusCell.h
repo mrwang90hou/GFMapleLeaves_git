@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class DCRecommendItem;
+#import "DCRecommendItem.h"
+//@class DCRecommendItem;
 @interface DCGoodsSurplusCell : UICollectionViewCell
 
 /* 推荐商品数据 */

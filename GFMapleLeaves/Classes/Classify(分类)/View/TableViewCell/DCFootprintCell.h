@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class DCRecommendItem;
+#import "DCRecommendItem.h"
+//@class DCRecommendItem;
 @interface DCFootprintCell : UITableViewCell
 
 /* 足迹数据 */

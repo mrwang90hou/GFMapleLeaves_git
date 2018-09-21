@@ -1,5 +1,5 @@
 //
-//  GKSignUpCodeView.h
+//  GKSignUpView.h
 //  Record
 //
 //  Created by L on 2018/7/4.
@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GKSignUpCodeView : UIView
+@interface GKSignUpView : UIView
 @property (nonatomic,strong)GKButton * codeBtn;
 @property (nonatomic,strong)GKButton * nextBtn;
 @property (nonatomic,strong)CAGradientLayer * clickLayer;
-@property (nonatomic,strong)UILabel * hintLabel;
+@property (nonatomic,strong)UITextField * phoneTF;
 @property (nonatomic,strong)UITextField * codeTF;
-@property (nonatomic,strong)UIImageView * codeImageView;
 
 @end

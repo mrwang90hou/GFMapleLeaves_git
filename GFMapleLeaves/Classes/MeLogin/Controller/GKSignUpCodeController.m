@@ -10,72 +10,80 @@
 #import "GKSignUpController.h"
 #import "GKSignUpCodeView.h"
 
-@interface GKSignUpCodeController ()<UINavigationControllerDelegate>
-@property(nonatomic,weak)UINavigationController*navController;
+@interface GKSignUpCodeController ()
+//@property(nonatomic,weak)UINavigationController*navController;
 
-@property (nonatomic,strong)UITextField * phoneTF;
 @property (nonatomic,strong)UITextField * codeTF;
+
+@property (nonatomic,strong)GKSignUpCodeView * signUpCodeView;
+
 @end
 
 @implementation GKSignUpCodeController
 
-needNavBarShow;
+//needNavBarShow;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-    self.navigationController.delegate = self;
-    self.navController = self.navigationController;
+//    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+//    self.navigationController.delegate = self;
+//    self.navController = self.navigationController;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-    self.navigationController.delegate = nil;
+//    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+//    self.navigationController.delegate = nil;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleDefault;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle{
+//    return UIStatusBarStyleDefault;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"注册";
+//    self.navigationController.navigationBar.hidden = false;
+    GKSignUpCodeView * signUpCodeView = [[GKSignUpCodeView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:signUpCodeView];
+    [signUpCodeView.nextBtn addTarget:self action:@selector(nextBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    self.phoneTF = signUpView.hintLabel;
+//    signUpView.codeTF.text = @"M3d56L";
+    [signUpCodeView.codeTF addTarget:self action:@selector(passConTextChange:) forControlEvents:UIControlEventEditingChanged];
+    self.signUpCodeView = signUpCodeView;
+    self.codeTF = signUpCodeView.codeTF;
     
-    GKSignUpCodeView * signUpView = [[GKSignUpCodeView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:signUpView];
-    [signUpView.nextBtn addTarget:self action:@selector(nextBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    self.phoneTF = signUpView.phoneTF;
-    self.codeTF = signUpView.codeTF;
-    
-#warning 测试数据
+//#warning 测试数据
 //    self.phoneTF.text = @"18575857329";
 //    self.codeTF.text = @"1";
 }
 
-- (void)nextBtnClick{
-    if(self.phoneTF.text.length == 0){
-        [SVProgressHUD showErrorWithStatus:@"请输入邀请码"];
+//注意：事件类型是：`UIControlEventEditingChanged`
+-(void)passConTextChange:(id)sender{
+//    UITextField* target=(UITextField*)sender;
+//    NSLog(@"%@",target.text);
+    if (![self.signUpCodeView.codeTF.text isEqualToString:@""]) {
+        self.signUpCodeView.codeImageView.image = [UIImage imageNamed:@"my_register_invitation_selected"];
     }else{
-        if ([self IsPhoneNumber:self.phoneTF.text] == YES ) {
-            if(self.codeTF.text.length == 0){
-                [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
-            }else{
-                [SVProgressHUD showSuccessWithStatus:@"Success"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.navigationController pushViewController:[GKSignUpController new] animated:YES];
-                });
-            }
-        }else{
-            [SVProgressHUD showErrorWithStatus:@"无效手机号码"];
-        }
+        self.signUpCodeView.codeImageView.image = [UIImage imageNamed:@"my_register_invitation_normal"];
     }
+    
+    
 }
-
-- (BOOL)IsPhoneNumber:(NSString *)number{
-    NSString *phoneRegex1=@"1[3456789]([0-9]){9}";
-    NSPredicate *phoneTest1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex1];
-    return  [phoneTest1 evaluateWithObject:number];
+- (void)nextBtnClick{
+    if(self.codeTF.text.length == 0)
+    {
+        [SVProgressHUD showErrorWithStatus:@"请输入邀请码"];
+        }else
+    {
+        [SVProgressHUD  showWithStatus:@"正在验证"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD showSuccessWithStatus:@"Success"];
+            [self.navigationController pushViewController:[GKSignUpController new] animated:YES];
+        });
+    }
 }
 @end

@@ -107,7 +107,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         [_collectionView registerClass:[DCExceedApplianceCell class] forCellWithReuseIdentifier:DCExceedApplianceCellID];
         [_collectionView registerClass:[DCNewWelfareCell class] forCellWithReuseIdentifier:DCNewWelfareCellID];
         
-        
         [_collectionView registerClass:[DCTopLineFootView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCTopLineFootViewID];
         [_collectionView registerClass:[DCOverFootView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCOverFootViewID];
         [_collectionView registerClass:[DCScrollAdFootView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCScrollAdFootViewID];
@@ -557,15 +556,15 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         }
         
     }else if (indexPath.section == 5){
-        NSLog(@"点击了推荐的第%zd个商品",indexPath.row);
-//        [SVProgressHUD showInfoWithStatus:@"点击【代金券】领取"];
-        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
-        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
-        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
-        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
-        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
-        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
-        [self.navigationController pushViewController:dcVc animated:YES];
+        NSLog(@"点击了推荐的第%ld个商品",(long)indexPath.row);
+        [SVProgressHUD showInfoWithStatus:@"点击【代金券】领取"];
+//        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
+//        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
+//        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
+//        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
+//        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
+//        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
+//        [self.navigationController pushViewController:dcVc animated:YES];
     }
 }
 

@@ -35,8 +35,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tabBarItem.title =@"超级会员";
+    
 //    self.title = @"待开发。。。";
-    self.view.backgroundColor = [UIColor orangeColor];
+//    self.view.backgroundColor = GFPink2Cokor;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [SVProgressHUD showInfoWithStatus:@"待开发..."];
 }

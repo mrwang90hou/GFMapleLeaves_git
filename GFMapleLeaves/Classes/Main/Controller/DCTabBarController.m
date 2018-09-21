@@ -11,6 +11,7 @@
 // Controllers
 #import "DCNavigationController.h"
 #import "DCLoginViewController.h"
+#import "GKLoginController.h"
 #import "DCBeautyMessageViewController.h"
 // Models
 
@@ -116,9 +117,9 @@
                               MallImgKey    : @"tab_icon_message_normal",
                               MallSelImgKey : @"tab_icon_message_selected"},
                             
-//                            @{MallClassKey  : @"DCMyCenterViewController",
-                          @{MallClassKey  : @"GKMeViewController",
-                              MallTitleKey  : @"我的",
+                            @{MallClassKey  : @"DCMyCenterViewController",
+//                          @{MallClassKey  : @"GKMeViewController",
+                             MallTitleKey  : @"我的",
 //                              MallImgKey    : @"tabr_05_up",
 //                              MallSelImgKey : @"tabr_05_down"},
                               MallImgKey    : @"tab_icon_my_normal",
@@ -163,14 +164,42 @@
 #pragma mark - 控制器跳转拦截
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     
-//    if(viewController == [tabBarController.viewControllers objectAtIndex:DCTabBarControllerPerson]){
-//
-//        if (![[DCObjManager dc_readUserDataForKey:@"isLogin"] isEqualToString:@"1"]) {
+    if(viewController == [tabBarController.viewControllers objectAtIndex:DCTabBarControllerPerson]){
+
+        if (![[DCObjManager dc_readUserDataForKey:@"isLogin"] isEqualToString:@"1"]) {
 //            DCLoginViewController *dcLoginVc = [DCLoginViewController new];
 //            [self presentViewController:dcLoginVc animated:YES completion:nil];
-//            return NO;
-//        }
-//    }
+            UINavigationController *uiNavC = [[UINavigationController alloc] initWithRootViewController:[[GKLoginController alloc]init]];
+//            uiNavC.edgesForExtendedLayout = UIRectEdgeNone;
+            
+            
+            // 设置导航栏标题颜色，字体大小，背景不透明，背景颜色
+            NSMutableDictionary *titleParams = [[NSMutableDictionary alloc] init];
+            [titleParams setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+            [titleParams setObject:[UIFont boldSystemFontOfSize:18] forKey:NSFontAttributeName];
+            [uiNavC.navigationBar setTitleTextAttributes:titleParams];//设置标题属性
+            [uiNavC.navigationBar setTranslucent:NO];//设置为半透明状态
+            [uiNavC.navigationBar setBarTintColor:[UIColor colorWithRed:41/255.0 green:134/255.0 blue:227/255.0 alpha:1]];
+//
+//
+////            UINavigationBar *bar = [UINavigationBar appearance];
+//            uiNavC.navigationBar.barTintColor = DCBGColor;
+//            [uiNavC.navigationBar setTintColor:[UIColor darkGrayColor]];
+//            uiNavC.navigationBar.translucent = YES;
+//            [uiNavC.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//            NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+//            // 设置导航栏字体颜色
+//            UIColor * naiColor = [UIColor blackColor];
+//            attributes[NSForegroundColorAttributeName] = naiColor;
+//            attributes[NSFontAttributeName] = PFR18Font;
+//            uiNavC.navigationBar.titleTextAttributes = attributes;
+//            uiNavC.navigationBar.backgroundColor = DCBGColor;
+//            //self.navigationController?.navigationBar.translucent = false//方法2
+//            //            GKLoginController *gfLoginVc = [GKLoginController new];
+            [self presentViewController:uiNavC animated:YES completion:nil];
+            return NO;
+        }
+    }
     return YES;
 }
 

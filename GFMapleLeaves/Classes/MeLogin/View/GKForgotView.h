@@ -1,19 +1,21 @@
 //
-//  GKSignUpCodeView.h
+//  GKForgotView.h
 //  Record
 //
-//  Created by L on 2018/7/4.
+//  Created by L on 2018/7/5.
 //  Copyright © 2018年 L. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface GKSignUpCodeView : UIView
+@interface GKForgotView : UIView
 @property (nonatomic,strong)GKButton * codeBtn;
 @property (nonatomic,strong)GKButton * nextBtn;
 @property (nonatomic,strong)CAGradientLayer * clickLayer;
-@property (nonatomic,strong)UILabel * hintLabel;
+@property (nonatomic,strong)UITextField * phoneTF;
 @property (nonatomic,strong)UITextField * codeTF;
-@property (nonatomic,strong)UIImageView * codeImageView;
+@property (nonatomic,strong)UITextField * pwdTF;
 
+@property (nonatomic,strong)UIView * pwdView;
+@property (nonatomic,strong)UIView * codeView;
 @end

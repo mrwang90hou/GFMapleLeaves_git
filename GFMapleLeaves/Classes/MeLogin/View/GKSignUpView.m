@@ -1,87 +1,87 @@
 //
-//  GKSignUpCodeView.m
+//  GKSignUpView.m
 //  Record
 //
 //  Created by L on 2018/7/4.
 //  Copyright © 2018年 L. All rights reserved.
 //
 
-#import "GKSignUpCodeView.h"
+#import "GKSignUpView.h"
 
-@implementation GKSignUpCodeView
+@implementation GKSignUpView
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self){
         self.backgroundColor = [UIColor whiteColor];
 
         WEAKSELF;
-        UIView * hintView = [UIView new];
-        [self addSubview:hintView];
-        [hintView mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIView * phoneView = [UIView new];
+        [self addSubview:phoneView];
+        [phoneView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(weakSelf).with.offset(15);
             make.left.right.equalTo(weakSelf);
             make.height.mas_equalTo(50);
         }];
-        hintView.backgroundColor = [UIColor whiteColor];
+        phoneView.backgroundColor = [UIColor whiteColor];
 
-//        UIImageView * phoneIconImageView = [UIImageView new];
-//        [hintView addSubview:phoneIconImageView];
-//        [phoneIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(hintView).with.offset(FixWidthNumber(17.5));
-//            make.centerY.equalTo(hintView);
-//            make.size.mas_equalTo(CGSizeMake(22, 22));
-//        }];
-//        phoneIconImageView.contentMode = UIViewContentModeScaleAspectFit;
-//        phoneIconImageView.image = [UIImage imageNamed:@"login_icon_phone_nub"];
-//
-//        UIView * lineView = [UIView new];
-//        [hintView addSubview:lineView];
-//        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(hintView).with.offset(15);
-//            make.right.equalTo(hintView).with.offset(-15);
-//            make.bottom.mas_equalTo(hintView).with.offset(-1);
-//            make.height.mas_equalTo(1);
-//        }];
-//        lineView.backgroundColor = UIColorFromHex(0xF0F0F0);
-//
-//        UIButton * countryBtn = [UIButton new];
-//        [hintView addSubview:countryBtn];
-//        [countryBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(phoneIconImageView.mas_right).with.offset(10);
-//            make.centerY.equalTo(hintView);
-//            make.size.mas_equalTo(CGSizeMake(30, 26));
-//        }];
-//        [countryBtn setTitle:@"+86" forState:UIControlStateNormal];
-//        [countryBtn setTitleColor:UIColorFromHex(0x666666) forState:UIControlStateNormal];
-//        countryBtn.titleLabel.font = GKBlodFont(14);
-//
-//        UIImageView * arrowImageView = [UIImageView new];
-//        [hintView addSubview:arrowImageView];
-//        [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(countryBtn.mas_right).with.offset(10);
-//            make.centerY.equalTo(countryBtn);
-//            make.size.mas_equalTo(CGSizeMake(10, 10));
-//        }];
-//        arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
-//        arrowImageView.image = [UIImage imageNamed:@"my_register_invitation_normal"];
-
-        UILabel * hintLabel = [UILabel new];
-        [hintView addSubview:hintLabel];
-        [hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(hintView).with.offset(FixWidthNumber(17.5));
-            make.right.mas_equalTo(hintView).with.offset(-15);
-            make.height.centerY.equalTo(hintView);
+        UIImageView * phoneIconImageView = [UIImageView new];
+        [phoneView addSubview:phoneIconImageView];
+        [phoneIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(phoneView).with.offset(FixWidthNumber(17.5));
+            make.centerY.equalTo(phoneView);
+            make.size.mas_equalTo(CGSizeMake(22, 22));
         }];
-        hintLabel.text = @"请输入邀请码";
-        hintLabel.font = GKMediumFont(16);
-        self.hintLabel = hintLabel;
-        
+        phoneIconImageView.contentMode = UIViewContentModeScaleAspectFit;
+        phoneIconImageView.image = [UIImage imageNamed:@"login_icon_phone_nub"];
+
+        UIView * lineView = [UIView new];
+        [phoneView addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(phoneView).with.offset(15);
+            make.right.equalTo(phoneView).with.offset(-15);
+            make.bottom.mas_equalTo(phoneView).with.offset(-1);
+            make.height.mas_equalTo(1);
+        }];
+        lineView.backgroundColor = UIColorFromHex(0xF0F0F0);
+
+        UIButton * countryBtn = [UIButton new];
+        [phoneView addSubview:countryBtn];
+        [countryBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(phoneIconImageView.mas_right).with.offset(10);
+            make.centerY.equalTo(phoneView);
+            make.size.mas_equalTo(CGSizeMake(30, 26));
+        }];
+        [countryBtn setTitle:@"+86" forState:UIControlStateNormal];
+        [countryBtn setTitleColor:UIColorFromHex(0x666666) forState:UIControlStateNormal];
+        countryBtn.titleLabel.font = GKBlodFont(14);
+
+        UIImageView * arrowImageView = [UIImageView new];
+        [phoneView addSubview:arrowImageView];
+        [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(countryBtn.mas_right).with.offset(10);
+            make.centerY.equalTo(countryBtn);
+            make.size.mas_equalTo(CGSizeMake(10, 10));
+        }];
+        arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
+        arrowImageView.image = [UIImage imageNamed:@"btn_area_code_pull_down"];
+
+        UITextField * phoneTF = [UITextField new];
+        [phoneView addSubview:phoneTF];
+        [phoneTF mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(arrowImageView.mas_right).with.offset(15);
+            make.right.mas_equalTo(phoneView).with.offset(-15);
+            make.height.centerY.equalTo(phoneView);
+        }];
+        phoneTF.placeholder = @"请输入手机号码";
+        phoneTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+        phoneTF.font = GKMediumFont(16);
+        self.phoneTF = phoneTF;
         
         UIView * codeView = [UIView new];
         [self addSubview:codeView];
         [codeView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.height.equalTo(hintView);
-            make.top.mas_equalTo(hintView.mas_bottom);
+            make.left.right.height.equalTo(phoneView);
+            make.top.mas_equalTo(phoneView.mas_bottom);
         }];
         codeView.backgroundColor = [UIColor whiteColor];
 
@@ -93,10 +93,8 @@
             make.size.mas_equalTo(CGSizeMake(22, 22));
         }];
         codeImageView.contentMode = UIViewContentModeScaleAspectFit;
-        codeImageView.image = [UIImage imageNamed:@"my_register_invitation_normal"];
-        self.codeImageView = codeImageView;
-        
-        
+        codeImageView.image = [UIImage imageNamed:@"login_icon_verification_code"];
+
         UIView * codeLineView = [UIView new];
         [codeView addSubview:codeLineView];
         [codeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -111,34 +109,32 @@
         [codeView addSubview:codeTF];
         [codeTF mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(codeImageView.mas_right).with.offset(FixWidthNumber(11.5));
-            make.right.mas_equalTo(codeView).with.offset(-20);
+            make.right.mas_equalTo(codeView).with.offset(-140);
             make.centerY.equalTo(codeView);
         }];
         codeTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-        codeTF.placeholder = @"请输入邀请码";
+        codeTF.placeholder = @"请输入验证码";
         codeTF.font = GKMediumFont(16);
         self.codeTF = codeTF;
         
         GKButton * codeBtn = [GKButton new];
         [codeView addSubview:codeBtn];
         [codeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(codeTF.mas_right).with.offset(200);
+            make.left.mas_equalTo(codeTF.mas_right).with.offset(10);
             make.centerY.equalTo(codeView);
             make.height.mas_equalTo(30);
             make.right.mas_equalTo(codeView).with.offset(-20);
         }];
         codeBtn.backgroundColor = [UIColor whiteColor];
         [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [codeBtn setTitleColor:UIColorFromHex(0x085DF7) forState:UIControlStateNormal];
+        [codeBtn setTitleColor:UIColorFromHex(0xFF1493) forState:UIControlStateNormal];
         codeBtn.titleLabel.font = GKMediumFont(12);
-        codeBtn.layer.borderColor = UIColorFromHex(0x085DF7).CGColor;
+        codeBtn.layer.borderColor = UIColorFromHex(0xFF1493).CGColor;
         codeBtn.layer.borderWidth = 1;
         codeBtn.layer.cornerRadius = 5;
         codeBtn.layer.masksToBounds = YES;
         [codeBtn addTarget:self action:@selector(codeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [codeBtn setHidden:true];
         self.codeBtn = codeBtn;
-        
         
         GKButton * nextBtn = [GKButton new];
         [self addSubview:nextBtn];
@@ -168,7 +164,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.clickLayer removeFromSuperlayer];
                 [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
-                [btn setTitleColor:UIColorFromHex(0x085DF7) forState:UIControlStateNormal];
+                [btn setTitleColor:UIColorFromHex(0xFF1493) forState:UIControlStateNormal];
                 btn.userInteractionEnabled = YES;
             });
         }else{
@@ -179,7 +175,7 @@
                 layer.frame = CGRectMake(0, 0, btn.frame.size.width, btn.frame.size.height);
                 layer.startPoint = CGPointMake(0, 0);
                 layer.endPoint = CGPointMake(1, 1);
-                layer.colors = @[(id)UIColorFromHex(0x2584FF).CGColor,(id)UIColorFromHex(0x226DFF).CGColor,(id)UIColorFromHex(0x1F53FF).CGColor];
+                layer.colors = @[(id)UIColorFromHex(0xFF69B4).CGColor,(id)UIColorFromHex(0xFF1493).CGColor,(id)UIColorFromHex(0xEF1493).CGColor];
                 if (self.clickLayer ==nil) {
                     [btn.layer insertSublayer:layer atIndex:0];
                     self.clickLayer = layer;
@@ -195,5 +191,4 @@
     });
     dispatch_resume(_timer);
 }
-
 @end

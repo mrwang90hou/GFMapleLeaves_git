@@ -20,3 +20,4 @@
 @property (nonatomic, copy ,readonly) NSString *gridColor;
 
 @end
+

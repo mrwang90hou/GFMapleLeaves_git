@@ -46,7 +46,8 @@
 {
     UINavigationBar *bar = [UINavigationBar appearance];
 //    bar.barTintColor = DCBGColor;
-    bar.barTintColor = GFPink2Cokor;
+//    bar.barTintColor = GFPink2Cokor;
+    bar.barTintColor = GFOrgangeCokor;
     [bar setTintColor:[UIColor darkGrayColor]];
     bar.translucent = YES; 
     [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];

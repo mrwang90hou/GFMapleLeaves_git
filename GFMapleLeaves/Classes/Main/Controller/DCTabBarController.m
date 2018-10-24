@@ -165,7 +165,6 @@
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     
     if(viewController == [tabBarController.viewControllers objectAtIndex:DCTabBarControllerPerson]){
-
         if (![[DCObjManager dc_readUserDataForKey:@"isLogin"] isEqualToString:@"1"]) {
 //            DCLoginViewController *dcLoginVc = [DCLoginViewController new];
 //            [self presentViewController:dcLoginVc animated:YES completion:nil];
@@ -180,8 +179,7 @@
             [uiNavC.navigationBar setTitleTextAttributes:titleParams];//设置标题属性
             [uiNavC.navigationBar setTranslucent:NO];//设置为半透明状态
             [uiNavC.navigationBar setBarTintColor:[UIColor colorWithRed:41/255.0 green:134/255.0 blue:227/255.0 alpha:1]];
-//
-//
+
 ////            UINavigationBar *bar = [UINavigationBar appearance];
 //            uiNavC.navigationBar.barTintColor = DCBGColor;
 //            [uiNavC.navigationBar setTintColor:[UIColor darkGrayColor]];

@@ -80,10 +80,6 @@
                             <rect key="frame" x="284" y="19" width="14" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="home page_icon03" translatesAutoresizingMaskIntoConstraints="NO" id="ahH-0y-VFG">
-                            <rect key="frame" x="245" y="1" width="122" height="107"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="邀请码：123456" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DzE-eR-yEa">
                             <rect key="frame" x="117" y="75" width="114" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -99,14 +95,23 @@
                             <color key="textColor" red="0.97246422249999998" green="0.94592924430000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home page_icon03" translatesAutoresizingMaskIntoConstraints="NO" id="ahH-0y-VFG">
+                            <rect key="frame" x="345" y="41" width="80" height="80"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="42P-ez-qwQ"/>
+                                <constraint firstAttribute="width" constant="80" id="nAS-Ye-4yI"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="7KS-KX-Ygm" secondAttribute="trailing" constant="15" id="CaC-La-LQf"/>
+                        <constraint firstItem="7KS-KX-Ygm" firstAttribute="trailing" secondItem="VYw-fg-9e8" secondAttribute="trailing" constant="-15" id="CaC-La-LQf"/>
                         <constraint firstItem="TqH-vI-SYt" firstAttribute="top" secondItem="VYw-fg-9e8" secondAttribute="top" constant="10" id="HjE-s9-2ry"/>
+                        <constraint firstItem="ahH-0y-VFG" firstAttribute="bottom" secondItem="VYw-fg-9e8" secondAttribute="bottom" constant="-8" id="NbO-NM-gPX"/>
                         <constraint firstItem="TqH-vI-SYt" firstAttribute="leading" secondItem="VYw-fg-9e8" secondAttribute="leading" constant="25" id="O3p-Vu-5SS"/>
                         <constraint firstItem="a9W-rF-SdF" firstAttribute="top" secondItem="TqH-vI-SYt" secondAttribute="top" constant="4" id="YKR-5V-zN2"/>
                         <constraint firstItem="i8P-ax-VXe" firstAttribute="leading" secondItem="a9W-rF-SdF" secondAttribute="trailing" constant="10" id="asV-WF-T5I"/>
+                        <constraint firstItem="ahH-0y-VFG" firstAttribute="trailing" secondItem="VYw-fg-9e8" secondAttribute="trailing" constant="-18" id="fiu-Ia-Wmr"/>
                         <constraint firstItem="Edu-M3-0hj" firstAttribute="leading" secondItem="a9W-rF-SdF" secondAttribute="leading" id="l5F-b8-Svv"/>
                         <constraint firstItem="Edu-M3-0hj" firstAttribute="top" secondItem="a9W-rF-SdF" secondAttribute="bottom" constant="4" id="mN8-Mp-4N7"/>
                         <constraint firstItem="7KS-KX-Ygm" firstAttribute="centerY" secondItem="TqH-vI-SYt" secondAttribute="centerY" id="pJw-Ws-9Fy"/>

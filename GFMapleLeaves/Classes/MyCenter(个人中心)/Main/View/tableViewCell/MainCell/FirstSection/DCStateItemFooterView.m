@@ -35,8 +35,10 @@
     [super layoutSubviews];
     
     [_footerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        [make.top.mas_equalTo(self)setOffset:DCMargin];
-        [make.bottom.mas_equalTo(self)setOffset:-DCMargin];
+//        [make.top.mas_equalTo(self)setOffset:DCMargin];
+//        [make.bottom.mas_equalTo(self)setOffset:-DCMargin];
+        make.top.mas_equalTo(self);
+        make.bottom.mas_equalTo(self);
         make.left.mas_equalTo(self);
         make.right.mas_equalTo(self);
     }];

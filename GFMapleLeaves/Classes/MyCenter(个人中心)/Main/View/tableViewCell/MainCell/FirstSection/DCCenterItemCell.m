@@ -46,7 +46,7 @@ static NSString *const DCStateItemFooterViewID = @"DCStateItemFooterView";
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
-
+        _collectionView.scrollEnabled = NO;
         //注册Cell
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([DCStateItemCell class]) bundle:nil] forCellWithReuseIdentifier:DCStateItemCellID];
         //注册footerView
@@ -119,7 +119,11 @@ static NSString *const DCStateItemFooterViewID = @"DCStateItemFooterView";
     }
     return reusableView;
 }
-
+//设置每个item的UIEdgeInsets
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+//{
+//    return UIEdgeInsetsMake(1, 1, 1, 1);
+//}
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -129,6 +133,12 @@ static NSString *const DCStateItemFooterViewID = @"DCStateItemFooterView";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     return CGSizeMake(ScreenW, 0);
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return 0;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+    return 1;
 }
 
 @end

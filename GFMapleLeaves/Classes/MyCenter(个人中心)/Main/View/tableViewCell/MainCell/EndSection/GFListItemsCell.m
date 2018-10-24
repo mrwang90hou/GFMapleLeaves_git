@@ -1,12 +1,12 @@
 //
-//  GFEarningsItemCell.m
+//  GFListItemsCell.m
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2018/9/21.
 //  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
-#import "GFEarningsItemCell.h"
+#import "GFListItemsCell.h"
 
 // Controllers
 
@@ -20,14 +20,14 @@
 
 // Others
 
-@interface GFEarningsItemCell ()
+@interface GFListItemsCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *earningLabel;
 
 @end
 
 
-@implementation GFEarningsItemCell
+@implementation GFListItemsCell
 
 
 #pragma mark - Intial

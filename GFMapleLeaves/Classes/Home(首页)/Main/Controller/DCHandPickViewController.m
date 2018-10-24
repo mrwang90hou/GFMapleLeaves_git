@@ -46,7 +46,7 @@
 // Others
 #import "CDDTopTip.h"
 #import "NetworkUnit.h"
-
+#import "GFHTTPSearchTool.h"
 //
 #import "GFSearchViewController.h"
 #import "PYSearchViewController.h"
@@ -120,6 +120,11 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     return _collectionView;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
 #pragma mark - LifeCyle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -179,6 +184,40 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     _youLikeItems = [DCRecommendItem mj_objectArrayWithFilename:@"HomeHighGoods2.plist"];
 }
 
+- (void)requestData{
+    
+//    NSString *NewCheckCode = [self makeCheckCodeWithUserID:[NSString stringWithFormat:@"%@",userID] loginID:[NSString stringWithFormat:@"%@",loginID] loginCheckCode:checkCode rand:rand];
+    NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
+//    [param setObject:@"2" forKey:@"platformType"];
+//    [param setObject:@"0" forKey:@"isWeb"];
+//    [param setObject:userID forKey:@"userID"];
+//    [param setObject:loginID forKey:@"loginID"];
+//    [param setObject:pageSize forKey:@"pageSize"];
+//    [param setObject:page forKey:@"page"];
+//    [param setObject:rand forKey:@"rand"];
+//    [param setObject:NewCheckCode forKey:@"checkCode"];
+    
+    [GFHTTPSearchTool getGuessGuestlikeWithDict:nil success:^(id responseObject) {
+        [SVProgressHUD showSuccessWithStatus:@"获取成功！"];
+        NSDictionary *mResult = responseObject;
+        NSDictionary *datas = [mResult objectForKey:@"data"];
+        NSLog(@"datas = %@",datas);
+        
+//        "total": 3562,
+//        "per_page": 12,
+//        "current_page": 1,
+//        "last_page": 297,
+        
+        
+    } failure:^(NSError *error) {
+        
+        [SVProgressHUD showSuccessWithStatus:@"获取失败！"];
+    }];
+}
+
+
+
+
 #pragma mark - 滚回顶部
 - (void)setUpScrollToTopView
 {
@@ -201,6 +240,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     WEAKSELF
     _topToolView.leftItemClickBlock = ^{
         NSLog(@"点击了首页【菜单】");
+        [SVProgressHUD showWithStatus:@"正在获取数据"];
+        [weakSelf requestData];
 //        DCGMScanViewController *dcGMvC = [DCGMScanViewController new];
 //        [weakSelf.navigationController pushViewController:dcGMvC animated:YES];
     };

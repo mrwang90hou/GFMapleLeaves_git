@@ -1,5 +1,5 @@
 //
-//  GFEarningsItemCell.h
+//  GFListItemsCell.h
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2018/9/21.
@@ -9,7 +9,7 @@
 
 @class DCGridItem;
 
-@interface GFEarningsItemCell : UITableViewCell
+@interface GFListItemsCell : UITableViewCell
 /* 数据 */
 //@property (strong , nonatomic)NSMutableArray<DCGridItem *> *serviceItemArray;
 

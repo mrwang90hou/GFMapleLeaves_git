@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DCBaseSetViewController.h"
-@interface DCCommodityViewController :DCBaseSetViewController
+#import "GFBaseSetViewController.h"
+@interface DCCommodityViewController :GFBaseSetViewController
 
 @end

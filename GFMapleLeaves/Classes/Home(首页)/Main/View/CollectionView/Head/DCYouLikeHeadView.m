@@ -53,6 +53,7 @@
         make.centerY.mas_equalTo(self);
         make.size.mas_equalTo(CGSizeMake(150, 25));
     }];
+    [_likeImageView setHidden:true];
 }
 
 #pragma mark - Setter Getter Methods

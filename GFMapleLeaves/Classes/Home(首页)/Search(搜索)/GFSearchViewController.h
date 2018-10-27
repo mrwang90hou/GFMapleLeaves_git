@@ -7,8 +7,8 @@
 //
 
 
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
-@interface GFSearchViewController : DCBaseSetViewController
+@interface GFSearchViewController : GFBaseSetViewController
 
 @end

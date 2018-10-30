@@ -6,8 +6,8 @@
 //Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
-@interface DCMyCenterViewController : DCBaseSetViewController
+@interface DCMyCenterViewController : GFBaseSetViewController
 
 @end

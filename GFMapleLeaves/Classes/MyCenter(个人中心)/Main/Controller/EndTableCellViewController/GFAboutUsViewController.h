@@ -5,8 +5,8 @@
 //  Created by mrwang90hou on 2018/10/24.
 //  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
-@interface GFAboutUsViewController : DCBaseSetViewController
+@interface GFAboutUsViewController : GFBaseSetViewController
 
 @end

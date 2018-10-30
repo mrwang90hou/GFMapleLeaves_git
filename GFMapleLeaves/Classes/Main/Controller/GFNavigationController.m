@@ -1,12 +1,4 @@
 //
-//  GFLoginNavigationController.m
-//  GFMapleLeaves
-//
-//  Created by mrwang90hou on 2018/9/21.
-//  Copyright © 2018年 mrwang90hou. All rights reserved.
-//
-
-//
 //  GFNavigationController.m
 //  GFMapleLeaves
 //
@@ -14,7 +6,7 @@
 //  Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
-#import "GFLoginNavigationController.h"
+#import "GFNavigationController.h"
 
 // Controllers
 
@@ -28,13 +20,13 @@
 #import "UIBarButtonItem+DCBarButtonItem.h"
 // Others
 
-@interface GFLoginNavigationController ()
+@interface GFNavigationController ()
 
 
 
 @end
 
-@implementation GFLoginNavigationController
+@implementation GFNavigationController
 
 #pragma mark - load初始化一次
 + (void)load
@@ -53,9 +45,11 @@
 + (void)setUpBase
 {
     UINavigationBar *bar = [UINavigationBar appearance];
-    bar.barTintColor = DCBGColor;
+//    bar.barTintColor = DCBGColor;
+//    bar.barTintColor = GFPink2Cokor;
+    bar.barTintColor = GFOrgangeCokor;
     [bar setTintColor:[UIColor darkGrayColor]];
-    bar.translucent = YES;
+    bar.translucent = YES; 
     [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];

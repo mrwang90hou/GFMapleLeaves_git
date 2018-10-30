@@ -17,6 +17,9 @@
 #import "GFAboutUsViewController.h"
 #import "GFFeedBackViewController.h"
 #import "GFCustomerServiceCenterViewController.h"
+#import "GFPlatformRulesViewController.h"
+
+
 // Models
 #import "DCGridItem.h"
 // Views
@@ -377,16 +380,20 @@ static NSString *const GFListItemsCellID = @"GFListItemsCell";
 #pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     WEAKSELF
-    DCBaseSetViewController *vc = [DCBaseSetViewController new];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    GFBaseSetViewController *vc = [GFBaseSetViewController new];
+    
+    
+    
     if (indexPath.section == 3) {
         switch (indexPath.row) {
             case 0:
                 vc = [GFCustomerServiceCenterViewController new];
                 break;
             case 1:
-                [SVProgressHUD showInfoWithStatus:@"2"];
+                vc = [GFPlatformRulesViewController new];
                 break;
             case 2:
                 vc = [GFFeedBackViewController new];
@@ -414,7 +421,7 @@ static NSString *const GFListItemsCellID = @"GFListItemsCell";
         return 180;
     }else if (indexPath.section == 3){
 //        return 215;
-        return 55;
+        return 44;
     }else{
         return 0;
     }

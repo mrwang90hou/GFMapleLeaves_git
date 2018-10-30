@@ -134,24 +134,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case 0:
-                [SVProgressHUD showInfoWithStatus:@"1"];
-                break;
-            case 1:
-                [SVProgressHUD showInfoWithStatus:@"2"];
-                break;
-            case 2:
-                [SVProgressHUD showInfoWithStatus:@"3"];
-                break;
-            case 3:
-                [SVProgressHUD showInfoWithStatus:@"4"];
-                break;
-            default:
-                break;
-        }
-    }
+//    if (indexPath.section == 0) {
+//        switch (indexPath.row) {
+//            case 0:
+//                [SVProgressHUD showInfoWithStatus:@"1"];
+//                break;
+//            case 1:
+//                [SVProgressHUD showInfoWithStatus:@"2"];
+//                break;
+//            case 2:
+//                [SVProgressHUD showInfoWithStatus:@"3"];
+//                break;
+//            case 3:
+//                [SVProgressHUD showInfoWithStatus:@"4"];
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

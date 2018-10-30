@@ -63,10 +63,12 @@ static NSString *GKFeedBackInfoCellID = @"GKFeedBackInfoCell";
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    [self.tableView setBackgroundColor:TABLEVIEW_BG];
 //    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(K_HEIGHT_NAVBAR + DCNaviH);
+////        make.top.mas_equalTo(K_HEIGHT_NAVBAR + DCNaviH);
+//        make.top.equalTo(self.view);
 //        make.left.right.equalTo(self.view);
-//        make.bottom.equalTo(self.view);
+//        make.height.mas_equalTo(150);
 //    }];
 }
 #pragma mark -页面逻辑方法
@@ -114,30 +116,45 @@ static NSString *GKFeedBackInfoCellID = @"GKFeedBackInfoCell";
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *TVcell = [UITableViewCell new];
-    if(indexPath.section == 2){
-        GKFeedBackInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GKFeedBackInfoCell"];
-        if (!cell) {
-            cell = [[GKFeedBackInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GKFeedBackInfoCell"];
-        }
-        cell.peopleTitleLabel.text = @"服务进度";
-        cell.timeLabel.text = @"  ";
-        cell.detailTV.text = @"进行中.../完成/目前没有服务进度，请耐心等待。";
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        TVcell = cell;
-    }else{
-        GFCustomerServiceCenterCell *cell = [tableView dequeueReusableCellWithIdentifier:GFCustomerServiceCenterCellID forIndexPath:indexPath];
-        // 3.设置数据
-        NSArray *headerLabelArr=[[NSArray alloc] initWithObjects:@"客服电话",@"在线客服",@"服务进度",nil];
-        NSArray *footerLabelArr=[[NSArray alloc] initWithObjects:@"400-***-11-123",@"微信/QQ",@"进行中.../完成/目前没有服务进度",nil];
-        [cell.headerLeabel setText:[headerLabelArr objectAtIndex:indexPath.section]];
-        [cell.detailsLeabel setText:[footerLabelArr objectAtIndex:indexPath.section]];
-        //    [cell.textLabel setFont:GKFontAndFontName(@"Regular",14)];
-        //    [cell.detailTextLabel setTextColor:TEXTGRAYCOLOR];
-        //    [cell.detailTextLabel setFont:GKFont(12)];
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        TVcell = cell;
-    }
+//    if(indexPath.section == 2){
+//        GKFeedBackInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GKFeedBackInfoCell"];
+//        if (!cell) {
+//            cell = [[GKFeedBackInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GKFeedBackInfoCell"];
+//        }
+//        cell.peopleTitleLabel.text = @"服务进度";
+//        cell.timeLabel.text = @"  ";
+//        cell.detailTV.text = @"进行中.../完成/目前没有服务进度，请耐心等待。";
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        TVcell = cell;
+//    }else{
+//        GFCustomerServiceCenterCell *cell = [tableView dequeueReusableCellWithIdentifier:GFCustomerServiceCenterCellID forIndexPath:indexPath];
+//        // 3.设置数据
+//        NSArray *headerLabelArr=[[NSArray alloc] initWithObjects:@"客服电话",@"在线客服",@"服务进度",nil];
+//        NSArray *footerLabelArr=[[NSArray alloc] initWithObjects:@"400-***-11-123",@"微信/QQ",@"进行中.../完成/目前没有服务进度",nil];
+//        [cell.headerLeabel setText:[headerLabelArr objectAtIndex:indexPath.section]];
+//        [cell.detailsLeabel setText:[footerLabelArr objectAtIndex:indexPath.section]];
+//        //    [cell.textLabel setFont:GKFontAndFontName(@"Regular",14)];
+//        //    [cell.detailTextLabel setTextColor:TEXTGRAYCOLOR];
+//        //    [cell.detailTextLabel setFont:GKFont(12)];
+////        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//        TVcell = cell;
+//    }
+    //
+    GFCustomerServiceCenterCell *cell = [tableView dequeueReusableCellWithIdentifier:GFCustomerServiceCenterCellID forIndexPath:indexPath];
+    // 3.设置数据
+    NSArray *headerLabelArr=[[NSArray alloc] initWithObjects:@"客服电话",@"在线客服",@"服务进度",nil];
+    NSArray *footerLabelArr=[[NSArray alloc] initWithObjects:@"400-***-11-123",@"微信/QQ",@"进行中.../完成/目前没有服务进度",nil];
+    [cell.headerLeabel setText:[headerLabelArr objectAtIndex:indexPath.section]];
+    [cell.detailsLeabel setText:[footerLabelArr objectAtIndex:indexPath.section]];
+    //    [cell.textLabel setFont:GKFontAndFontName(@"Regular",14)];
+    //    [cell.detailTextLabel setTextColor:TEXTGRAYCOLOR];
+    //    [cell.detailTextLabel setFont:GKFont(12)];
+    //        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    TVcell = cell;
+    
+    
     return TVcell;
 }
 
@@ -161,11 +178,12 @@ static NSString *GKFeedBackInfoCellID = @"GKFeedBackInfoCell";
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 2){
-        return 130;
-    }else{
-        return 44;
-    }
+//    if(indexPath.section == 2){
+//        return 130;
+//    }else{
+//        return 44;
+//    }
+    return 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

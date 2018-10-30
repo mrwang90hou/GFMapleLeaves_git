@@ -6,8 +6,8 @@
 //  Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
-@interface DCHandPickViewController : DCBaseSetViewController
+@interface DCHandPickViewController : GFBaseSetViewController
 
 @end

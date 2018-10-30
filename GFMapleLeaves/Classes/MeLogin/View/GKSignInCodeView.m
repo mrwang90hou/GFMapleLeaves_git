@@ -2,8 +2,8 @@
 //  GKSignInCodeView.m
 //  Record
 //
-//  Created by L on 2018/7/5.
-//  Copyright © 2018年 L. All rights reserved.
+//  Created by mrwang90hou on 2018/9/5.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "GKSignInCodeView.h"
@@ -137,9 +137,9 @@
         }];
         codeBtn.backgroundColor = [UIColor whiteColor];
         [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [codeBtn setTitleColor:UIColorFromHex(0xFF1493) forState:UIControlStateNormal];
+        [codeBtn setTitleColor:GFOrangeCokor forState:UIControlStateNormal];
         codeBtn.titleLabel.font = GKMediumFont(12);
-        codeBtn.layer.borderColor = UIColorFromHex(0xFF1493).CGColor;
+        codeBtn.layer.borderColor = GFOrangeCokor.CGColor;
         codeBtn.layer.borderWidth = 1;
         codeBtn.layer.cornerRadius = 5;
         codeBtn.layer.masksToBounds = YES;
@@ -231,7 +231,7 @@
                 [self.clickLayer removeFromSuperlayer];
                 [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
 //                [btn setTitleColor:UIColorFromHex(0x085DF7) forState:UIControlStateNormal];
-                [btn setTitleColor:UIColorFromHex(0xFF1493) forState:UIControlStateNormal];
+                [btn setTitleColor:GFOrangeCokor forState:UIControlStateNormal];
                 
                 btn.userInteractionEnabled = YES;
             });
@@ -244,7 +244,8 @@
                 layer.startPoint = CGPointMake(0, 0);
                 layer.endPoint = CGPointMake(1, 1);
 //                layer.colors = @[(id)UIColorFromHex(0x2584FF).CGColor,(id)UIColorFromHex(0x226DFF).CGColor,(id)UIColorFromHex(0x1F53FF).CGColor];
-                layer.colors = @[(id)UIColorFromHex(0xFF69B4).CGColor,(id)UIColorFromHex(0xFF1493).CGColor,(id)UIColorFromHex(0xEF1493).CGColor];
+//                layer.colors = @[(id)UIColorFromHex(0xFF69B4).CGColor,(id)UIColorFromHex(0xFF1493).CGColor,(id)UIColorFromHex(0xEF1493).CGColor];
+                layer.colors = @[(id)GFOrangeCokor.CGColor,(id)GFOrangeCokor.CGColor,(id)GFOrangeCokor.CGColor];
                 if (self.clickLayer ==nil) {
                     [btn.layer insertSublayer:layer atIndex:0];
                     self.clickLayer = layer;

@@ -2,8 +2,8 @@
 //  GKCheckOldPhoneController.h
 //  Record
 //
-//  Created by L on 2018/7/3.
-//  Copyright © 2018年 L. All rights reserved.
+//  Created by mrwang90hou on 2018/9/3.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,16 +1,16 @@
 
 //
-//  DCBaseSetViewController.m
+//  GFBaseSetViewController.m
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2019/9/10.
 //Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
 // Controllers
-#import "DCTabBarController.h"
+#import "GFTabBarController.h"
 // Models
 
 // Views
@@ -21,13 +21,13 @@
 
 // Others
 
-@interface DCBaseSetViewController ()
+@interface GFBaseSetViewController ()
 
 
 
 @end
 
-@implementation DCBaseSetViewController
+@implementation GFBaseSetViewController
 
 #pragma mark - LazyLoad
 
@@ -44,7 +44,7 @@
 {
     WEAKSELF
     [[NSNotificationCenter defaultCenter]addObserverForName:LOGINSELECTCENTERINDEX object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-        weakSelf.tabBarController.selectedIndex = DCTabBarControllerPerson; //跳转到我的界面
+        weakSelf.tabBarController.selectedIndex = GFTabBarControllerPerson; //跳转到我的界面
     }];
 }
 

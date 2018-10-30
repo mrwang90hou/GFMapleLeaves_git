@@ -2,8 +2,8 @@
 //  GKLoginController.m
 //  Record
 //
-//  Created by L on 2018/7/4.
-//  Copyright © 2018年 L. All rights reserved.
+//  Created by mrwang90hou on 2018/9/4.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "GKLoginController.h"
@@ -33,9 +33,14 @@
 //    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
 //    self.navigationController.delegate = nil;
 //    self.navigationController.navigationBarHidden = true;
-[self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault]; [self.navigationController.navigationBar setShadowImage:nil];
-    [self.navigationController.navigationBar setBarTintColor:DCBGColor];
-    [self.navigationController.navigationBar setBarTintColor:GFPink2Cokor];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault]; [self.navigationController.navigationBar setShadowImage:nil];
+//    [self.navigationController.navigationBar setBarTintColor:DCBGColor];
+//    [self.navigationController.navigationBar setBarTintColor:GFPink2Cokor];
+//    [self.navigationController.navigationBar setBarTintColor:GFRedCokor];
+//    [self.navigationController.navigationBar setBarTintColor:GFYellowCokor];
+    [self.navigationController.navigationBar setBarTintColor:GFOrgangeCokor];
+    
+    
 //    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:41/255.0 green:134/255.0 blue:227/255.0 alpha:0.6]];
 //    [[NSNotificationCenter defaultCenter]postNotificationName:@"登陆成功！" object:nil];
 }
@@ -65,7 +70,7 @@
     // 设置导航栏标题颜色，字体大小，背景不透明，背景颜色
 //    NSMutableDictionary *titleParams = [[NSMutableDictionary alloc] init];
 //    RGB(200,85,55,0.6)
-//    [titleParams setObject:GFYellowCokor forKey:NSForegroundColorAttributeName];
+//    [titleParams setObject:GFOrangeCokor forKey:NSForegroundColorAttributeName];
 //    [titleParams setObject:[UIFont boldSystemFontOfSize:18] forKey:NSFontAttributeName];
 //    [self.navigationController.navigationBar setTitleTextAttributes:titleParams];//设置标题属性
     [self.navigationController.navigationBar setTranslucent:NO];//设置为半透明状态
@@ -136,7 +141,8 @@
         }];
     weChatBtn.frame = CGRectMake(15, 35, ScreenW - 30, 30);
     
-    weChatBtn.backgroundColor = RGB(235, 103, 98);
+//    weChatBtn.backgroundColor = RGB(235, 103, 98);
+    weChatBtn.backgroundColor = RGB(225, 80, 59);
 //    weChatBtn.layer.borderColor = UIColorFromHex(0xFFFFFF).CGColor;
 //    weChatBtn.layer.borderWidth = 1;
 //    weChatBtn.layer.cornerRadius = 5;
@@ -177,7 +183,8 @@
 //    signUpBtn.layer.cornerRadius = 5;
 //    signUpBtn.layer.masksToBounds = YES;
     [signUpBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [signUpBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+//    [signUpBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    signUpBtn.titleLabel.textColor = RGB(245, 178, 58);
 //    [signUpBtn setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:.2]];
     [signUpBtn addTarget:self action:@selector(signUpBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -205,7 +212,8 @@
 //    signInBtn.layer.cornerRadius = 5;
 //    signInBtn.layer.masksToBounds = YES;
     [signInBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [signInBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+//    [signInBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    signInBtn.titleLabel.textColor = RGB(245, 178, 58);
 //    [signInBtn setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:.2]];
     [signInBtn addTarget:self action:@selector(signInBtnClick) forControlEvents:UIControlEventTouchUpInside];
     NSMutableAttributedString *title2 = [[NSMutableAttributedString alloc] initWithString:@"登录"];//修改某个范围内的字体大小

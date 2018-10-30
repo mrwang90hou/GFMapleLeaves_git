@@ -2,8 +2,8 @@
 //  GKSignInController.m
 //  Record
 //
-//  Created by L on 2018/7/5.
-//  Copyright © 2018年 L. All rights reserved.
+//  Created by mrwang90hou on 2018/9/5.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "GKSignInController.h"
@@ -42,8 +42,6 @@ navBarLineHidden;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-
-    
     WEAKSELF;
     //定义一个imageview来替代nav下的黑线
     UIImageView * navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
@@ -56,7 +54,8 @@ navBarLineHidden;
     self.segmentedControl.backgroundColor = [UIColor whiteColor];
     self.segmentedControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:GKMediumFont(16)};
 //    self.segmentedControl.selectionIndicatorColor = UIColorFromHex(0x085DF7);
-    self.segmentedControl.selectionIndicatorColor = UIColorFromHex(0xFF1493);
+//    self.segmentedControl.selectionIndicatorColor = GFOrangeCokor;
+    self.segmentedControl.selectionIndicatorColor = GFOrangeCokor;
     self.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStripe;
     self.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
     self.segmentedControl.selectionIndicatorHeight = 2;
@@ -71,14 +70,10 @@ navBarLineHidden;
     GKSignInCodeView * codeView = [[GKSignInCodeView alloc] initWithFrame:CGRectMake(0, segmentedControlHeight, SCREEN_WIDTH, SCREEN_HEIGHT - K_HEIGHT_STATUSBAR - K_HEIGHT_NAVBAR - segmentedControlHeight)];
     [self.view addSubview:codeView];
     
-    
 #warning 测试数据
     codeView.phoneTF.text = @"18575857329";
     codeView.codeTF.text = @"1234";
     codeView.pwdTF.text = @"1234";
-    
-    
-    
     
     [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
         if (index == 0) {

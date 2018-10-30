@@ -2,8 +2,8 @@
 //  GKForgotView.m
 //  Record
 //
-//  Created by L on 2018/7/5.
-//  Copyright © 2018年 L. All rights reserved.
+//  Created by mrwang90hou on 2018/9/5.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "GKForgotView.h"
@@ -218,7 +218,8 @@
                 layer.frame = CGRectMake(0, 0, btn.frame.size.width, btn.frame.size.height);
                 layer.startPoint = CGPointMake(0, 0);
                 layer.endPoint = CGPointMake(1, 1);
-                layer.colors = @[(id)UIColorFromHex(0x2584FF).CGColor,(id)UIColorFromHex(0x226DFF).CGColor,(id)UIColorFromHex(0x1F53FF).CGColor];
+//                layer.colors = @[(id)UIColorFromHex(0x2584FF).CGColor,(id)UIColorFromHex(0x226DFF).CGColor,(id)UIColorFromHex(0x1F53FF).CGColor];
+                layer.colors = @[(id)GFOrangeCokor.CGColor,(id)GFOrangeCokor.CGColor,(id)GFOrangeCokor.CGColor];
                 if (self.clickLayer ==nil) {
                     [btn.layer insertSublayer:layer atIndex:0];
                     self.clickLayer = layer;

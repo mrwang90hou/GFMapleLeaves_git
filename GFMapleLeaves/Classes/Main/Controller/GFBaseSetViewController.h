@@ -1,5 +1,5 @@
 //
-//  DCBaseSetViewController.h
+//  GFBaseSetViewController.h
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2019/9/10.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DCBaseSetViewController : UIViewController
+@interface GFBaseSetViewController : UIViewController
 
 @end

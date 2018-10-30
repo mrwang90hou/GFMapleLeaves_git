@@ -9,12 +9,14 @@
 #import "DCHandPickViewController.h"
 
 // Controllers
-#import "DCNavigationController.h"
+#import "GFNavigationController.h"
 #import "DCGoodsSetViewController.h"
 #import "DCCommodityViewController.h"
 #import "DCMyTrolleyViewController.h"
 #import "DCGoodDetailViewController.h"
 #import "DCGMScanViewController.h"
+#import "GFGoodDetailViewController.h"
+#import "DCGoodBaseViewController.h"
 // Models
 #import "DCGridItem.h"
 #import "DCRecommendItem.h"
@@ -214,9 +216,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         [SVProgressHUD showSuccessWithStatus:@"获取失败！"];
     }];
 }
-
-
-
 
 #pragma mark - 滚回顶部
 - (void)setUpScrollToTopView
@@ -521,6 +520,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     if (section == 4) {
         return CGSizeMake(ScreenW, 20);
+//        return CGSizeMake(ScreenW, 0);
     }
     if (section == 5) {//猜你喜欢的宽高
         return CGSizeMake(ScreenW, 40);  //推荐适合的宽高
@@ -533,6 +533,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (section == 0) {
 //        return CGSizeMake(ScreenW, 180);  //Top头条的宽高
         return CGSizeMake(ScreenW, 120);  //Top头条的宽高
+//        return CGSizeMake(ScreenW, 110);  //Top头条的宽高
     }
     if (section == 3) {
 //        return CGSizeMake(ScreenW, 80); // 滚动广告
@@ -606,6 +607,18 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
 //        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
 //        [self.navigationController pushViewController:dcVc animated:YES];
+        
+        
+//        DCGoodBaseViewController *dcVc = [[DCGoodBaseViewController alloc] init];
+        GFGoodDetailViewController *dcVc = [[GFGoodDetailViewController alloc] init];
+        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
+        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
+        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
+        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
+        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
+        [self.navigationController pushViewController:dcVc animated:YES];
+        
+        
     }
 }
 

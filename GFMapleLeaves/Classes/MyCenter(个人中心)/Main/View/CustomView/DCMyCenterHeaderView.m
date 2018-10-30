@@ -28,7 +28,15 @@
     [DCSpeedy dc_chageControlCircularWith:_seeMyPriceButton AndSetCornerRadius:10 SetBorderWidth:1 SetBorderColor:_seeMyPriceButton.backgroundColor canMasksToBounds:YES];
     
 }
+//复制 点击事件
+- (IBAction)copyBtnAction:(id)sender {
+    [SVProgressHUD showInfoWithStatus:@"点击复制！"];
+}
 
+//编辑名称点击事件
+- (IBAction)editBtnAction:(id)sender {
+    [SVProgressHUD showInfoWithStatus:@"点击编辑！"];
+}
 #pragma mark - 头像点击
 - (IBAction)headButtonClick {
     !_headClickBlock ? : _headClickBlock();

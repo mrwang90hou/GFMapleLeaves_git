@@ -153,7 +153,7 @@
     }];
 
     [_ticketBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self).offset(-4);
+        make.right.equalTo(self.goodsRateRLabel);
         make.centerY.equalTo(self.tCatPriceLabel);
     }];
 
@@ -165,7 +165,6 @@
     
     //竖直线条
 //    [DCSpeedy dc_setUpLongLineWith:_gridLabel WithColor:[[UIColor lightGrayColor]colorWithAlphaComponent:0.15] WithHightRatio:0.6];
-    
 }
 
 

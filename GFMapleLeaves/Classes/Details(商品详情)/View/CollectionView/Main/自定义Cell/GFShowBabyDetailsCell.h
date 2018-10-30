@@ -1,5 +1,5 @@
 //
-//  GFCheckBabyDetailsCell.h
+//  GFShowBabyDetailsCell.h
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2019/10/29.
@@ -8,5 +8,5 @@
 
 #import "DCDetailShowTypeCell.h"
 
-@interface GFCheckBabyDetailsCell : DCDetailShowTypeCell
+@interface GFShowBabyDetailsCell : DCDetailShowTypeCell
 @end

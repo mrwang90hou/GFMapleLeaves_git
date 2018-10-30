@@ -32,7 +32,7 @@
 #import "DCLIRLButton.h"
 
 #import "DCDetailShufflingHeadView.h" //头部轮播
-#import "DCDetailGoodReferralCell.h"  //商品标题价格介绍
+#import "GFDetailGoodsReferralCell.h"  //商品标题价格介绍
 #import "DCDetailShowTypeCell.h"      //种类
 #import "DCShowTypeOneCell.h"
 #import "DCShowTypeTwoCell.h"
@@ -87,7 +87,7 @@
 static NSString *DCDetailShufflingHeadViewID = @"DCDetailShufflingHeadView";
 static NSString *DCDeatilCustomHeadViewID = @"DCDeatilCustomHeadView";
 //cell
-static NSString *DCDetailGoodReferralCellID = @"DCDetailGoodReferralCell";
+static NSString *GFDetailGoodsReferralCellID = @"GFDetailGoodsReferralCell";
 
 static NSString *DCShowTypeOneCellID = @"DCShowTypeOneCell";
 static NSString *DCShowTypeTwoCellID = @"DCShowTypeTwoCell";
@@ -140,7 +140,7 @@ static NSArray *lastSeleArray_;
         [_collectionView registerClass:[DCDetailShufflingHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDetailShufflingHeadViewID];
         [_collectionView registerClass:[DCDeatilCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDeatilCustomHeadViewID];
         //注册Cell
-        [_collectionView registerClass:[DCDetailGoodReferralCell class] forCellWithReuseIdentifier:DCDetailGoodReferralCellID];
+        [_collectionView registerClass:[GFDetailGoodsReferralCell class] forCellWithReuseIdentifier:GFDetailGoodsReferralCellID];
         [_collectionView registerClass:[GFCheckBabyDetailsCell class] forCellWithReuseIdentifier:GFCheckBabyDetailsCellID];
         [_collectionView registerClass:[DCDetailLikeCell class] forCellWithReuseIdentifier:DCDetailLikeCellID];
         [_collectionView registerClass:[DCDetailPartCommentCell class] forCellWithReuseIdentifier:DCDetailPartCommentCellID];
@@ -317,11 +317,11 @@ static NSArray *lastSeleArray_;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *gridcell = nil;    if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            DCDetailGoodReferralCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCDetailGoodReferralCellID forIndexPath:indexPath];
-            cell.goodTitleLabel.text = _goodTitle;
-            cell.goodPriceLabel.text = [NSString stringWithFormat:@"¥ %@",_goodPrice];
-            cell.goodSubtitleLabel.text = _goodSubtitle;
-            [DCSpeedy dc_setUpLabel:cell.goodTitleLabel Content:_goodTitle IndentationFortheFirstLineWith:cell.goodPriceLabel.font.pointSize * 2];
+            GFDetailGoodsReferralCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFDetailGoodsReferralCellID forIndexPath:indexPath];
+            cell.gridLabel.text = _goodTitle;
+            cell.priceLabel.text = [NSString stringWithFormat:@"¥ %@",_goodPrice];
+//            cell.goodSubtitleLabel.text = _goodSubtitle;
+            [DCSpeedy dc_setUpLabel:cell.gridLabel Content:_goodTitle IndentationFortheFirstLineWith:cell.priceLabel.font.pointSize * 1];
             cell.shareButtonClickBlock = ^{
 //                [weakSelf setUpAlterViewControllerWith:[DCShareToViewController new] WithDistance:300 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:NO WithFlipEnable:NO];
             };
@@ -372,7 +372,7 @@ static NSArray *lastSeleArray_;
 #pragma mark - item宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) { //商品详情
-        return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodSubtitle WithTextFont:12 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 4) : CGSizeMake(ScreenW, 35);
+        return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
     }else if (indexPath.section == 1){//商品评价部分展示
         return CGSizeMake(ScreenW, 270);
 //        return CGSizeMake(ScreenW, 0);

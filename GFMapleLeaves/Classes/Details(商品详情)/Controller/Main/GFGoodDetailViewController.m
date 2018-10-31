@@ -192,17 +192,17 @@ static NSArray *lastSeleArray_;
     
 }
 
-#pragma mark - 底部按钮(收藏 购物车 加入购物车 立即购买)
+#pragma mark - 底部按钮(收藏 开心分享 领券)
 - (void)setUpBottomButton
 {
-    [self setUpLeftTwoButton];//收藏 购物车
+    [self setUpLeftTwoButton];//收藏
     
-    [self setUpRightTwoButton];//加入购物车 立即购买
+    [self setUpRightTwoButton];//开心分享 领券
 }
-#pragma mark - 收藏 购物车
+#pragma mark - 收藏
 - (void)setUpLeftTwoButton
 {
-    NSArray *imagesNor = @[@"tabr_07shoucang_up",@"tabr_08gouwuche"];
+    NSArray *imagesNor = @[@"home_details_collection_icon",@"tabr_08gouwuche"];
     NSArray *imagesSel = @[@"tabr_07shoucang_down",@"tabr_08gouwuche"];
     CGFloat buttonW = ScreenW * 0.2;
     CGFloat buttonH = 50;
@@ -227,6 +227,8 @@ static NSArray *lastSeleArray_;
 {
 //    NSArray *titles = @[@"加入购物车",@"立即购买"];
     NSArray *titles = @[@"开心分享",@"领券¥50"];
+    NSArray *imagesNor = @[@"home_details_share_icon",@"home_offer_icon"];
+    NSArray *imagesBG = @[@"home_share_bg",@"home_offer_bg"];
     CGFloat buttonW = ScreenW * 0.8 * 0.5;
     CGFloat buttonH = 50;
     CGFloat buttonY = ScreenH - buttonH;
@@ -236,7 +238,9 @@ static NSArray *lastSeleArray_;
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.tag = i + 2;
         [button setTitle:titles[i] forState:UIControlStateNormal];
-        button.backgroundColor = (i == 0) ? [UIColor redColor] : RGB(249, 125, 10);
+//        button.backgroundColor = (i == 0) ? [UIColor redColor] : RGB(249, 125, 10);
+        [button setBackgroundImage:SETIMAGE([imagesBG objectAtIndex:i]) forState:UIControlStateNormal];
+        [button setImage:SETIMAGE([imagesNor objectAtIndex:i]) forState:UIControlStateNormal];
         [button addTarget:self action:@selector(bottomButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         CGFloat buttonX = ScreenW * 0.2 + (buttonW * i);
         button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
@@ -315,7 +319,8 @@ static NSArray *lastSeleArray_;
 
 #pragma mark - <UICollectionViewDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *gridcell = nil;    if (indexPath.section == 0) {
+    UICollectionViewCell *gridcell = nil;
+    if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             GFDetailGoodsReferralCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFDetailGoodsReferralCellID forIndexPath:indexPath];
             cell.gridLabel.text = _goodTitle;
@@ -327,9 +332,8 @@ static NSArray *lastSeleArray_;
             };
             gridcell = cell;
         }else if (indexPath.row == 1){
-            //            DCShowTypeFourCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCShowTypeFourCellID forIndexPath:indexPath];
+            //查看宝贝参数详情
             GFCheckBabyDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFCheckBabyDetailsCellID forIndexPath:indexPath];
-            
             gridcell = cell;
         }
     }else if (indexPath.section == 1){
@@ -374,7 +378,7 @@ static NSArray *lastSeleArray_;
     if (indexPath.section == 0) { //商品详情
         return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
     }else if (indexPath.section == 1){//商品评价部分展示
-        return CGSizeMake(ScreenW, 270);
+        return CGSizeMake(ScreenW, (ScreenH-50)/5*4+40);
 //        return CGSizeMake(ScreenW, 0);
     }else if (indexPath.section == 2){//商品猜你喜欢
         return CGSizeMake(ScreenW, (ScreenW / 3 + 60) * 2 + 20);
@@ -382,7 +386,6 @@ static NSArray *lastSeleArray_;
         return CGSizeZero;
     }
 }
-
 
 #pragma mark - head宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {

@@ -42,7 +42,7 @@
 #import "DCDetailLikeCell.h"          //猜你喜欢
 #import "DCDetailOverFooterView.h"    //尾部结束
 #import "DCDetailPartCommentCell.h"   //部分评论
-#import "DCDeatilCustomHeadView.h"    //自定义头部
+#import "GFDetailCustomHeadView.h"    //自定义头部
 #import "GFCheckBabyDetailsCell.h"      //查看宝贝详情
 
 // Vendors
@@ -85,7 +85,7 @@
 
 //header
 static NSString *DCDetailShufflingHeadViewID = @"DCDetailShufflingHeadView";
-static NSString *DCDeatilCustomHeadViewID = @"DCDeatilCustomHeadView";
+static NSString *GFDetailCustomHeadViewID = @"GFDetailCustomHeadView";
 //cell
 static NSString *GFDetailGoodsReferralCellID = @"GFDetailGoodsReferralCell";
 
@@ -138,7 +138,7 @@ static NSArray *lastSeleArray_;
         
         //注册header
         [_collectionView registerClass:[DCDetailShufflingHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDetailShufflingHeadViewID];
-        [_collectionView registerClass:[DCDeatilCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDeatilCustomHeadViewID];
+        [_collectionView registerClass:[GFDetailCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailCustomHeadViewID];
         //注册Cell
         [_collectionView registerClass:[GFDetailGoodsReferralCell class] forCellWithReuseIdentifier:GFDetailGoodsReferralCellID];
         [_collectionView registerClass:[GFCheckBabyDetailsCell class] forCellWithReuseIdentifier:GFCheckBabyDetailsCellID];
@@ -357,7 +357,7 @@ static NSArray *lastSeleArray_;
             headerView.shufflingArray = _shufflingArray;
             reusableview = headerView;
         }else if (indexPath.section == 2){
-            DCDeatilCustomHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDeatilCustomHeadViewID forIndexPath:indexPath];
+            GFDetailCustomHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailCustomHeadViewID forIndexPath:indexPath];
             reusableview = headerView;
         }
     }else if (kind == UICollectionElementKindSectionFooter){

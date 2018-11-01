@@ -42,9 +42,10 @@
 #import "DCDetailLikeCell.h"          //猜你喜欢
 #import "DCDetailOverFooterView.h"    //尾部结束
 #import "DCDetailPartCommentCell.h"   //部分评论
-#import "DCDeatilCustomHeadView.h"    //自定义头部
+#import "GFDetailCustomHeadView.h"    //自定义头部
 #import "GFCheckBabyDetailsCell.h"      //查看宝贝详情
 
+#import "GFGoodDetailNewCell.h" //新方案的【商品详情】图片介绍页面
 // Vendors
 #import "AddressPickerView.h"
 #import <WebKit/WebKit.h>
@@ -58,7 +59,6 @@
 
 #import "UIImageView+WebCache.h"
 #import "XHWebImageAutoSize.h"
-
 
 /*UIScrollViewDelegate*/
 @interface GFGoodDetailNewViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
@@ -85,11 +85,19 @@
 
 /* 返回按钮 */
 @property (strong, nonatomic) UIButton *returnBtn;
+
+//图片数组
+@property(nonatomic,strong)NSArray *dataArray;
+
+@property(nonatomic,assign)Boolean *setDetailsImageHidden;
+
+
+
 @end
 
 //header
 static NSString *DCDetailShufflingHeadViewID = @"DCDetailShufflingHeadView";
-static NSString *DCDeatilCustomHeadViewID = @"DCDeatilCustomHeadView";
+static NSString *GFDetailCustomHeadViewID = @"GFDetailCustomHeadView";
 //cell
 static NSString *GFDetailGoodsReferralCellID = @"GFDetailGoodsReferralCell";
 
@@ -109,6 +117,7 @@ static NSString *DCDetailOverFooterViewID = @"DCDetailOverFooterView";
 
 static NSString *lastNum_;
 static NSArray *lastSeleArray_;
+
 
 @implementation GFGoodDetailNewViewController
 
@@ -142,7 +151,7 @@ static NSArray *lastSeleArray_;
         
         //注册header
         [_collectionView registerClass:[DCDetailShufflingHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDetailShufflingHeadViewID];
-        [_collectionView registerClass:[DCDeatilCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDeatilCustomHeadViewID];
+        [_collectionView registerClass:[GFDetailCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailCustomHeadViewID];
         //注册Cell
         [_collectionView registerClass:[GFDetailGoodsReferralCell class] forCellWithReuseIdentifier:GFDetailGoodsReferralCellID];
         [_collectionView registerClass:[GFCheckBabyDetailsCell class] forCellWithReuseIdentifier:GFCheckBabyDetailsCellID];
@@ -167,7 +176,8 @@ static NSArray *lastSeleArray_;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.setDetailsImageHidden = false;
+    [self getData];
     [self setUpInit];
     
     [self setUpNav];
@@ -175,6 +185,12 @@ static NSArray *lastSeleArray_;
     [self setUpBottomButton];
     [self setUpSuspendView];
 
+}
+-(void)getData{
+    NSData *JSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image01" ofType:@"json"]];
+    NSDictionary *json =  [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingAllowFragments error:nil];
+    //    NSLog(@"json = %@",json);
+    _dataArray = json[@"data"];
 }
 
 #pragma mark - initialize
@@ -319,7 +335,7 @@ static NSArray *lastSeleArray_;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return (section == 0 ) ? 2 : 1;
+    return (section == 0 ) ? 2 : (section == 1) ? self.dataArray.count : 1;
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -342,8 +358,27 @@ static NSArray *lastSeleArray_;
             gridcell = cell;
         }
     }else if (indexPath.section == 1){
-        DCDetailPartCommentCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCDetailPartCommentCellID forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor orangeColor];
+#pragma mark -新方案设计修改处
+//        if (indexPath.row == 0) {
+//            //
+//            GFCheckBabyDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFCheckBabyDetailsCellID forIndexPath:indexPath];
+//            gridcell = cell;
+//        }else{
+        
+            static NSString *GFGoodDetailNewCellIdentifier = @"GFGoodDetailNewCellID";
+            //在这里注册自定义的XIBcell 否则会提示找不到标示符指定的cell
+            UINib *nib = [UINib nibWithNibName:@"GFGoodDetailNewCell" bundle: [NSBundle mainBundle]];
+            [collectionView registerNib:nib forCellWithReuseIdentifier:GFGoodDetailNewCellIdentifier];
+            GFGoodDetailNewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFGoodDetailNewCellIdentifier forIndexPath:indexPath];
+            NSString *url = self.dataArray[indexPath.row];
+            [cell.pciIamgeView sd_setImageWithURL:[NSURL URLWithString:url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                /** 缓存image size */
+                [XHWebImageAutoSize storeImageSize:image forURL:imageURL completed:^(BOOL result) {
+                    if(result)  [collectionView  xh_reloadDataForURL:imageURL];
+                }];
+            }];
+//        }
+        
         gridcell = cell;
     }else if (indexPath.section == 2){
         DCDetailLikeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCDetailLikeCellID forIndexPath:indexPath];
@@ -362,7 +397,7 @@ static NSArray *lastSeleArray_;
             headerView.shufflingArray = _shufflingArray;
             reusableview = headerView;
         }else if (indexPath.section == 2){
-            DCDeatilCustomHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDeatilCustomHeadViewID forIndexPath:indexPath];
+            GFDetailCustomHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailCustomHeadViewID forIndexPath:indexPath];
             reusableview = headerView;
         }
     }else if (kind == UICollectionElementKindSectionFooter){
@@ -383,8 +418,11 @@ static NSArray *lastSeleArray_;
     if (indexPath.section == 0) { //商品详情
         return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
     }else if (indexPath.section == 1){//商品评价部分展示
-        return CGSizeMake(ScreenW, (ScreenH-50)/5*4+40);
+//        return CGSizeMake(ScreenW, (ScreenH-50)/5*4+40);
 //        return CGSizeMake(ScreenW, 0);
+        NSString *url = self.dataArray[indexPath.row];
+//        return  (indexPath.row == 0) ? CGSizeMake(ScreenW,35) : CGSizeMake(ScreenW,[XHWebImageAutoSize imageHeightForURL:[NSURL URLWithString:url] layoutWidth:SCREEN_WIDTH-16 estimateHeight:200]);
+        return self.setDetailsImageHidden ? CGSizeMake(ScreenW, 0) : CGSizeMake(ScreenW,[XHWebImageAutoSize imageHeightForURL:[NSURL URLWithString:url] layoutWidth:SCREEN_WIDTH-16 estimateHeight:200]);
     }else if (indexPath.section == 2){//商品猜你喜欢
         return CGSizeMake(ScreenW, (ScreenW / 3 + 60) * 2 + 20);
     }else{
@@ -392,12 +430,12 @@ static NSArray *lastSeleArray_;
     }
 }
 
-#pragma mark - head宽高
+#pragma mark - header宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return (section == 0) ?  CGSizeMake(ScreenW, ScreenH * 0.55) : ( section == 2) ? CGSizeMake(ScreenW, 30) : CGSizeZero;
 }
 
-#pragma mark - foot宽高
+#pragma mark - footter宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     //    return (section == 5) ? CGSizeMake(ScreenW, 35) : CGSizeMake(ScreenW, DCMargin);
     return (section == 2) ? CGSizeMake(ScreenW, 35) : CGSizeMake(ScreenW, 1);
@@ -415,9 +453,15 @@ static NSArray *lastSeleArray_;
     //        dcFeaVc.goodImageView = _goodImageView;
     //        [self setUpAlterViewControllerWith:dcFeaVc WithDistance:ScreenH * 0.8 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:YES WithFlipEnable:YES];
     //    }
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        
+    if (indexPath.section == 0 && indexPath.row == 1 && !self.setDetailsImageHidden) {
+        self.setDetailsImageHidden = true;
+    }else{
+        self.setDetailsImageHidden = false;
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
+//    [self.collectionView reloadData];
 }
 
 #pragma mark - 视图滚动

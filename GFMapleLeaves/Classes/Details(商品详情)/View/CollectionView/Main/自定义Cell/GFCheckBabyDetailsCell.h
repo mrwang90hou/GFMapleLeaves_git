@@ -9,4 +9,6 @@
 #import "DCDetailShowTypeCell.h"
 
 @interface GFCheckBabyDetailsCell : DCDetailShowTypeCell
+
+-(void)setDetailsImageHidden:(Boolean *)bl;
 @end

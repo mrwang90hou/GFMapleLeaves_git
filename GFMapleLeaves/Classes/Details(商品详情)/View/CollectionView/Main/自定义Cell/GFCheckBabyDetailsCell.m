@@ -42,7 +42,7 @@
 {
     self.leftTitleLable.text = @"查看宝贝详情";
     [self addSubview:self.iconImageView];
-    self.iconImageView.image = [UIImage imageNamed:@"biaoqian"];
+    self.iconImageView.image = [UIImage imageNamed:@"nav_btn_down_icon"];
     [self.iconImageView setHidden:YES];
 }
 
@@ -61,6 +61,14 @@
     }];
 }
 
+
+-(void)setDetailsImageHidden:(Boolean *)bl{
+    if (bl) {
+        self.iconImageView.transform = CGAffineTransformMakeRotation(M_PI);
+    }else{
+        self.iconImageView.transform = CGAffineTransformIdentity;
+    }
+}
 #pragma mark - Setter Getter Methods
 
 @end

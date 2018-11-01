@@ -125,6 +125,24 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 {
     _setItem = [DCRecommendItem mj_objectArrayWithFilename:_goodPlisName];
 }
+//用户信息查询
+-(void)requestData{
+    
+    NSDictionary *dict=@{
+//                         type=0全部，1女装，2男装，3内衣，4美妆，5配饰，6鞋品，7箱包，8儿童，9母婴，10居家，11美食，12数码，13家电，14其他，15车品，16文体（支持多类目筛选，如1,2获取类目为女装、男装的商品，逗号仅限英文逗号）
+//                         flag=0综合查询,1优惠券面值高到低，2优惠券面值低到高，3券后价由高到低，4、券后价由低到高，5，销量由高到低，6，销量由低到高
+                         @"page":@"1",
+                         @"type":@"1,2",
+                         @"flag":@""
+                         };
+    [GCHttpDataTool getCatListCodeWithDict:dict success:^(id responseObject) {
+        
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+}
+
+
 #pragma mark - 导航栏
 - (void)setUpNav
 {
@@ -257,7 +275,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
     return (_isSwitchGrid) ? 0 : 4;
 }
 
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"点击了商品第%zd",indexPath.row);
     [SVProgressHUD showInfoWithStatus:@"等待开发完善！"];
@@ -278,7 +295,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 //    }];
 }
 
-
 #pragma mark - 滑动代理
 //开始滑动的时候记录位置
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -286,6 +302,7 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
     _lastContentOffset = scrollView.contentOffset.y;
     
 }
+
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
     
@@ -366,7 +383,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 {
     
 }
-
 
 #pragma mark - 转场动画弹出控制器
 - (void)setUpAlterViewControllerWith:(UIViewController *)vc WithDistance:(CGFloat)distance

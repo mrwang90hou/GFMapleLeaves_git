@@ -17,6 +17,7 @@
 #import "DCGMScanViewController.h"
 #import "GFGoodDetailViewController.h"
 #import "DCGoodBaseViewController.h"
+#import "GFGoodDetailNewViewController.h"
 // Models
 #import "DCGridItem.h"
 #import "DCRecommendItem.h"
@@ -33,6 +34,7 @@
 /* head */
 #import "DCSlideshowHeadView.h"  //轮播图
 #import "DCCountDownHeadView.h"  //倒计时标语
+#import "GFHotRecommendedHeadView.h"    //热门推荐
 #import "DCYouLikeHeadView.h"    //猜你喜欢等头部标语
 /* foot */
 #import "DCTopLineFootView.h"    //热点
@@ -59,6 +61,12 @@
 
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
+
+/* 广告轮播图 */
+@property (nonatomic,strong) DCSlideshowHeadView *adView;
+/* 首页5张图片数据（今日值得买，今日关注。。。。） */
+@property (nonatomic,strong)  NSArray *hotViewCellImageArr;
+@property (nonatomic,strong)  NSArray *hotViewCellImageURLArray;
 /* 10个属性 */
 @property (strong , nonatomic)NSMutableArray<DCGridItem *> *gridItem;
 /* 推荐商品属性 */
@@ -70,8 +78,11 @@
 @property (strong , nonatomic)UIButton *backTopButton;
 
 @property (nonatomic,strong) PYSearchViewController *pyVC;
+//广告页存储
+@property (nonatomic, assign) NSMutableArray *adBanerArr;
 
-
+//headerView点击 btn
+@property (nonatomic,strong) UIButton *headerViewBtn;
 
 @end
 /* cell */
@@ -85,6 +96,7 @@ static NSString *const DCExceedApplianceCellID = @"DCExceedApplianceCell";
 static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
 static NSString *const DCCountDownHeadViewID = @"DCCountDownHeadView";
 static NSString *const DCYouLikeHeadViewID = @"DCYouLikeHeadView";
+static NSString *const GFHotRecommendedHeadViewID = @"GFHotRecommendedHeadView";
 /* foot */
 static NSString *const DCTopLineFootViewID = @"DCTopLineFootView";
 static NSString *const DCOverFootViewID = @"DCOverFootView";
@@ -114,6 +126,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         [_collectionView registerClass:[DCScrollAdFootView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCScrollAdFootViewID];
         
         [_collectionView registerClass:[DCYouLikeHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCYouLikeHeadViewID];
+        [_collectionView registerClass:[GFHotRecommendedHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFHotRecommendedHeadViewID];
         [_collectionView registerClass:[DCSlideshowHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID];
         [_collectionView registerClass:[DCCountDownHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCCountDownHeadViewID];
         
@@ -121,6 +134,13 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     return _collectionView;
 }
+
+//-(NSMutableArray *)adBanerArr{
+//    if (!_adBanerArr) {
+//        _adBanerArr = [NSMutableArray array];
+//    }
+//    return _adBanerArr;
+//}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -131,6 +151,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self requestAllData];
+
     [self setUpBase];
     
     [self setUpNavTopView];
@@ -187,9 +209,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 }
 
 - (void)requestData{
-    
+    /*
 //    NSString *NewCheckCode = [self makeCheckCodeWithUserID:[NSString stringWithFormat:@"%@",userID] loginID:[NSString stringWithFormat:@"%@",loginID] loginCheckCode:checkCode rand:rand];
-    NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
+//    NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
 //    [param setObject:@"2" forKey:@"platformType"];
 //    [param setObject:@"0" forKey:@"isWeb"];
 //    [param setObject:userID forKey:@"userID"];
@@ -204,7 +226,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         NSDictionary *mResult = responseObject;
         NSDictionary *datas = [mResult objectForKey:@"data"];
         NSLog(@"datas = %@",datas);
-        
+    
 //        "total": 3562,
 //        "per_page": 12,
 //        "current_page": 1,
@@ -212,9 +234,116 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         
         
     } failure:^(NSError *error) {
-        
+
         [SVProgressHUD showSuccessWithStatus:@"获取失败！"];
     }];
+    */
+//    self.adBanerArr = [NSMutableArray arrayWithCapacity:5];
+    //获取 首页广告Baner图片
+    [GCHttpDataTool getADListWithDictWithDict:nil success:^(id responseObject) {
+//        NSDictionary *dic = responseObject[@"data"];
+        NSMutableArray *adBanerArr = [NSMutableArray array];
+        NSMutableArray *imageJumpURLArray = [NSMutableArray array];
+        NSArray *dataArray = responseObject[@"data"];
+        for (NSDictionary *dict in dataArray) {
+            [adBanerArr addObject:dict[@"adimg"]];
+            [imageJumpURLArray addObject:dict[@"jumpurl"]];
+        }
+        //回到主线程更新UI -> 撤销遮罩
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.adView.imageGroupArray = adBanerArr;
+            self.adView.imageJumpURLArray = imageJumpURLArray;
+            [self.collectionView reloadData];
+        });
+//        self.adView.imageGroupArray = self.adBanerArr;
+//        [self.collectionView reloadData];
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+}
+
+-(void)requestAllData{
+    
+    NSMutableArray *adBanerArr = [NSMutableArray array];
+    NSMutableArray *imageJumpURLArray = [NSMutableArray array];
+    
+    NSMutableArray *hotViewCellImageArr = [NSMutableArray array];
+    NSMutableArray *hotViewCellImageURLArray = [NSMutableArray array];
+    
+    // 创建信号量
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+    // 创建全局并行
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_async(group, queue, ^{
+        // 【请求一】获取 首页广告Baner图片
+        [GCHttpDataTool getADListWithDictWithDict:nil success:^(id responseObject) {
+            NSArray *dataArray = responseObject[@"data"];
+            for (NSDictionary *dict in dataArray) {
+                [adBanerArr addObject:dict[@"adimg"]];
+                [imageJumpURLArray addObject:dict[@"jumpurl"]];
+            }
+            self.adBanerArr = adBanerArr;
+            dispatch_semaphore_signal(semaphore);
+            //回到主线程更新UI -> 撤销遮罩
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.adView.imageGroupArray = adBanerArr;
+//                self.adView.imageJumpURLArray = imageJumpURLArray;
+//                [self.collectionView reloadData];
+//            });
+        } failure:^(MQError *error) {
+            [SVProgressHUD showErrorWithStatus:error.msg];
+        }];
+    });
+    dispatch_group_async(group, queue, ^{
+        // 【请求二】首页5张图片数据（今日值得买，今日关注。。。。）
+        [GCHttpDataTool getMenuListWithDict:nil success:^(id responseObject) {
+            NSArray *dataArray = responseObject[@"data"];
+            for (NSDictionary *dict in dataArray) {
+                [hotViewCellImageArr addObject:dict[@"img"]];
+                [hotViewCellImageURLArray addObject:dict[@"url"]];
+            }
+//            self.adBanerArr = adBanerArr;
+            dispatch_semaphore_signal(semaphore);
+        } failure:^(MQError *error) {
+            
+            [SVProgressHUD showErrorWithStatus:error.msg];
+        }];
+        
+    });
+    dispatch_group_async(group, queue, ^{
+        // 【请求三】首页5张图片数据（今日值得买，今日关注。。。。）
+        [GCHttpDataTool getMenuListWithDict:nil success:^(id responseObject) {
+            NSMutableArray *imageArr = [NSMutableArray array];
+            NSMutableArray *imageJumpURLArray = [NSMutableArray array];
+            NSArray *dataArray = responseObject[@"data"];
+            for (NSDictionary *dict in dataArray) {
+                [imageArr addObject:dict[@"img"]];
+                [imageJumpURLArray addObject:dict[@"url"]];
+            }
+            dispatch_semaphore_signal(semaphore);
+        } failure:^(MQError *error) {
+            [SVProgressHUD showErrorWithStatus:error.msg];
+        }];
+    });
+    
+    dispatch_group_notify(group, queue, ^{
+        // 三个请求对应三次信号等待
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        //在这里 进行请求后的方法，回到主线程
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //更新UI操作
+            self.adView.imageGroupArray = adBanerArr;
+            self.adView.imageJumpURLArray = imageJumpURLArray;
+            self.hotViewCellImageArr = hotViewCellImageArr;
+            self.hotViewCellImageURLArray = hotViewCellImageURLArray;
+            
+            
+            [self.collectionView reloadData];
+        });
+    });
 }
 
 #pragma mark - 滚回顶部
@@ -239,8 +368,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     WEAKSELF
     _topToolView.leftItemClickBlock = ^{
         NSLog(@"点击了首页【菜单】");
-        [SVProgressHUD showWithStatus:@"正在获取数据"];
-        [weakSelf requestData];
+//        [SVProgressHUD showWithStatus:@"正在获取数据"];
+//        [weakSelf requestData];
 //        DCGMScanViewController *dcGMvC = [DCGMScanViewController new];
 //        [weakSelf.navigationController pushViewController:dcGMvC animated:YES];
     };
@@ -343,10 +472,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //    [self.pyVC.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
-
-
-
 #pragma mark - <UICollectionViewDataSource>
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 6;
@@ -357,7 +482,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         return _gridItem.count;
     }
     if (section == 1 || section == 2 || section == 3) { //广告福利  倒计时  掌上专享
-        return 1;
+        return 0;
     }
     if (section == 4) { //推荐
         return GoodsHandheldImagesArray.count;
@@ -376,7 +501,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
-
     }else if (indexPath.section == 1) {//广告福利（上2下1）
         DCNewWelfareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCNewWelfareCellID forIndexPath:indexPath];
         gridcell = cell;
@@ -389,12 +513,10 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         DCExceedApplianceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCExceedApplianceCellID forIndexPath:indexPath];
         cell.goodExceedArray = GoodsRecommendArray;
         gridcell = cell;
-
     }
-    else if (indexPath.section == 4) {//推荐（优质家电下的）返利好货精选
+    else if (indexPath.section == 4) {//推荐
         DCGoodsHandheldCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsHandheldCellID forIndexPath:indexPath];
-        NSArray *images = GoodsHandheldImagesArray;
-        cell.handheldImage = images[indexPath.row];
+        cell.handheldImage = self.hotViewCellImageArr[indexPath.row];
         gridcell = cell;
     }
     else {//猜你喜欢
@@ -419,19 +541,28 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (kind == UICollectionElementKindSectionHeader){
         if (indexPath.section == 0) {
             DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
+//            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
+//            self.adView.imageGroupArray = self.adBanerArr;
+//            headerView.imageGroupArray = [NSMutableArray arrayWithCapacity:5];
+            self.adView = headerView;
             reusableview = headerView;
         }else if (indexPath.section == 2){
             DCCountDownHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCCountDownHeadViewID forIndexPath:indexPath];
             reusableview = headerView;
         }else if (indexPath.section == 4){
-            DCYouLikeHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCYouLikeHeadViewID forIndexPath:indexPath];
-//            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"http://gfs7.gomein.net.cn/T1WudvBm_T1RCvBVdK.png"]];//【优质家电】
-            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"home_icon_guestyoulike"]];//【热门推荐】
+            GFHotRecommendedHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFHotRecommendedHeadViewID forIndexPath:indexPath];
+            [headerView.titleImageView setImage:SETIMAGE(HomeBottomViewGIFImage)];//【今日值得购买】
+            UIButton *headerViewBtn = [[UIButton alloc]init];
+            [headerView addSubview:headerViewBtn];
+            [headerViewBtn setBackgroundColor:[UIColor clearColor]];
+            [headerViewBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.mas_equalTo(headerView);
+            }];
+            [headerViewBtn addTarget:self action:@selector(headerViewBtnAction) forControlEvents:UIControlEventTouchUpInside];
+            self.headerViewBtn = headerViewBtn;
             reusableview = headerView;
         }else if (indexPath.section == 5){
             DCYouLikeHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCYouLikeHeadViewID forIndexPath:indexPath];
-//            [headerView.likeImageView sd_setImageWithURL:[NSURL URLWithString:@"http://gfs5.gomein.net.cn/T16LLvByZj1RCvBVdK.png"]];//【国美精选】
             [headerView.likeImageView setImage:[UIImage imageNamed:@"home_icon_guestyoulike"]];//【猜你喜欢】
            reusableview = headerView;
         }
@@ -448,7 +579,6 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             reusableview = footview;
         }
     }
-
     return reusableview;
 }
 
@@ -496,7 +626,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath2:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     if (indexPath.section == 4) {
-        if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2){
+        if (indexPath.row == 0) {
+            layoutAttributes.size = CGSizeMake(ScreenW, ScreenW * 0.1);
+        }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
             layoutAttributes.size = CGSizeMake(ScreenW * 0.5, ScreenW * 0.35);
         }else{
             layoutAttributes.size = CGSizeMake(ScreenW * 0.25, ScreenW * 0.35);
@@ -519,11 +651,11 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         return CGSizeMake(ScreenW, 0);
     }
     if (section == 4) {
-        return CGSizeMake(ScreenW, 20);
+        return CGSizeMake(ScreenW, 0);
 //        return CGSizeMake(ScreenW, 0);
     }
     if (section == 5) {//猜你喜欢的宽高
-        return CGSizeMake(ScreenW, 40);  //推荐适合的宽高
+        return CGSizeMake(ScreenW, 25);  //推荐适合的宽高
     }
     return CGSizeZero;
 }
@@ -532,8 +664,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     if (section == 0) {
 //        return CGSizeMake(ScreenW, 180);  //Top头条的宽高
-        return CGSizeMake(ScreenW, 120);  //Top头条的宽高
-//        return CGSizeMake(ScreenW, 110);  //Top头条的宽高
+//        return CGSizeMake(ScreenW, 120);  //Top头条的宽高
+//        return CGSizeMake(ScreenW, 80);  //Top头条的宽高
+        return CGSizeMake(ScreenW, 0);  //Top头条的宽高
     }
     if (section == 3) {
 //        return CGSizeMake(ScreenW, 80); // 滚动广告
@@ -559,43 +692,10 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (indexPath.section == 0) {//10
         DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
         goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
+        goodSetVc.typeNumber = indexPath.row;
         [self.navigationController pushViewController:goodSetVc animated:YES];
-        NSLog(@"点击了10个属性第%zd",indexPath.row);
-        switch (indexPath.row) {
-            case 0:
-                
-                break;
-            case 1:
-                
-                break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            case 4:
-                
-                break;
-            case 5:
-                
-                break;
-            case 6:
-                
-                break;
-            case 7:
-                
-                break;
-            case 8:
-                
-                break;
-            case 9:
-                
-                break;
-            case 10:
-                
-                break;
-        }
+        
+    }else if (indexPath.section == 4) {
         
     }else if (indexPath.section == 5){
         NSLog(@"点击了推荐的第%ld个商品",(long)indexPath.row);
@@ -607,10 +707,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
 //        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
 //        [self.navigationController pushViewController:dcVc animated:YES];
-        
-        
 //        DCGoodBaseViewController *dcVc = [[DCGoodBaseViewController alloc] init];
-        GFGoodDetailViewController *dcVc = [[GFGoodDetailViewController alloc] init];
+//        GFGoodDetailViewController *dcVc = [[GFGoodDetailViewController alloc] init];
+        GFGoodDetailNewViewController *dcVc = [[GFGoodDetailNewViewController alloc] init];
         dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
         dcVc.goodPrice = _youLikeItem[indexPath.row].price;
         dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
@@ -618,8 +717,11 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
         [self.navigationController pushViewController:dcVc animated:YES];
         
-        
     }
+}
+
+-(void)headerViewBtnAction{
+    [SVProgressHUD showInfoWithStatus:@"headerViewBtnAction"];
 }
 
 #pragma mark - <UIScrollViewDelegate>

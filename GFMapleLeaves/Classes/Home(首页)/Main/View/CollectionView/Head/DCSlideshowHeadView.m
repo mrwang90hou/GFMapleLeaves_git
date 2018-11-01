@@ -53,19 +53,23 @@
 - (void)setImageGroupArray:(NSArray *)imageGroupArray
 {
     _imageGroupArray = imageGroupArray;
-//    _cycleScrollView.placeholderImage = [UIImage imageNamed:@"default_160"];
     _cycleScrollView.placeholderImage = [UIImage imageNamed:@"icon_default_loadError128"];
     
     if (imageGroupArray.count == 0) return;
-//    _cycleScrollView.imageURLStringsGroup = _imageGroupArray;
+    _cycleScrollView.imageURLStringsGroup = _imageGroupArray;
 //    _cycleScrollView.titlesGroup = _imageGroupArray;
-    _cycleScrollView.localizationImageNamesGroup = _imageGroupArray;
-    
+//    _cycleScrollView.localizationImageNamesGroup = _imageGroupArray;
+}
+
+- (void)setImageJumpURLArray:(NSArray *)imageJumpURLArray
+{
+    _imageJumpURLArray = imageJumpURLArray;
 }
 
 #pragma mark - 点击图片Bannar跳转
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    NSLog(@"点击了%zd轮播图",index);
+    NSLog(@"点击了%zd轮播图\t图片链接为：%@",index,[_imageGroupArray objectAtIndex:index]);
+//    [SVProgressHUD showInfoWithStatus:[_imageJumpURLArray objectAtIndex:index]];
 }
 
 #pragma mark - 布局

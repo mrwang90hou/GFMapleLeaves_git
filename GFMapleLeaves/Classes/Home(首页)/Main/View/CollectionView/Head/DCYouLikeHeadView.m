@@ -40,7 +40,9 @@
 - (void)setUpUI
 {
     _likeImageView = [[UIImageView alloc] init];
-    _likeImageView.contentMode = UIViewContentModeScaleAspectFill;
+//    _likeImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _likeImageView.contentMode = UIViewContentModeScaleToFill;
+//    [_likeImageView setImage:[UIImage imageNamed:HomeBottomViewGIFImage]];
     [self addSubview:_likeImageView];
 }
 
@@ -51,9 +53,9 @@
     [_likeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.centerY.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(150, 25));
+        make.size.mas_equalTo(CGSizeMake(120, 20));
     }];
-    [_likeImageView setHidden:true];
+    
 }
 
 #pragma mark - Setter Getter Methods

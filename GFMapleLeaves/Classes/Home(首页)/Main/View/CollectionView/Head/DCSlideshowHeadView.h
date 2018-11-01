@@ -12,5 +12,6 @@
 
 /* 轮播图数组 */
 @property (copy , nonatomic)NSArray *imageGroupArray;
-
+/* 轮播图的跳转链接数组 */
+@property (copy , nonatomic)NSArray *imageJumpURLArray;
 @end

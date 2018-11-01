@@ -12,6 +12,5 @@
 
 /* plist数据 */
 @property (strong , nonatomic)NSString *goodPlisName;
-
-
+@property (nonatomic,assign) NSInteger typeNumber;
 @end

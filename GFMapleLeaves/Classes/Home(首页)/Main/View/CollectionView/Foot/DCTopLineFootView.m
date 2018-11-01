@@ -52,7 +52,9 @@
     _topAdImageView = [[UIImageView alloc] init];
     //    [_topAdImageView sd_setImageWithURL:[NSURL URLWithString:HomeBottomViewGIFImage]];
     [_topAdImageView setImage:[UIImage imageNamed:HomeBottomViewGIFImage]];
-    _topAdImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    _topAdImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    _topAdImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _topAdImageView.contentMode = UIViewContentModeScaleToFill;
     [self addSubview:_topAdImageView];
 
     //初始化【上下轮翻图（暂时隐藏）】CGRectMake(0, self.dc_height - 50, self.dc_width, 50)

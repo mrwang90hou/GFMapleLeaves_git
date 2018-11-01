@@ -6,7 +6,7 @@
 //Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
-#import "DCBaseSetViewController.h"
+#import "GFBaseSetViewController.h"
 
 @interface DCSettingViewController : UIViewController
 

@@ -55,6 +55,7 @@
 
     [_handheldImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self);
+//        make.center.equalTo(self);
     }];
 }
 

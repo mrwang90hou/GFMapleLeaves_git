@@ -52,6 +52,7 @@
 
 - (void)setImageGroupArray:(NSArray *)imageGroupArray
 {
+    
     _imageGroupArray = imageGroupArray;
     _cycleScrollView.placeholderImage = [UIImage imageNamed:@"icon_default_loadError128"];
     

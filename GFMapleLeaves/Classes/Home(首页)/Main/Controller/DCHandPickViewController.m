@@ -64,6 +64,9 @@
 
 /* 广告轮播图 */
 @property (nonatomic,strong) DCSlideshowHeadView *adView;
+@property (nonatomic, assign) NSMutableArray *adBanerArr;
+@property (nonatomic, assign) NSArray *adBanerURLArr;
+
 /* 首页5张图片数据（今日值得买，今日关注。。。。） */
 @property (nonatomic,strong)  NSArray *hotViewCellImageArr;
 @property (nonatomic,strong)  NSArray *hotViewCellImageURLArray;
@@ -78,8 +81,6 @@
 @property (strong , nonatomic)UIButton *backTopButton;
 
 @property (nonatomic,strong) PYSearchViewController *pyVC;
-//广告页存储
-@property (nonatomic, assign) NSMutableArray *adBanerArr;
 
 //headerView点击 btn
 @property (nonatomic,strong) UIButton *headerViewBtn;
@@ -137,7 +138,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 
 //-(NSMutableArray *)adBanerArr{
 //    if (!_adBanerArr) {
-//        _adBanerArr = [NSMutableArray array];
+//        _adBanerArr = [[NSMutableArray alloc]initWithObjects:@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128"];
 //    }
 //    return _adBanerArr;
 //}
@@ -265,13 +266,13 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 -(void)requestAllData{
     
     NSMutableArray *adBanerArr = [NSMutableArray array];
-    NSMutableArray *imageJumpURLArray = [NSMutableArray array];
+    NSMutableArray *adBanerURLArr = [NSMutableArray array];
     
     NSMutableArray *hotViewCellImageArr = [NSMutableArray array];
     NSMutableArray *hotViewCellImageURLArray = [NSMutableArray array];
     
     // 创建信号量
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     // 创建全局并行
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
@@ -281,10 +282,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             NSArray *dataArray = responseObject[@"data"];
             for (NSDictionary *dict in dataArray) {
                 [adBanerArr addObject:dict[@"adimg"]];
-                [imageJumpURLArray addObject:dict[@"jumpurl"]];
+                [adBanerURLArr addObject:dict[@"jumpurl"]];
             }
             self.adBanerArr = adBanerArr;
-            dispatch_semaphore_signal(semaphore);
             //回到主线程更新UI -> 撤销遮罩
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                self.adView.imageGroupArray = adBanerArr;
@@ -294,6 +294,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         } failure:^(MQError *error) {
             [SVProgressHUD showErrorWithStatus:error.msg];
         }];
+        
+        dispatch_semaphore_signal(semaphore);
     });
     dispatch_group_async(group, queue, ^{
         // 【请求二】首页5张图片数据（今日值得买，今日关注。。。。）
@@ -334,12 +336,16 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         //在这里 进行请求后的方法，回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
-            //更新UI操作
+            /*更新UI操作*/
+            //轮播图
+            
             self.adView.imageGroupArray = adBanerArr;
-            self.adView.imageJumpURLArray = imageJumpURLArray;
+//            self.adBanerArr = adBanerArr;
+//            self.adBanerURLArr = adBanerURLArr;
+            
+            
             self.hotViewCellImageArr = hotViewCellImageArr;
             self.hotViewCellImageURLArray = hotViewCellImageURLArray;
-            
             
             [self.collectionView reloadData];
         });
@@ -516,7 +522,11 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     }
     else if (indexPath.section == 4) {//推荐
         DCGoodsHandheldCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsHandheldCellID forIndexPath:indexPath];
-        cell.handheldImage = self.hotViewCellImageArr[indexPath.row];
+        if (self.hotViewCellImageArr.count != 0) {
+            cell.handheldImage = self.hotViewCellImageArr[indexPath.row];
+        }else{
+            cell.handheldImage = @"icon_default_loadError128";
+        }
         gridcell = cell;
     }
     else {//猜你喜欢
@@ -541,9 +551,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (kind == UICollectionElementKindSectionHeader){
         if (indexPath.section == 0) {
             DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-//            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
 //            self.adView.imageGroupArray = self.adBanerArr;
-//            headerView.imageGroupArray = [NSMutableArray arrayWithCapacity:5];
             self.adView = headerView;
             reusableview = headerView;
         }else if (indexPath.section == 2){
@@ -628,10 +636,12 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     if (indexPath.section == 4) {
         if (indexPath.row == 0) {
             layoutAttributes.size = CGSizeMake(ScreenW, ScreenW * 0.1);
-        }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
-            layoutAttributes.size = CGSizeMake(ScreenW * 0.5, ScreenW * 0.35);
+        }else if (indexPath.row == 1 || indexPath.row == 2){
+            layoutAttributes.size = CGSizeMake((ScreenW-1) * 0.5, ScreenW * 0.35);
+        }else if(indexPath.row == 3){
+            layoutAttributes.size = CGSizeMake((ScreenW-2) * 0.5, ScreenW * 0.35);
         }else{
-            layoutAttributes.size = CGSizeMake(ScreenW * 0.25, ScreenW * 0.35);
+            layoutAttributes.size = CGSizeMake((ScreenW-2) * 0.25, ScreenW * 0.35);
         }
     }
     return layoutAttributes;
@@ -681,11 +691,14 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 #pragma mark - X间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return (section == 5) ? 4 : 0;
+//    return (section == 4 || section == 5) ? 4 : 0;
+    return section == 4 ? 1:section == 5 ? 4 : 0;
+    
 }
 #pragma mark - Y间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return (section == 5) ? 4 : 0;
+//    return (section == 4 || section == 5) ? 4 : 0;
+    return section == 4 ? 1:section == 5 ? 4 : 0;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

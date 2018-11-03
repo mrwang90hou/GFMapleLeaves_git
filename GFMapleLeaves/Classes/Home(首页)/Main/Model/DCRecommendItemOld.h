@@ -1,5 +1,5 @@
 //
-//  DCRecommendItem2.h
+//  DCRecommendItemOld.h
 //  GFMapleLeaves
 //
 //  Created by mrwang90hou on 2019/9/10.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DCRecommendItem2 : NSObject
+@interface DCRecommendItemOld : NSObject
 
 /** 图片URL */
 @property (nonatomic, copy) NSString *image_url;
@@ -28,11 +28,11 @@
 /**
  *  状态码（1成功，0失败或没有数据返回）
  */
-@property (nonatomic, copy) NSString *code;
+@property (nonatomic, assign) NSInteger code;
 /**
  *  宝贝ID
  */
-@property (nonatomic, copy) NSString *itemid;
+@property (nonatomic, assign) NSInteger itemid;
 /**
  *  宝贝标题
  */
@@ -44,15 +44,15 @@
 /**
  *  在售价
  */
-@property (nonatomic, copy) NSString *itemprice;
+@property (nonatomic, assign) CGFloat itemprice;
 /**
  *  宝贝月销量
  */
-@property (nonatomic, copy) NSString *itemsale;
+@property (nonatomic, assign) NSInteger itemsale;
 /**
  *  当天销量
  */
-@property (nonatomic, copy) NSString *todaysale;
+@property (nonatomic, assign) NSInteger todaysale;
 
 /**
  *  宝贝主图原始图像（由于图片原图过大影响加载速度，建议加上后缀_310x310.jpg，如https://img.alicdn.com/imgextra/i2/3412518427/TB26gs7bb7U5uJjSZFFXXaYHpXa_!!3412518427.jpg_310x310.jpg）
@@ -61,7 +61,7 @@
 /**
  *  宝贝券后价
  */
-@property (nonatomic, copy) NSString *itemendprice;
+@property (nonatomic, assign) CGFloat itemendprice;
 /**
  *  店铺类型： 天猫店（B） 淘宝店（C）
  */
@@ -73,7 +73,7 @@
 /**
  *  优惠券金额
  */
-@property (nonatomic, copy) NSString *couponmoney;
+@property (nonatomic, assign) CGFloat couponmoney;
 /**
  *  商品视频ID（id大于0的为有视频单，视频拼接地址http://cloud.video.taobao.com/play/u/1/p/1/e/6/t/1/+videoid+.mp4）
  */
@@ -81,6 +81,6 @@
 /**
  *  预计可得（宝贝价格 * 佣金比例 / 100）
  */
-@property (nonatomic, copy) NSString *tkmoney;
+@property (nonatomic, assign) CGFloat tkmoney;
 
 @end

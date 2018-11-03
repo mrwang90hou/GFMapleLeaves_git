@@ -7,19 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DCRecommendItem.h"
-//@class DCRecommendItem;
+#import "DCRecommendItem2.h"
+@class DCRecommendItem2;
 
 @interface DCGoodsYouLikeCell : UICollectionViewCell
 
 /* 推荐数据 */
-@property (strong , nonatomic)DCRecommendItem *youLikeItem;
+@property (strong , nonatomic)DCRecommendItem2 *youLikeItem;
 /* 相同 */
-@property (strong , nonatomic)UIButton *sameButton;
+//@property (strong , nonatomic)UIButton *sameButton;
 /* 领券 */
 @property (strong , nonatomic)UIButton *getTicketButton;
-
-
 /* 展示图的 View */
 @property (strong , nonatomic)UIView *view;
 /* 底部佣金条 */
@@ -29,18 +27,17 @@
 /* 佣金 */
 @property (strong , nonatomic)UILabel *commissionLabel;
 /* 标题图片(天猫、淘宝) */
-@property (strong , nonatomic)UIImage *goodsTitleImage;
+@property (strong , nonatomic)UIImageView *goodsTitleImage;
 /* 标题 */
 @property (strong , nonatomic)UILabel *goodsLabel;
-/* 降价 */
-@property (strong , nonatomic)UILabel *downPriceLabel;
+/* 淘宝价格 */
+@property (strong , nonatomic)UILabel *beforeDownPriceLabel;
 /* 月销量 */
 @property (strong , nonatomic)UILabel *mothSalesVolume;
 /* 价格 */
 @property (strong , nonatomic)UILabel *priceLabel;
 /* 视频播放btn */
 @property (nonatomic,strong) UIButton *videoBtn;
-
 ///** 找相似点击回调 */
 //@property (nonatomic, copy) dispatch_block_t lookSameBlock;
 

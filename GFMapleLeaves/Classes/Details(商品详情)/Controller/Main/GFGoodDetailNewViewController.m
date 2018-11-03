@@ -186,11 +186,127 @@ static NSArray *lastSeleArray_;
     [self setUpSuspendView];
 
 }
+
 -(void)getData{
-    NSData *JSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image01" ofType:@"json"]];
-    NSDictionary *json =  [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingAllowFragments error:nil];
+//    NSData *JSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"image01" ofType:@"json"]];
+//    NSDictionary *json =  [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingAllowFragments error:nil];
     //    NSLog(@"json = %@",json);
-    _dataArray = json[@"data"];
+//    _dataArray = json[@"data"];
+    _dataArray  = @[];
+    
+    [self requestData];
+}
+
+- (void)requestData{
+    //【商品详情页面数据】
+    
+    NSDictionary *dic = @{
+                          @"itemid" : self.goodsID
+                          };
+    [GCHttpDataTool getGoodsDetailWithDict:dic success:^(id responseObject) {
+        NSMutableArray *adBanerArr = [NSMutableArray array];
+        NSMutableArray *imageJumpURLArray = [NSMutableArray array];
+        NSArray *dataArray = responseObject[@"data"];
+        for (NSDictionary *dict in dataArray) {
+//            [adBanerArr addObject:dict[@"adimg"]];
+//            [imageJumpURLArray addObject:dict[@"jumpurl"]];
+//            self.goodImageView = dict[@"itempic"];
+//            self.shufflingArray = @[dict[@"itempic"]];
+        }
+        //回到主线程更新UI -> 撤销遮罩
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+//    获取【商品详情】照片列表
+    NSDictionary *dict = @{
+                           @"data" : [NSString stringWithFormat:@"{\"id\":\"%@\"}",self.goodsID]
+                           };
+    [GCHttpDataTool getGoodsDetailPagePICWithDict:dict success:^(id responseObject) {
+        NSArray *imageArray = [self getImageurlFromHtml:responseObject];
+        //回到主线程更新UI -> 撤销遮罩
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.dataArray = [imageArray copy];
+            [self.collectionView reloadData];
+        });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+}
+//过滤后台返回字符串中的标签
+- (NSString *)flattenHTML:(NSString *)html {
+    
+    NSScanner *theScanner;
+    NSString *text = nil;
+    
+    theScanner = [NSScanner scannerWithString:html];
+    
+    while ([theScanner isAtEnd] == NO) {
+       
+        
+        // find start of tag
+        [theScanner scanUpToString:@"<" intoString:NULL] ;
+        // find end of tag
+        [theScanner scanUpToString:@">" intoString:&text] ;
+        // replace the found tag with a space
+        //(you can filter multi-spaces out later if you wish)
+        html = [html stringByReplacingOccurrencesOfString:
+                [NSString stringWithFormat:@"%@>", text]
+                                               withString:@""];
+    }
+//    MidStrTitle = html;
+    return html;
+}
+
+- (NSArray *)getImageurlFromHtml:(NSString *)webString
+{
+    NSMutableArray * imageurlArray = @[].mutableCopy;
+    
+    //标签匹配
+    NSString *parten = @"<img(.*?)>";
+    NSError* error = NULL;
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:0 error:&error];
+    NSArray* match = [reg matchesInString:webString options:0 range:NSMakeRange(0, [webString length] - 1)];
+    
+    for (NSTextCheckingResult * result in match) {
+        //过去数组中的标签
+        NSRange range = [result range];
+        NSString * subString = [webString substringWithRange:range];
+        NSError *error;
+        NSLog(@"subString = %@",subString);
+        //从图片中的标签中提取ImageURL
+//        NSRegularExpression *subReg = [NSRegularExpression regularExpressionWithPattern:@"http://(.*?)\"" options:0 error:NULL];
+        NSRegularExpression *subReg = [NSRegularExpression regularExpressionWithPattern:@"img.alicdn.com/(.*?)\"" options:0 error:&error];
+        
+        NSInteger count = [subReg numberOfMatchesInString:subString options:NSMatchingReportCompletion range:NSMakeRange(0, subString.length)];
+        NSLog(@"count = %ld",(long)count);
+        
+//        //手机号简单匹配
+//        NSString *searchText = @"15173265865/18551410506";
+//        NSString *regexStr = @"1[358][0-9]{9}";
+//        NSError *error;
+//        NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:regexStr options:NSRegularExpressionCaseInsensitive error:&error];
+//        if (error) return;
+//        NSInteger count = [regular numberOfMatchesInString:searchText options:NSMatchingReportCompletion range:NSMakeRange(0, searchText.length)];
+        
+        if (!error&&count==1) {
+            //        NSRegularExpression *subReg = [NSRegularExpression regularExpressionWithPattern:@"src=\"//(.*?)\"" options:0 error:NULL];
+            NSArray* match = [subReg matchesInString:subString options:0 range:NSMakeRange(0, [subString length] - 1)];
+            NSTextCheckingResult * subRes = match[0];
+            NSRange subRange = [subRes range];
+            subRange.length = subRange.length -1;
+            NSString * imagekUrl = [subString substringWithRange:subRange];
+            
+            //将提取出的图片URL添加到图片数组中
+            imagekUrl = [NSString stringWithFormat:@"http://%@",imagekUrl];
+            
+            [imageurlArray addObject:imagekUrl];
+            //        NSLog(@"👋👋👋👋👋👋imagekUrl = %@",imagekUrl);
+        }
+    }
+    return imageurlArray;
 }
 
 #pragma mark - initialize

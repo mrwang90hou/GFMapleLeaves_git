@@ -156,7 +156,6 @@
         //        [make.top.mas_equalTo(self.priceLabel)setOffset:2];
 //        make.center.equalTo(self.downPriceImageView);
 //        make.centerX.equalTo(self._downPriceImageView);
-        
         make.left.mas_equalTo(self.priceLabel.mas_right).offset(2);
         //        [make.top.mas_equalTo(self.priceLabel)setOffset:2];
         make.centerY.equalTo(self.priceLabel);

@@ -13,6 +13,9 @@
 /** 更改标题 */
 @property (nonatomic , copy) void(^changeTitleBlock)(BOOL isChange);
 
+
+/* 商品标题 */
+@property (strong , nonatomic)NSString *goodsID;
 /* 商品标题 */
 @property (strong , nonatomic)NSString *goodTitle;
 /* 商品价格 */

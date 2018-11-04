@@ -310,13 +310,18 @@
 
 + (void)getGoodsDetailWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@",GoodsDetail_URL];
+//    NSString *urlString=[NSString stringWithFormat:@"%@",GoodsDetail_URL];
     
-    NSLog(@"当前URL请求【商品详情接口】为：%@",urlString);
+    // Step1:拼接请求的参数
+    NSString *url = [NSString stringWithFormat:@"%@?", GoodsDetail_URL];
+    for (NSString *key in [dict allKeys]) {
+        url = [NSString stringWithFormat:@"%@%@=%@&", url, key, [dict objectForKey:key]];
+    }
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"当前URL请求【商品详情接口】为：%@",url);
     NSLog(@"parameters参数为：%@",dict);
     
-    
-    [GCHttpTool GET:urlString parameters:dict success:^(id responseObject) {
+    [GCHttpTool GET:url parameters:nil success:^(id responseObject) {
         
         success(responseObject);
         
@@ -328,6 +333,52 @@
 }
 
 
++ (void)getGoodsDetailPagePICWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
+{
+//    NSString *urlString=[NSString stringWithFormat:@"%@",GoodsDetailPIC_URL];
+    // Step1:拼接请求的参数
+    NSString *url = [NSString stringWithFormat:@"%@?", GoodsDetailPIC_URL];
+    for (NSString *key in [dict allKeys]) {
+        url = [NSString stringWithFormat:@"%@%@=%@&", url, key, [dict objectForKey:key]];
+//        url = [NSString stringWithFormat:@"%@%@=%@&", url, key, [NSString stringWithFormat:@"%@",[dict objectForKey:key]]];
+    }
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"当前URL请求【商品详情[图片列表]接口】为：%@",url);
+    NSLog(@"parameters参数为：%@",dict);
+//    url = [@"https://h5api.m.taobao.com/h5/mtop.taobao.detail.getdesc/6.0/?data={\"id\":\"576219480627\"}" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [GCHttpTool GET2:url parameters:nil success:^(id responseObject) {
+        
+        success(responseObject);
+        
+    } failure:^(MQError *error) {
+        
+        failure(error);
+        
+    }];
+}
+
+-(NSString *)convertToJsonData:(NSDictionary *)dict
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+    
+    if (!jsonData) {
+        NSLog(@"%@",error);
+    }else{
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+    //    NSRange range = {0,jsonString.length};
+    //    //去掉字符串中的空格
+    //    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+    NSRange range2 = {0,mutStr.length};
+    //去掉字符串中的换行符
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+    
+    return mutStr;
+}
 
 
 

@@ -25,7 +25,6 @@
 //    [mgr.requestSerializer willChangeValueForKey:@"timeoutInterval"];
 //    [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     
-    
     //判断请求参数中是否包含   “code” 或者 “token”
     if ([DCObjManager dc_readUserDataForKey:@"token"]&&[DCObjManager dc_readUserDataForKey:@"uid"]) {
         
@@ -63,7 +62,6 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSData *mJsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSLog(@"获取到的数据为：\n%@", [[NSString alloc] initWithData:mJsonData encoding:NSUTF8StringEncoding]);
-        
         
         if ([responseObject[@"code"] intValue]!=1000)
         {
@@ -151,21 +149,51 @@
      return str;
  }
 
+
++ (void)GET2:(NSString *)URLString parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(MQError *))failure
+{
+    // 创建请求管理者
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    [mgr.requestSerializer setTimeoutInterval:5.0];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //返回数据的序列化器
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html",@"text/plain",nil];
+    AFSecurityPolicy *security = [AFSecurityPolicy defaultPolicy];
+    security.allowInvalidCertificates = YES;
+    security.validatesDomainName = NO;
+    
+    [mgr GET:URLString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSData *mJsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+//        NSData *mJsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        
+//        NSLog(@"获取到的数据为：\n%@",mJsonData);
+        NSString *str = responseObject[@"data"][@"pcDescContent"];
+        
+        NSLog(@"获取到的数据为：\n%@",responseObject[@"data"][@"pcDescContent"]);
+//        if ([responseObject[@"code"] intValue]!=1000)
+//        {
+//            MQError *err=[[MQError alloc] init];
+//            err.code=[responseObject[@"code"] intValue];
+//            err.msg = responseObject[@"message"];
+//            failure(err);
+//        }else{
+            success(str);
+//        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        MQError *err=[MQError errorWithCode:-1 msg:@"网络请求失败"];
+        
+        failure(err);
+        
+    }];
+}
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

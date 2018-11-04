@@ -174,15 +174,14 @@
 + (void)getGoodsDetailWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure;
 
 
-
-
-
-
-
-
-
-
-
+/**
+ 商品详情[图片列表]接口
+ 
+ @param dict 传入字典
+ @param success 请求成功的回调
+ @param failure 请求失败的回调
+ */
++ (void)getGoodsDetailPagePICWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure;
 
 
 

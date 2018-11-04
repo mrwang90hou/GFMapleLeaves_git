@@ -7,15 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCRecommendItem2.h"
 
 @interface GFDetailGoodsReferralCell : UICollectionViewCell
-
-/* 商品标题 */
-//@property (strong , nonatomic)UILabel *goodTitleLabel;
-/* 商品价格 */
-//@property (strong , nonatomic)UILabel *goodPriceLabel;
-/* 商品小标题 */
-//@property (strong , nonatomic)UILabel *goodSubtitleLabel;
 
 /* 优惠按钮 */
 @property (strong , nonatomic)UIButton *preferentialButton;
@@ -25,25 +19,27 @@
 
 /*******************************************/
 
-/* 淘宝 logo */
-@property (strong , nonatomic)UIImageView *tbLogoImageView;
+/* 标题图片(天猫、淘宝) */
+@property (strong , nonatomic)UIImageView *goodsTitleImage;
 /* 商品标题 */
-@property (strong , nonatomic)UILabel *gridLabel;
+@property (strong , nonatomic)UILabel *goodsLabel;
 /* 淘宝|好货 */
-//@property (strong , nonatomic)UILabel * goodGridLabel;
+//@property (strong , nonatomic)UILabel * goodgoodsLabel;
 /* 价格 */
 @property (strong , nonatomic)UILabel *priceLabel;
 /* 满减 */
-@property (strong , nonatomic)UIButton *downPriceBtn;
-/* 天猫价格 */
-@property (strong , nonatomic)UILabel *tCatPriceLabel;
+@property (strong , nonatomic)UIButton *downPriceBtn;       //【异常点】
+/* 淘宝,天猫 价格 */
+@property (strong , nonatomic)UILabel *beforeDownPriceLabel;
 /* 月销量 */
-@property (strong , nonatomic)UILabel *mothSalesVolumeLabel;
+@property (strong , nonatomic)UILabel *mothSalesVolume;
 /* 好评率 */
-@property (strong , nonatomic)UILabel *goodsRateRLabel;
+@property (strong , nonatomic)UILabel *goodsRateRLabel;     //【异常点】
 /* 券 */
-@property (strong , nonatomic)UIButton *ticketBtn;
+@property (strong , nonatomic)UIButton *getTicketButton;
 
+/* 商品信息详细信息 */
+@property (strong , nonatomic)DCRecommendItem2 *goodsDetailsItem;
 
 
 

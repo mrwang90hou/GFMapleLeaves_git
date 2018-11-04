@@ -2,7 +2,7 @@
 //  GFGoodDetailViewController.m
 //  GFMapleLeaves
 //
-//  Created by 王宁 on 2018/10/29.
+//  Created by mrwang90hou on 2018/10/29.
 //  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
@@ -31,16 +31,16 @@
 // Views
 #import "DCLIRLButton.h"
 
-#import "DCDetailShufflingHeadView.h" //头部轮播
+#import "GFDetailShufflingHeadView.h" //头部轮播
 #import "GFDetailGoodsReferralCell.h"  //商品标题价格介绍
-#import "DCDetailShowTypeCell.h"      //种类
+#import "GFDetailShowTypeCell.h"      //种类
 #import "DCShowTypeOneCell.h"
 #import "DCShowTypeTwoCell.h"
 #import "DCShowTypeThreeCell.h"
 #import "DCShowTypeFourCell.h"
 #import "DCDetailServicetCell.h"      //服务
 #import "DCDetailLikeCell.h"          //猜你喜欢
-#import "DCDetailOverFooterView.h"    //尾部结束
+#import "GFDetailOverFooterView.h"    //尾部结束
 #import "DCDetailPartCommentCell.h"   //部分评论
 #import "GFDetailCustomHeadView.h"    //自定义头部
 #import "GFCheckBabyDetailsCell.h"      //查看宝贝详情
@@ -84,7 +84,7 @@
 @end
 
 //header
-static NSString *DCDetailShufflingHeadViewID = @"DCDetailShufflingHeadView";
+static NSString *GFDetailShufflingHeadViewID = @"GFDetailShufflingHeadView";
 static NSString *GFDetailCustomHeadViewID = @"GFDetailCustomHeadView";
 //cell
 static NSString *GFDetailGoodsReferralCellID = @"GFDetailGoodsReferralCell";
@@ -100,7 +100,7 @@ static NSString *DCDetailServicetCellID = @"DCDetailServicetCell";
 static NSString *DCDetailLikeCellID = @"DCDetailLikeCell";
 static NSString *DCDetailPartCommentCellID = @"DCDetailPartCommentCell";
 //footer
-static NSString *DCDetailOverFooterViewID = @"DCDetailOverFooterView";
+static NSString *GFDetailOverFooterViewID = @"GFDetailOverFooterView";
 
 
 static NSString *lastNum_;
@@ -137,7 +137,7 @@ static NSArray *lastSeleArray_;
         [self.scrollerView addSubview:_collectionView];
         
         //注册header
-        [_collectionView registerClass:[DCDetailShufflingHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDetailShufflingHeadViewID];
+        [_collectionView registerClass:[GFDetailShufflingHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailShufflingHeadViewID];
         [_collectionView registerClass:[GFDetailCustomHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailCustomHeadViewID];
         //注册Cell
         [_collectionView registerClass:[GFDetailGoodsReferralCell class] forCellWithReuseIdentifier:GFDetailGoodsReferralCellID];
@@ -146,7 +146,7 @@ static NSArray *lastSeleArray_;
         [_collectionView registerClass:[DCDetailPartCommentCell class] forCellWithReuseIdentifier:DCDetailPartCommentCellID];
         [_collectionView registerClass:[DCDetailServicetCell class] forCellWithReuseIdentifier:DCDetailServicetCellID];
         //注册Footer
-        [_collectionView registerClass:[DCDetailOverFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCDetailOverFooterViewID];
+        [_collectionView registerClass:[GFDetailOverFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:GFDetailOverFooterViewID];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"UICollectionElementKindSectionFooter"]; //间隔
         
     }
@@ -323,10 +323,10 @@ static NSArray *lastSeleArray_;
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             GFDetailGoodsReferralCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFDetailGoodsReferralCellID forIndexPath:indexPath];
-            cell.gridLabel.text = _goodTitle;
+            cell.goodsLabel.text = _goodTitle;
             cell.priceLabel.text = [NSString stringWithFormat:@"¥ %@",_goodPrice];
 //            cell.goodSubtitleLabel.text = _goodSubtitle;
-            [DCSpeedy dc_setUpLabel:cell.gridLabel Content:_goodTitle IndentationFortheFirstLineWith:cell.priceLabel.font.pointSize * 1];
+            [DCSpeedy dc_setUpLabel:cell.goodsLabel Content:_goodTitle IndentationFortheFirstLineWith:cell.priceLabel.font.pointSize * 1];
             cell.shareButtonClickBlock = ^{
 //                [weakSelf setUpAlterViewControllerWith:[DCShareToViewController new] WithDistance:300 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:NO WithFlipEnable:NO];
             };
@@ -353,7 +353,7 @@ static NSArray *lastSeleArray_;
     UICollectionReusableView *reusableview = nil;
     if (kind == UICollectionElementKindSectionHeader){
         if (indexPath.section == 0) {
-            DCDetailShufflingHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCDetailShufflingHeadViewID forIndexPath:indexPath];
+            GFDetailShufflingHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:GFDetailShufflingHeadViewID forIndexPath:indexPath];
             headerView.shufflingArray = _shufflingArray;
             reusableview = headerView;
         }else if (indexPath.section == 2){
@@ -362,7 +362,7 @@ static NSArray *lastSeleArray_;
         }
     }else if (kind == UICollectionElementKindSectionFooter){
         if (indexPath.section == 2) {
-            DCDetailOverFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DCDetailOverFooterViewID forIndexPath:indexPath];
+            GFDetailOverFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:GFDetailOverFooterViewID forIndexPath:indexPath];
             reusableview = footerView;
         }else{
             UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"UICollectionElementKindSectionFooter" forIndexPath:indexPath];

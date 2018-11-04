@@ -47,16 +47,16 @@
 {
     self.backgroundColor = [UIColor whiteColor];
     //淘宝logo
-    _tbLogoImageView = [[UIImageView alloc] init];
-    [self addSubview:_tbLogoImageView];
-    _tbLogoImageView.image = [UIImage imageNamed:@"taobao_icon"];
+    _goodsTitleImage = [[UIImageView alloc] init];
+    [self addSubview:_goodsTitleImage];
+//    _goodsTitleImage.image = [UIImage imageNamed:@"taobao_icon"];
     //商品名称
-    _gridLabel = [[UILabel alloc] init];
-    _gridLabel.font = PFR16Font;
-    _gridLabel.numberOfLines = 0;
-//    _gridLabel.numberOfLines = 2;
-    _gridLabel.textAlignment = NSTextAlignmentLeft;
-    [self addSubview:_gridLabel];
+    _goodsLabel = [[UILabel alloc] init];
+    _goodsLabel.font = PFR16Font;
+    _goodsLabel.numberOfLines = 0;
+//    _goodsLabel.numberOfLines = 2;
+    _goodsLabel.textAlignment = NSTextAlignmentLeft;
+    [self addSubview:_goodsLabel];
     
     //好评率
     _goodsRateRLabel = [[UILabel alloc] init];
@@ -79,25 +79,25 @@
     [_downPriceBtn setUserInteractionEnabled:NO];
     [self addSubview:_downPriceBtn];
     //天猫价
-    _tCatPriceLabel = [[UILabel alloc] init];
-    _tCatPriceLabel.font = PFR12Font;
-    _tCatPriceLabel.text = @"天猫价：168";
-    _tCatPriceLabel.textColor = TEXTGRAYCOLOR;
-    [self addSubview:_tCatPriceLabel];
+    _beforeDownPriceLabel = [[UILabel alloc] init];
+    _beforeDownPriceLabel.font = PFR12Font;
+//    _beforeDownPriceLabel.text = @"天猫价：168";
+    _beforeDownPriceLabel.textColor = TEXTGRAYCOLOR;
+    [self addSubview:_beforeDownPriceLabel];
     //月销量
-    _mothSalesVolumeLabel = [[UILabel alloc] init];
-    _mothSalesVolumeLabel.font = PFR12Font;
-    _mothSalesVolumeLabel.text = @"月销450";
-    _mothSalesVolumeLabel.textColor = TEXTGRAYCOLOR;
-    [self addSubview:_mothSalesVolumeLabel];
+    _mothSalesVolume = [[UILabel alloc] init];
+    _mothSalesVolume.font = PFR12Font;
+//    _mothSalesVolume.text = @"月销450";
+    _mothSalesVolume.textColor = TEXTGRAYCOLOR;
+    [self addSubview:_mothSalesVolume];
     //优惠券
-    _ticketBtn = [[UIButton alloc] init];
-    [_ticketBtn setBackgroundImage:SETIMAGE(@"my_collection_coupons_icon") forState:UIControlStateNormal];
-    [_ticketBtn setTitle:@"券￥50" forState:UIControlStateNormal];
-    [_ticketBtn setTitleColor:RGBall(255) forState:UIControlStateNormal];
-    _ticketBtn.titleLabel.font = PFR12Font;
-    [_ticketBtn setUserInteractionEnabled:NO];
-    [self addSubview:_ticketBtn];
+    _getTicketButton = [[UIButton alloc] init];
+    [_getTicketButton setBackgroundImage:SETIMAGE(@"my_collection_coupons_icon") forState:UIControlStateNormal];
+//    [_getTicketButton setTitle:@"券￥50" forState:UIControlStateNormal];
+    [_getTicketButton setTitleColor:RGBall(255) forState:UIControlStateNormal];
+    _getTicketButton.titleLabel.font = PFR12Font;
+    [_getTicketButton setUserInteractionEnabled:NO];
+    [self addSubview:_getTicketButton];
     
     
     _colonButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -114,14 +114,14 @@
 {
     [super layoutSubviews];
     
-    [_tbLogoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_goodsTitleImage mas_makeConstraints:^(MASConstraintMaker *make) {
         [make.left.mas_equalTo(self)setOffset:DCMargin];
         [make.top.mas_equalTo(self)setOffset:DCMargin];
     }];
     
-    [_gridLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_goodsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         [make.left.mas_equalTo(self)setOffset:DCMargin];
-        [make.top.mas_equalTo(self.tbLogoImageView)setOffset:-3];
+        [make.top.mas_equalTo(self.goodsTitleImage)setOffset:-3];
 //        [make.right.mas_equalTo(self)setOffset:-DCMargin * 5];
         [make.right.mas_equalTo(self)setOffset:-DCMargin];
     }];
@@ -133,8 +133,8 @@
     }];
     
     [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.tbLogoImageView);
-        [make.top.mas_equalTo(self.gridLabel.mas_bottom)setOffset:DCMargin];
+        make.left.equalTo(self.goodsTitleImage);
+        [make.top.mas_equalTo(self.goodsLabel.mas_bottom)setOffset:DCMargin];
     }];
 
     [_downPriceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -142,19 +142,19 @@
         make.centerY.equalTo(self.priceLabel);
     }];
     
-    [_tCatPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_beforeDownPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.downPriceBtn.mas_right).offset(DCMargin*2);
         make.centerY.equalTo(self.priceLabel);
     }];
 
-    [_mothSalesVolumeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.tCatPriceLabel.mas_right).offset(DCMargin);
-        make.centerY.equalTo(self.tCatPriceLabel);
+    [_mothSalesVolume mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.beforeDownPriceLabel.mas_right).offset(DCMargin);
+        make.centerY.equalTo(self.beforeDownPriceLabel);
     }];
 
-    [_ticketBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_getTicketButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.goodsRateRLabel);
-        make.centerY.equalTo(self.tCatPriceLabel);
+        make.centerY.equalTo(self.beforeDownPriceLabel);
     }];
 
     [_colonButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -164,7 +164,31 @@
     }];
     
     //竖直线条
-//    [DCSpeedy dc_setUpLongLineWith:_gridLabel WithColor:[[UIColor lightGrayColor]colorWithAlphaComponent:0.15] WithHightRatio:0.6];
+//    [DCSpeedy dc_setUpLongLineWith:_goodsLabel WithColor:[[UIColor lightGrayColor]colorWithAlphaComponent:0.15] WithHightRatio:0.6];
+}
+
+#pragma mark - Setter Getter Methods
+- (void)setGoodsDetailsItem:(DCRecommendItem2 *)goodsDetailsItem
+{
+//    if([[goodsDetailsItem.itempic substringToIndex:4] isEqualToString:@"http"]){
+//        [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:goodsDetailsItem.itempic]];
+//    }else{
+//        [_goodsImageView setImage:[UIImage imageNamed:goodsDetailsItem.itempic]];
+//    }
+    //    [_goodsTitleImage setImage:SETIMAGE(@"icon_taobao")];
+    //判断佣金条是否显示
+//    [goodsDetailsItem.tkmoney integerValue]==0 ?[_commissionLabel setHidden:YES]:[_commissionLabel setText:[NSString stringWithFormat:@"预估佣金：￥%lf",[goodsDetailsItem.tkmoney floatValue]]];
+    [_downPriceBtn setHidden:YES];
+    //淘宝&天猫店铺
+    [_goodsTitleImage setImage:SETIMAGE([goodsDetailsItem.shoptype isEqualToString:@"C"]?@"icon_taobao":@"icon_tianmao")];
+    _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[goodsDetailsItem.itemendprice floatValue]];
+    [_beforeDownPriceLabel setText:[goodsDetailsItem.shoptype isEqualToString:@"C"]?[NSString stringWithFormat:@"淘宝价：¥ %.2f",[goodsDetailsItem.itemprice floatValue]]:[NSString stringWithFormat:@"天猫价:¥ %.2f",[goodsDetailsItem.itemprice floatValue]]];
+    _goodsLabel.text = goodsDetailsItem.itemtitle;
+    [_getTicketButton setTitle:[NSString stringWithFormat:@"券￥%d",[goodsDetailsItem.couponmoney intValue]] forState:UIControlStateNormal];
+    [_mothSalesVolume setText:[NSString stringWithFormat:@"月销:%d",[goodsDetailsItem.itemsale intValue]]];
+    //首行缩进
+//    [DCSpeedy dc_setUpLabel:_goodsLabel Content:_goodsLabel.text IndentationFortheFirstLineWith:_goodsLabel.font.pointSize * 1.5];
+//    [DCSpeedy dc_setUpLabel:_goodsLabel Content:self.goodsDetailsItem.main_title IndentationFortheFirstLineWith:_priceLabel.font.pointSize * 1];
 }
 
 

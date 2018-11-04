@@ -30,7 +30,7 @@
 @property (strong , nonatomic)UIImageView *goodsTitleImage;
 /* 标题 */
 @property (strong , nonatomic)UILabel *goodsLabel;
-/* 淘宝价格 */
+/* 淘宝,天猫 价格 */
 @property (strong , nonatomic)UILabel *beforeDownPriceLabel;
 /* 月销量 */
 @property (strong , nonatomic)UILabel *mothSalesVolume;

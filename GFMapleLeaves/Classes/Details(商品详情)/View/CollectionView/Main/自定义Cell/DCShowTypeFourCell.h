@@ -1,12 +1,13 @@
 //
-//  GFShowBabyDetailsCell.h
+//  DCShowTypeFourCell.h
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/10/29.
+//  Created by mrwang90hou on 2019/9/26.
 //  Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
 #import "GFDetailShowTypeCell.h"
 
-@interface GFShowBabyDetailsCell : GFDetailShowTypeCell
+@interface DCShowTypeFourCell : GFDetailShowTypeCell
+
 @end

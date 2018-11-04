@@ -3,7 +3,7 @@
 //  GKFeedBackInfoCell.m
 //  GKBusCharging
 //
-//  Created by 王宁 on 2018/10/7.
+//  Created by mrwang90hou on 2018/10/7.
 //  Copyright © 2018年 goockr. All rights reserved.
 //
 

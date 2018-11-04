@@ -16,55 +16,6 @@
 @property (nonatomic , copy) NSString              * dataNumber;
 
 
-/*第1组：【录像设置】 5个
- 录像分辨率
- 录音
- 开机自动录像
- 碰撞触发灵敏度
- 循环录像
- */
-@property (nonatomic , copy) NSString              * videoResolution;
-@property (nonatomic , copy) NSString              * recordingOrNot;
-@property (nonatomic , copy) NSString              * videoAuto;
-@property (nonatomic , copy) NSString              * accidentSensitivity;
-@property (nonatomic , copy) NSString              * loopVideo;
-
-/*第2组：【拍照设置】 3个
- 拍照分辨率
- 连拍
- 时间水印
- */
-
-@property (nonatomic , copy) NSString              * imageResolution;
-@property (nonatomic , copy) NSString              * shoots;
-@property (nonatomic , copy) NSString              * logoTimeStamp;
-@property (nonatomic , copy) NSString              * logoTimeStampDebug;
-/*第3组：【通用设置】 5个
- 关机延时录像
- 停车监控
- 闪烁频率
- 高动态HDR
- 屏幕翻转
- */
-
-@property (nonatomic , copy) NSString              * shutdownDelayVideo;
-@property (nonatomic , copy) NSString              * parkingMonitoring;
-@property (nonatomic , copy) NSString              * flickerFrequency;
-@property (nonatomic , copy) NSString              * highDynamicHDR;
-@property (nonatomic , copy) NSString              * screenRotation;
-
-/*第4组：【设备设置】 5个
- 固件版本
- SD卡信息
- Wi-Fi设置
- 同步时间
- 恢复出厂设置
- */
-@property (nonatomic , copy) NSString              * firmwareVersion;
-@property (nonatomic , copy) NSString              * sdCardInformation;
-@property (nonatomic , copy) NSString              * wi_fiSettings;
-@property (nonatomic , copy) NSString              * synchronizeTime;
-@property (nonatomic , copy) NSString              * factoryDataReset;
 
 @end
 
@@ -82,8 +33,6 @@
 @property (nonatomic, assign ,readonly) int lastPage;
 
 @property (nonatomic, copy ,readonly) NSArray<GFGuessLikeItem *> * gfGuessLikeItem;
-
-
 
 
 /** 商品ID */
@@ -144,44 +93,6 @@
 @property (nonatomic, copy ,readonly) NSString *nature;
 /* 头部轮播 */
 @property (copy , nonatomic , readonly)NSArray *images;
-
-
-            //"guide_article": null,
-            //"videoid": "0",
-            //"activity_type": "普通活动",
-            //"clickurl": null,
-            //"userid": "4013954355",
-            //"sellernick": "豫硕旗舰店",
-            //"online_users": null,
-            //"tktype": "营销计划",
-            //"tkrates": 20,
-            //"cuntao": 0,
-            //"tkmoney": 5.76,
-            //"tkurl": "",
-            //"couponreceive2": 14500,
-            //"couponnum": 50000,
-            //"couponexplain": "单笔满38元可用",
-            //"couponstarttime": 1536076800,
-            //"couponendtime": 1536335999,
-            //"start_time": null,
-            //"end_time": null,
-            //"starttime": 1536076800,
-            //"isquality": 0,
-            //"report_status": 0,
-            //"general_index": null,
-            //"seller_name": null,
-            //"original_img": null,
-            //"original_article": null,
-            //"is_explosion": null,
-            //"couponsurplus": "24000",
-            //"couponreceive": "26000",
-            //"todaycouponreceive": null,
-            //"planlink": null,
-            //"discount": null,
-            //"me": null,
-            //"status": 1,
-            //"activityid": null,
-            //"coupon_condition": null
 
 
 

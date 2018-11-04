@@ -196,7 +196,9 @@
     //淘宝&天猫店铺
     [_goodsTitleImage setImage:SETIMAGE([youLikeItem.shoptype isEqualToString:@"C"]?@"icon_taobao":@"icon_tianmao")];
     _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youLikeItem.itemendprice floatValue]];
-    [_beforeDownPriceLabel setText:[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youLikeItem.itemprice floatValue]]];
+//    [_beforeDownPriceLabel setText:[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youLikeItem.itemprice floatValue]]];
+    
+    [_beforeDownPriceLabel setText:[youLikeItem.shoptype isEqualToString:@"C"]?[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youLikeItem.itemprice floatValue]]:[NSString stringWithFormat:@"天猫价：¥ %.2f",[youLikeItem.itemprice floatValue]]];
     _goodsLabel.text = youLikeItem.itemtitle;
     [_getTicketButton setTitle:[NSString stringWithFormat:@"代金券￥%d",[youLikeItem.couponmoney intValue]] forState:UIControlStateNormal];
     [_mothSalesVolume setText:[NSString stringWithFormat:@"月销：%d",[youLikeItem.itemsale intValue]]];

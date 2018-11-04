@@ -743,12 +743,13 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //        DCGoodBaseViewController *dcVc = [[DCGoodBaseViewController alloc] init];
 //        GFGoodDetailViewController *dcVc = [[GFGoodDetailViewController alloc] init];
         GFGoodDetailNewViewController *dcVc = [[GFGoodDetailNewViewController alloc] init];
-        dcVc.goodsID = _youLikeItem2[indexPath.row].itemid;
-        dcVc.goodTitle = _youLikeItem2[indexPath.row].itemtitle;
-        dcVc.goodPrice = _youLikeItem2[indexPath.row].itemprice;
-        dcVc.goodSubtitle = _youLikeItem2[indexPath.row].itemdesc;
-        dcVc.shufflingArray = @[_youLikeItem2[indexPath.row].itempic];
-        dcVc.goodImageView = _youLikeItem2[indexPath.row].itempic;
+//        dcVc.goodsID = _youLikeItem2[indexPath.row].itemid;
+//        dcVc.goodTitle = _youLikeItem2[indexPath.row].itemtitle;
+//        dcVc.goodPrice = _youLikeItem2[indexPath.row].itemprice;
+//        dcVc.goodSubtitle = _youLikeItem2[indexPath.row].itemdesc;
+//        dcVc.shufflingArray = @[_youLikeItem2[indexPath.row].itempic];
+//        dcVc.goodImageView = _youLikeItem2[indexPath.row].itempic;
+        dcVc.goodsDetailsItem = [_youLikeItem2 objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dcVc animated:YES];
     }
 }

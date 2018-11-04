@@ -43,7 +43,11 @@
     self.leftTitleLable.text = @"查看宝贝详情";
     [self addSubview:self.iconImageView];
     self.iconImageView.image = [UIImage imageNamed:@"nav_btn_down_icon"];
-    [self.iconImageView setHidden:YES];
+//    self.iconImageView.image = [UIImage imageNamed:@"nav_btn_back_default"];
+//    self.iconImageView.image = [UIImage imageNamed:@"nav_btn_back_default_down"];
+//    [self.iconImageView setHidden:YES];
+    [self.indicateButton setUserInteractionEnabled:NO];
+    
 }
 
 - (void)layoutSubviews
@@ -63,10 +67,10 @@
 
 
 -(void)setDetailsImageHidden:(Boolean *)bl{
-    if (bl) {
-        self.iconImageView.transform = CGAffineTransformMakeRotation(M_PI);
+    if (!bl) {
+        self.indicateButton.transform = CGAffineTransformMakeRotation(M_PI/2);
     }else{
-        self.iconImageView.transform = CGAffineTransformIdentity;
+        self.indicateButton.transform = CGAffineTransformIdentity;
     }
 }
 #pragma mark - Setter Getter Methods

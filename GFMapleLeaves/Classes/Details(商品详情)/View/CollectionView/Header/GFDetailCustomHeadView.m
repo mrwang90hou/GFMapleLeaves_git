@@ -44,17 +44,27 @@
 
 - (void)setUpUI
 {
-    self.backgroundColor = [UIColor whiteColor];
+//    self.backgroundColor = [UIColor whiteColor];
     
 //    _guessMarkLabel = [[UILabel alloc] init];
 //    _guessMarkLabel.text = @"猜你喜欢";
 //    _guessMarkLabel.font = PFR15Font;
 //    [self addSubview:_guessMarkLabel];
+    
+    UIView *uiView = [[UIView alloc]init];
+    [self addSubview:uiView];
+    [uiView setBackgroundColor:[UIColor whiteColor]];
+    [uiView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.left.right.equalTo(self);
+        make.height.mas_equalTo(25);
+    }];
+    
+    
     _guessMarkImage = [[UIImageView alloc]initWithImage:SETIMAGE(@"home_icon_guestyoulike")];
-    [self addSubview:_guessMarkImage];
+    [uiView addSubview:_guessMarkImage];
     [_guessMarkImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(150, 25));
+        make.center.equalTo(uiView);
+        make.size.mas_equalTo(CGSizeMake(120, 20));
     }];
     
     

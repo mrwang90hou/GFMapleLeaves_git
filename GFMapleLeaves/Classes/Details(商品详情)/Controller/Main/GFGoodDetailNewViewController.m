@@ -39,7 +39,7 @@
 #import "DCShowTypeThreeCell.h"
 #import "DCShowTypeFourCell.h"
 #import "DCDetailServicetCell.h"      //服务
-#import "DCDetailLikeCell.h"          //猜你喜欢
+#import "DCGoodsYouLikeCell.h"          //猜你喜欢
 #import "DCDetailOverFooterView.h"    //尾部结束
 #import "DCDetailPartCommentCell.h"   //部分评论
 #import "GFDetailCustomHeadView.h"    //自定义头部
@@ -91,7 +91,8 @@
 
 @property(nonatomic,assign)Boolean *setDetailsImageHidden;
 
-
+/* 猜你喜欢 */
+@property (strong , nonatomic)NSMutableArray<DCRecommendItem2 *> *youLikeItem2;
 
 @end
 
@@ -109,7 +110,7 @@ static NSString *GFCheckBabyDetailsCellID = @"GFCheckBabyDetailsCell";
 
 
 static NSString *DCDetailServicetCellID = @"DCDetailServicetCell";
-static NSString *DCDetailLikeCellID = @"DCDetailLikeCell";
+static NSString *DCGoodsYouLikeCellID = @"DCGoodsYouLikeCell";
 static NSString *DCDetailPartCommentCellID = @"DCDetailPartCommentCell";
 //footer
 static NSString *DCDetailOverFooterViewID = @"DCDetailOverFooterView";
@@ -155,7 +156,7 @@ static NSArray *lastSeleArray_;
         //注册Cell
         [_collectionView registerClass:[GFDetailGoodsReferralCell class] forCellWithReuseIdentifier:GFDetailGoodsReferralCellID];
         [_collectionView registerClass:[GFCheckBabyDetailsCell class] forCellWithReuseIdentifier:GFCheckBabyDetailsCellID];
-        [_collectionView registerClass:[DCDetailLikeCell class] forCellWithReuseIdentifier:DCDetailLikeCellID];
+        [_collectionView registerClass:[DCGoodsYouLikeCell class] forCellWithReuseIdentifier:DCGoodsYouLikeCellID];
         [_collectionView registerClass:[DCDetailPartCommentCell class] forCellWithReuseIdentifier:DCDetailPartCommentCellID];
         [_collectionView registerClass:[DCDetailServicetCell class] forCellWithReuseIdentifier:DCDetailServicetCellID];
         //注册Footer
@@ -176,7 +177,7 @@ static NSArray *lastSeleArray_;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.setDetailsImageHidden = false;
+    self.setDetailsImageHidden = true;
     [self getData];
     [self setUpInit];
     
@@ -234,6 +235,49 @@ static NSArray *lastSeleArray_;
     } failure:^(MQError *error) {
         [SVProgressHUD showErrorWithStatus:error.msg];
     }];
+    
+    
+    NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
+    /*猜你喜欢*/
+    // 【请求三】猜你喜欢列表
+    [GCHttpDataTool getGuestLikeWithDict:nil success:^(id responseObject) {
+        
+        NSArray *dataArray = responseObject[@"data"];
+        for (NSDictionary *dict in dataArray) {
+            DCRecommendItem2 *model = [DCRecommendItem2 new];
+            //                model.itemid = [dict[@"itemid"] intValue];
+            model.itemid = [dict objectForKey:@"itemid"];
+            
+            model.itemtitle = dict[@"itemtitle"];
+            model.itemdesc = dict[@"itemdesc"];
+            model.itemprice = dict[@"itemprice"];
+            model.itemsale = dict[@"itemsale"];
+            //                model.todaysale = [dict[@"todaysale"] intValue];
+            model.todaysale = [dict objectForKey:@"todaysale"];
+            if ((NSNull*)model.todaysale == [NSNull null]) {
+                model.todaysale = @"";
+            }
+            model.itempic = dict[@"itempic"];
+            model.itemendprice = dict[@"itemendprice"];
+            model.shoptype = dict[@"shoptype"];
+            model.couponurl = dict[@"couponurl"];
+            model.couponmoney = dict[@"couponmoney"];
+            model.videoid = dict[@"videoid"];
+            model.tkmoney = dict[@"tkmoney"];
+            [youLikeItem2 addObject:model];
+        }
+        //回到主线程更新UI -> 撤销遮罩
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.youLikeItem2 = [youLikeItem2 copy];
+            [self.collectionView reloadData];
+        });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+    
+    
+    
+    
 }
 //过滤后台返回字符串中的标签
 - (NSString *)flattenHTML:(NSString *)html {
@@ -451,7 +495,7 @@ static NSArray *lastSeleArray_;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return (section == 0 ) ? 2 : (section == 1) ? self.dataArray.count : 1;
+    return (section == 0 ) ? 2 : (section == 1) ? self.dataArray.count : _youLikeItem2.count;
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -471,6 +515,7 @@ static NSArray *lastSeleArray_;
         }else if (indexPath.row == 1){
             //查看宝贝参数详情
             GFCheckBabyDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFCheckBabyDetailsCellID forIndexPath:indexPath];
+            [cell setDetailsImageHidden:self.setDetailsImageHidden];
             gridcell = cell;
         }
     }else if (indexPath.section == 1){
@@ -497,7 +542,13 @@ static NSArray *lastSeleArray_;
         
         gridcell = cell;
     }else if (indexPath.section == 2){
-        DCDetailLikeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCDetailLikeCellID forIndexPath:indexPath];
+//        DCDetailLikeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCDetailLikeCellID forIndexPath:indexPath];
+        DCGoodsYouLikeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsYouLikeCellID forIndexPath:indexPath];
+        cell.getTicketBlock = ^{
+            NSLog(@"点击了第%zd商品的领券",indexPath.row);
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"您已成功领取第%zd商品的代金券",indexPath.row+1]];
+        };
+        cell.youLikeItem = _youLikeItem2[indexPath.row];
         gridcell = cell;
     }
     
@@ -533,22 +584,25 @@ static NSArray *lastSeleArray_;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) { //商品详情
         return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
-    }else if (indexPath.section == 1){//商品评价部分展示
+    }else if (indexPath.section == 1){//查看宝贝详情
 //        return CGSizeMake(ScreenW, (ScreenH-50)/5*4+40);
 //        return CGSizeMake(ScreenW, 0);
         NSString *url = self.dataArray[indexPath.row];
 //        return  (indexPath.row == 0) ? CGSizeMake(ScreenW,35) : CGSizeMake(ScreenW,[XHWebImageAutoSize imageHeightForURL:[NSURL URLWithString:url] layoutWidth:SCREEN_WIDTH-16 estimateHeight:200]);
         return self.setDetailsImageHidden ? CGSizeMake(ScreenW, 0) : CGSizeMake(ScreenW,[XHWebImageAutoSize imageHeightForURL:[NSURL URLWithString:url] layoutWidth:SCREEN_WIDTH-16 estimateHeight:200]);
-    }else if (indexPath.section == 2){//商品猜你喜欢
-        return CGSizeMake(ScreenW, (ScreenW / 3 + 60) * 2 + 20);
+//    }else if (indexPath.section == 2){//商品猜你喜欢
+//        return CGSizeMake(ScreenW, (ScreenW / 3 + 60) * 2 + 20);
     }else{
-        return CGSizeZero;
+//        return CGSizeMake(ScreenW, (ScreenW / 3 + 60) * 2 + 20);
+        return CGSizeMake((ScreenW - 4)/2, (ScreenW - 4)/2 + 80);
+//        return CGSizeZero;
     }
 }
 
+
 #pragma mark - header宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return (section == 0) ?  CGSizeMake(ScreenW, ScreenH * 0.55) : ( section == 2) ? CGSizeMake(ScreenW, 30) : CGSizeZero;
+    return (section == 0) ?  CGSizeMake(ScreenW, ScreenH * 0.55) : ( section == 2) ? CGSizeMake(ScreenW, 40) : CGSizeZero;
 }
 
 #pragma mark - footter宽高
@@ -569,15 +623,20 @@ static NSArray *lastSeleArray_;
     //        dcFeaVc.goodImageView = _goodImageView;
     //        [self setUpAlterViewControllerWith:dcFeaVc WithDistance:ScreenH * 0.8 WithDirection:XWDrawerAnimatorDirectionBottom WithParallaxEnable:YES WithFlipEnable:YES];
     //    }
-    if (indexPath.section == 0 && indexPath.row == 1 && !self.setDetailsImageHidden) {
-        self.setDetailsImageHidden = true;
+    if (indexPath.section == 0 && indexPath.row == 1) {
+        if (!self.setDetailsImageHidden) {
+            self.setDetailsImageHidden = true;
+        }else{
+            self.setDetailsImageHidden = false;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            //        [self.collectionView reloadSections:[NSIndexPath indexPathForRow:0 inSection:1]];
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+        });
     }else{
-        self.setDetailsImageHidden = false;
+        [SVProgressHUD showInfoWithStatus:@"暂未开放"];
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadData];
-    });
-//    [self.collectionView reloadData];
 }
 
 #pragma mark - 视图滚动

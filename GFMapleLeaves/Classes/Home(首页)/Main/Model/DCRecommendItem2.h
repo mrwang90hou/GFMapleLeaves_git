@@ -2,26 +2,26 @@
 //  DCRecommendItem2.h
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/10.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/10.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface DCRecommendItem2 : NSObject
-
-/** 图片URL */
-@property (nonatomic, copy) NSString *image_url;
-/** 商品标题 */
-@property (nonatomic, copy) NSString *main_title;
-/** 商品小标题 */
-@property (nonatomic, copy) NSString *goods_title;
-/** 商品价格 */
-@property (nonatomic, copy) NSString *price;
-/** 剩余 */
-@property (nonatomic, copy) NSString *stock;
-/** 属性 */
-@property (nonatomic, copy) NSString *nature;
+//
+///** 图片URL */
+//@property (nonatomic, copy) NSString *image_url;
+///** 商品标题 */
+//@property (nonatomic, copy) NSString *main_title;
+///** 商品小标题 */
+//@property (nonatomic, copy) NSString *goods_title;
+///** 商品价格 */
+//@property (nonatomic, copy) NSString *price;
+///** 剩余 */
+//@property (nonatomic, copy) NSString *stock;
+///** 属性 */
+//@property (nonatomic, copy) NSString *nature;
 /* 头部轮播 */
 @property (copy , nonatomic , readonly)NSArray *images;
 

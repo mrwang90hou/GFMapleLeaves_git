@@ -73,7 +73,7 @@
  */
 + (void) getTodayBuyWithDict:(NSDictionary *)dict success:(void (^)(id responseObject))success failure:(void (^)(MQError *error))failure;
 
-
++(void)getHandPinkWithDict:(NSDictionary *)dict typeNumber:(NSInteger)type success:(void (^)(id))success failure:(void (^)(MQError *))failure;
 
 /**
  视频购买

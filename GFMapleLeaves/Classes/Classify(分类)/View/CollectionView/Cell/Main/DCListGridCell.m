@@ -25,6 +25,8 @@
 
 /* 商品图片 */
 @property (strong , nonatomic)UIImageView *gridImageView;
+//视频播放按钮
+@property (strong , nonatomic)UIImageView *videoView;
 /* 淘宝 logo */
 @property (strong , nonatomic)UIImageView *tbLogoImageView;
 /* 商品标题 */
@@ -74,6 +76,10 @@
     _gridImageView = [[UIImageView alloc] init];
     _gridImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:_gridImageView];
+    //视频播放按钮
+    _videoView = [[UIImageView alloc]init];
+    [_videoView setImage:SETIMAGE(@"icon_video_default")];
+    [self addSubview:_videoView];
     _tbLogoImageView = [[UIImageView alloc] init];
 //    _tbLogoImageView.image = [UIImage imageNamed:@"icon_taobao"];
     [self addSubview:_tbLogoImageView];
@@ -141,14 +147,17 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
     [_gridImageView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.centerY.mas_equalTo(self);
         make.top.mas_equalTo(self).offset(5);
         [make.left.mas_equalTo(self)setOffset:DCMargin * 2];
         make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
-    
+    [_videoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.gridImageView);
+        make.centerY.mas_equalTo(self.gridImageView);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
     [_tbLogoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         [make.left.mas_equalTo(self.gridImageView.mas_right)setOffset:20];
         [make.top.mas_equalTo(self.gridLabel)setOffset:4];
@@ -214,6 +223,12 @@
 //    _gridLabel.text = youSelectItem.main_title;
 //    //首行缩进
 //    [DCSpeedy dc_setUpLabel:_gridLabel Content:youSelectItem.main_title IndentationFortheFirstLineWith:_gridLabel.font.pointSize * 2.5];
+    
+    
+    
+    //判断视频View是否显示
+    [youSelectItem.videoid integerValue]==0 ?[_videoView setHidden:YES]:[_videoView setHidden:NO];
+    
     [_gridImageView sd_setImageWithURL:[NSURL URLWithString:youSelectItem.itempic]];
     //淘宝&天猫店铺
     [_tbLogoImageView setImage:SETIMAGE([youSelectItem.shoptype isEqualToString:@"C"]?@"icon_taobao":@"icon_tianmao")];

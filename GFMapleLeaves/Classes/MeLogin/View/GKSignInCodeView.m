@@ -8,7 +8,7 @@
 
 #import "GKSignInCodeView.h"
 // Controllers
-#import "DCHandPickViewController.h"
+#import "GFHomeViewController.h"
 #import "DCBeautyMessageViewController.h"
 #import "DCMediaListViewController.h"
 #import "DCBeautyShopViewController.h"
@@ -281,8 +281,8 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:^{
 ////            [weakSelf endEditing:YES];
-////            NSLog(@"VC:%@  %@",[[DCSpeedy dc_getCurrentVC] class],[DCHandPickViewController class]);
-//            if ([@[[DCHandPickViewController class],[DCBeautyMessageViewController class],[DCMediaListViewController class],[DCBeautyShopViewController class]] containsObject:[[DCSpeedy dc_getCurrentVC] class]]) { //过滤
+////            NSLog(@"VC:%@  %@",[[DCSpeedy dc_getCurrentVC] class],[GFHomeViewController class]);
+//            if ([@[[GFHomeViewController class],[DCBeautyMessageViewController class],[DCMediaListViewController class],[DCBeautyShopViewController class]] containsObject:[[DCSpeedy dc_getCurrentVC] class]]) { //过滤
 //                [[NSNotificationCenter defaultCenter]postNotificationName:LOGINSELECTCENTERINDEX object:nil];
 //            }
 //            [SVProgressHUD dismiss];
@@ -306,8 +306,8 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:^{
                     [weakSelf endEditing:YES];
-                    NSLog(@"VC:%@  %@",[[DCSpeedy dc_getCurrentVC] class],[DCHandPickViewController class]);
-                    if ([@[[DCHandPickViewController class],[DCBeautyMessageViewController class],[DCMediaListViewController class],[DCBeautyShopViewController class]] containsObject:[[DCSpeedy dc_getCurrentVC] class]]) { //过滤
+                    NSLog(@"VC:%@  %@",[[DCSpeedy dc_getCurrentVC] class],[GFHomeViewController class]);
+                    if ([@[[GFHomeViewController class],[DCBeautyMessageViewController class],[DCMediaListViewController class],[DCBeautyShopViewController class]] containsObject:[[DCSpeedy dc_getCurrentVC] class]]) { //过滤
                         [[NSNotificationCenter defaultCenter]postNotificationName:LOGINSELECTCENTERINDEX object:nil];
                     }
                 }];

@@ -57,7 +57,14 @@
 
 +(void)getGuestLikeWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@",GuestLike_URL];
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@?",GuestLike_URL];
+    // Step1:拼接请求的参数
+    for (NSString *key in [dict allKeys]) {
+        urlString = [NSString stringWithFormat:@"%@%@=%@&", urlString, key, [dict objectForKey:key]];
+    }
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     NSLog(@"当前URL请求【猜你喜欢列表】为：%@",urlString);
     NSLog(@"parameters参数为：%@",dict);
     
@@ -135,6 +142,31 @@
 
 }
 
++(void)getHandPinkWithDict:(NSDictionary *)dict typeNumber:(NSInteger)type success:(void (^)(id))success failure:(void (^)(MQError *))failure
+{
+    NSArray *arrStr =  @[@"今日关注",@"视频购买",@"限时抢购",@"超级划算",@"9块9包邮"];
+    NSArray *typeURL = @[TodayBuy_URL,VideoList_URL,LimitList_URL,CJHSList_URL,NineList_URL];
+    NSString *urlString=[NSString stringWithFormat:@"%@?",[typeURL objectAtIndex:type]];
+    // Step1:拼接请求的参数
+    for (NSString *key in [dict allKeys]) {
+        urlString = [NSString stringWithFormat:@"%@%@=%@&", urlString, key, [dict objectForKey:key]];
+    }
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"当前URL请求【%@】为：%@",[arrStr objectAtIndex:type],urlString);
+    NSLog(@"parameters参数为：%@",dict);
+    
+    [GCHttpTool GET:urlString parameters:dict success:^(id responseObject) {
+        
+        success(responseObject);
+        
+    } failure:^(MQError *error) {
+        
+        failure(error);
+        
+    }];
+    
+}
+
 +(void)getVideoListWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
     NSString *urlString=[NSString stringWithFormat:@"%@",VideoList_URL];
@@ -176,7 +208,7 @@
 
 + (void)getJHSListWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@",JHSList_URL];
+    NSString *urlString=[NSString stringWithFormat:@"%@",CJHSList_URL];
     NSLog(@"当前URL请求【超级划算】为：%@",urlString);
     NSLog(@"parameters参数为：%@",dict);
     

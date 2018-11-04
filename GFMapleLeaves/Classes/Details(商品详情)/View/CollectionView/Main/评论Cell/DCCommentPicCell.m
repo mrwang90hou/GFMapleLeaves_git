@@ -2,8 +2,8 @@
 //  DCCommentPicCell.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/27.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/27.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "DCCommentPicCell.h"

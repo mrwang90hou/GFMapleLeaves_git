@@ -2,8 +2,8 @@
 //  GFHotRecommendedHeadView.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/11/1.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/11/1.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "GFHotRecommendedHeadView.h"

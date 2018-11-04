@@ -2,8 +2,8 @@
 //  DCGoodsYouLikeCell.h
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/10.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/10.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -37,7 +37,7 @@
 /* 价格 */
 @property (strong , nonatomic)UILabel *priceLabel;
 /* 视频播放btn */
-@property (nonatomic,strong) UIButton *videoBtn;
+@property (nonatomic,strong) UIImageView *videoView;
 ///** 找相似点击回调 */
 //@property (nonatomic, copy) dispatch_block_t lookSameBlock;
 

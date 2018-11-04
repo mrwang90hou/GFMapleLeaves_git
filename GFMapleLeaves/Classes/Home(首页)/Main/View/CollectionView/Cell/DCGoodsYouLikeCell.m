@@ -2,8 +2,8 @@
 //  DCGoodsYouLikeCell.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/10.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/10.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #define cellWH ScreenW * 0.5 - 50
@@ -50,9 +50,9 @@
     _goodsImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:_goodsImageView];
     //视频播放按钮
-    _videoBtn = [[UIButton alloc]init];
-    [_videoBtn setImage:@"" forState:UIControlStateNormal];
-    
+    _videoView = [[UIImageView alloc]init];
+    [_videoView setImage:SETIMAGE(@"icon_video_default")];
+    [self addSubview:_videoView];
     //底部佣金条
     _bottomView= [[UIView alloc]init];
     _bottomView.backgroundColor = [UIColor orangeColor];
@@ -128,7 +128,11 @@
         make.center.mas_equalTo(weakSelf.view);
         make.size.mas_equalTo(weakSelf.view);
     }];
-    
+    [_videoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(weakSelf.goodsImageView);
+        make.centerY.mas_equalTo(weakSelf.goodsImageView);
+        make.size.mas_equalTo(CGSizeMake((ScreenW-10)/4, (ScreenW-10)/4));
+    }];
     [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.left.right.equalTo(self.view);
@@ -190,6 +194,9 @@
     }else{
         [_goodsImageView setImage:[UIImage imageNamed:youLikeItem.itempic]];
     }
+    
+    //判断视频View是否显示
+    [youLikeItem.videoid integerValue]==0 ?[_videoView setHidden:YES]:[_videoView setHidden:NO];
 //    [_goodsTitleImage setImage:SETIMAGE(@"icon_taobao")];
     //判断佣金条是否显示
     [youLikeItem.tkmoney integerValue]==0 ?[_commissionLabel setHidden:YES]:[_commissionLabel setText:[NSString stringWithFormat:@"预估佣金：￥%lf",[youLikeItem.tkmoney floatValue]]];
@@ -197,7 +204,6 @@
     [_goodsTitleImage setImage:SETIMAGE([youLikeItem.shoptype isEqualToString:@"C"]?@"icon_taobao":@"icon_tianmao")];
     _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youLikeItem.itemendprice floatValue]];
 //    [_beforeDownPriceLabel setText:[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youLikeItem.itemprice floatValue]]];
-    
     [_beforeDownPriceLabel setText:[youLikeItem.shoptype isEqualToString:@"C"]?[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youLikeItem.itemprice floatValue]]:[NSString stringWithFormat:@"天猫价：¥ %.2f",[youLikeItem.itemprice floatValue]]];
     _goodsLabel.text = youLikeItem.itemtitle;
     [_getTicketButton setTitle:[NSString stringWithFormat:@"代金券￥%d",[youLikeItem.couponmoney intValue]] forState:UIControlStateNormal];

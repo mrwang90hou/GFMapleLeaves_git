@@ -2,8 +2,8 @@
 //  DCRegisteredViewController.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/28.
-//Copyright © 2019年 STO. All rights reserved.
+//  Created by mrwang90hou on 2018/9/28.
+//Copyright © 2018年 STO. All rights reserved.
 //
 
 #import "DCRegisteredViewController.h"

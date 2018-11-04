@@ -6,9 +6,9 @@
 //  Copyright © 2019年 mrwang90hou. All rights reserved.
 //
 
-#import "DCDetailShowTypeCell.h"
+#import "GFDetailShowTypeCell.h"
 
-@interface GFCheckBabyDetailsCell : DCDetailShowTypeCell
+@interface GFCheckBabyDetailsCell : GFDetailShowTypeCell
 
 -(void)setDetailsImageHidden:(Boolean *)bl;
 @end

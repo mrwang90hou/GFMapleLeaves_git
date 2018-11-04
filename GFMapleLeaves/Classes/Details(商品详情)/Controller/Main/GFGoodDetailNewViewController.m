@@ -204,17 +204,17 @@ static NSArray *lastSeleArray_;
                           @"itemid" : self.goodsDetailsItem.itemid
                           };
     [GCHttpDataTool getGoodsDetailWithDict:dic success:^(id responseObject) {
-        NSMutableArray *adBanerArr = [NSMutableArray array];
-        NSMutableArray *imageJumpURLArray = [NSMutableArray array];
-        NSArray *dataArray = responseObject[@"data"];
-        for (NSDictionary *dict in dataArray) {
+        NSDictionary *dict= responseObject[@"data"];
+//        for (NSDictionary *dict in dataArray) {
 //            [adBanerArr addObject:dict[@"adimg"]];
 //            [imageJumpURLArray addObject:dict[@"jumpurl"]];
 //            self.goodImageView = dict[@"itempic"];
-//            self.shufflingArray = @[dict[@"itempic"]];
-        }
+//            self.shufflingArray
+            self.shufflingArray = @[dict[@"itempic"]];
+//        }
         //回到主线程更新UI -> 撤销遮罩
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [self.collectionView reloadData];
         });
     } failure:^(MQError *error) {
@@ -448,7 +448,8 @@ static NSArray *lastSeleArray_;
 }
 
 -(void)returnToHomeVC{
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 点击事件
@@ -476,7 +477,6 @@ static NSArray *lastSeleArray_;
         vc.title = @"领券";
         vc.webViewUrl = self.goodsDetailsItem.couponurl;
         [self.navigationController pushViewController:vc animated:YES];
-        
     }
 }
 
@@ -484,6 +484,7 @@ static NSArray *lastSeleArray_;
 #pragma 退出界面
 - (void)selfAlterViewback{
 //    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 消失
@@ -593,8 +594,8 @@ static NSArray *lastSeleArray_;
     if (indexPath.section == 0) { //商品详情
 //        return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodTitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:_goodPrice WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
         
-        NSLog(@"%f",[DCSpeedy dc_calculateTextSizeWithText:_goodsDetailsItem.itemtitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height);
-        NSLog(@"%f",[DCSpeedy dc_calculateTextSizeWithText:[NSString stringWithFormat:@"%@",_goodsDetailsItem.itemendprice] WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height);
+//        NSLog(@"%f",[DCSpeedy dc_calculateTextSizeWithText:_goodsDetailsItem.itemtitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height);
+//        NSLog(@"%f",[DCSpeedy dc_calculateTextSizeWithText:[NSString stringWithFormat:@"%@",_goodsDetailsItem.itemendprice] WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height);
         
         return (indexPath.row == 0) ? CGSizeMake(ScreenW, [DCSpeedy dc_calculateTextSizeWithText:_goodsDetailsItem.itemtitle WithTextFont:16 WithMaxW:ScreenW - DCMargin * 6].height + [DCSpeedy dc_calculateTextSizeWithText:[NSString stringWithFormat:@"%@",_goodsDetailsItem.itemendprice] WithTextFont:20 WithMaxW:ScreenW - DCMargin * 6].height + DCMargin * 2) : CGSizeMake(ScreenW, 35);
         

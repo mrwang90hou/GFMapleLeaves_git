@@ -1,21 +1,21 @@
 //
-//  GKReturnWebViewController.m
+//  GFReturnWebViewController.m
 //  GFMapleLeaves
 //
 //  Created by 王宁 on 2018/11/4.
 //  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
-#import "GKReturnWebViewController.h"
+#import "GFReturnWebViewController.h"
 
 
-@interface GKReturnWebViewController ()
+@interface GFReturnWebViewController ()
 
 @property (nonatomic, strong) UIWebView *webView;
 
 @end
 
-@implementation GKReturnWebViewController
+@implementation GFReturnWebViewController
 
 
 -(void)viewWillAppear:(BOOL)animated{

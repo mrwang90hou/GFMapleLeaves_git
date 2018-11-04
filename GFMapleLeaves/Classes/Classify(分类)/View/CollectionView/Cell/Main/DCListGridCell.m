@@ -2,8 +2,8 @@
 //  DCListGridCell.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/13.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/13.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
 #import "DCListGridCell.h"
@@ -45,6 +45,7 @@
 @property (strong , nonatomic)UILabel *mothSalesVolumeLabel;
 /* 券 */
 @property (strong , nonatomic)UIImageView *ticketImageView;
+
 @property (strong , nonatomic)UILabel *ticketLabel;
 /* 冒号 */
 @property (strong , nonatomic)UIButton *colonButton;
@@ -74,7 +75,7 @@
     _gridImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:_gridImageView];
     _tbLogoImageView = [[UIImageView alloc] init];
-    _tbLogoImageView.image = [UIImage imageNamed:@"icon_taobao"];
+//    _tbLogoImageView.image = [UIImage imageNamed:@"icon_taobao"];
     [self addSubview:_tbLogoImageView];
     _gridLabel = [[UILabel alloc] init];
     _gridLabel.font = PFR14Font;
@@ -92,7 +93,7 @@
     _priceLabel.textColor = [UIColor redColor];
     [self addSubview:_priceLabel];
     _downPriceImageView = [[UIImageView alloc] init];
-    _downPriceImageView.image = [UIImage imageNamed:@"coupons_bg"];
+//    _downPriceImageView.image = [UIImage imageNamed:@"coupons_bg"];
     _downPriceImageView.hidden = true;
     [self addSubview:_downPriceImageView];
     _downPriceLabel = [[UILabel alloc] init];
@@ -105,17 +106,17 @@
     [self addSubview:_downPriceLabel];
     _goodsRateRLabel = [[UILabel alloc] init];
     _goodsRateRLabel.font = PFR11Font;
-    _goodsRateRLabel.text = @"好评99.8%";
+//    _goodsRateRLabel.text = @"好评99.8%";
     _goodsRateRLabel.textColor = [UIColor grayColor];
     [self addSubview:_goodsRateRLabel];
     _tCatPriceLabel = [[UILabel alloc] init];
     _tCatPriceLabel.font = PFR11Font;
-    _tCatPriceLabel.text = @"天猫价：168";
+//    _tCatPriceLabel.text = @"天猫价：168";
     _tCatPriceLabel.textColor = [UIColor grayColor];
     [self addSubview:_tCatPriceLabel];
     _mothSalesVolumeLabel = [[UILabel alloc] init];
     _mothSalesVolumeLabel.font = PFR11Font;
-    _mothSalesVolumeLabel.text = @"月销450";
+//    _mothSalesVolumeLabel.text = @"月销450";
     _mothSalesVolumeLabel.textColor = [UIColor grayColor];
     [self addSubview:_mothSalesVolumeLabel];
     _ticketImageView = [[UIImageView alloc] init];
@@ -123,7 +124,7 @@
     [self addSubview:_ticketImageView];
     _ticketLabel = [[UILabel alloc] init];
     _ticketLabel.font = PFR13Font;
-    _ticketLabel.text = @"券￥50";
+    _ticketLabel.text = @"券￥5";
     //    UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"coupons_bg"]];
     //    [_ticketLabel setBackgroundColor:color];
     _ticketLabel.textColor = [UIColor whiteColor];
@@ -204,29 +205,30 @@
 }
 
 #pragma mark - Setter Getter Methods
-- (void)setYouSelectItem:(DCRecommendItem *)youSelectItem
+- (void)setYouSelectItem:(DCRecommendItem2 *)youSelectItem
 {
-//    _youSelectItem = youSelectItem;
+    
+     _youSelectItem = youSelectItem;
 //    [_gridImageView sd_setImageWithURL:[NSURL URLWithString:youSelectItem.image_url]];
 //    _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youSelectItem.price floatValue]];
 //    _gridLabel.text = youSelectItem.main_title;
 //    //首行缩进
 //    [DCSpeedy dc_setUpLabel:_gridLabel Content:youSelectItem.main_title IndentationFortheFirstLineWith:_gridLabel.font.pointSize * 2.5];
+    [_gridImageView sd_setImageWithURL:[NSURL URLWithString:youSelectItem.itempic]];
+    //淘宝&天猫店铺
+    [_tbLogoImageView setImage:SETIMAGE([youSelectItem.shoptype isEqualToString:@"C"]?@"icon_taobao":@"icon_tianmao")];
+    _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youSelectItem.itemendprice floatValue]];
+    //    [_beforeDownPriceLabel setText:[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youSelectItem.itemprice floatValue]]];
     
-    _gridImageView.image = [UIImage imageNamed:@"icon_default_loadError128"];
-    _tbLogoImageView.image = [UIImage imageNamed:@"icon_taobao"];
-    _gridLabel.text = @"男士运动套装春秋款情侣款跑步服长袖长裤运动装户外...";
+    [_tCatPriceLabel setText:[youSelectItem.shoptype isEqualToString:@"C"]?[NSString stringWithFormat:@"淘宝价：¥ %.2f",[youSelectItem.itemprice floatValue]]:[NSString stringWithFormat:@"天猫价：¥ %.2f",[youSelectItem.itemprice floatValue]]];
+    _gridLabel.text = youSelectItem.itemtitle;
+    [_ticketLabel setText:[NSString stringWithFormat:@"券￥%d",[youSelectItem.couponmoney intValue]]];
+    [_mothSalesVolumeLabel setText:[NSString stringWithFormat:@"月销：%d",[youSelectItem.itemsale intValue]]];
     _goodGridLabel.text = @"淘宝|好货";
-    _priceLabel.text = [NSString stringWithFormat:@"¥ %d",118];
-    _tCatPriceLabel.text = @"天猫价：118";
     _downPriceImageView.image = [UIImage imageNamed:@"coupons_bg"];
     _downPriceLabel.text = @"满两套减50";
     _goodsRateRLabel.text = @"好评99.8%";
-    _tCatPriceLabel.text = @"天猫价：168";
-    _mothSalesVolumeLabel.text = @"月销450";
     _ticketImageView.image = [UIImage imageNamed:@"coupons_bg"];
-    _ticketLabel.text = @"券￥50";
-    
     //首行缩进
     [DCSpeedy dc_setUpLabel:_gridLabel Content:_gridLabel.text IndentationFortheFirstLineWith:_gridLabel.font.pointSize * 2];
     

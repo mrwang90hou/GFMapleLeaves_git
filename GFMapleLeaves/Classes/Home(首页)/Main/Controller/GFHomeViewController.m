@@ -1,12 +1,12 @@
 //
-//  DCHandPickViewController.m
+//  GFHomeViewController.m
 //  GFMapleLeaves
 //
-//  Created by mrwang90hou on 2019/9/26.
-//  Copyright © 2019年 mrwang90hou. All rights reserved.
+//  Created by mrwang90hou on 2018/9/26.
+//  Copyright © 2018年 mrwang90hou. All rights reserved.
 //
 
-#import "DCHandPickViewController.h"
+#import "GFHomeViewController.h"
 
 // Controllers
 #import "GFNavigationController.h"
@@ -18,6 +18,11 @@
 #import "GFGoodDetailViewController.h"
 #import "DCGoodBaseViewController.h"
 #import "GFGoodDetailNewViewController.h"
+#import "GFReturnWebViewController.h"
+
+#import "GFHandPinkViewController.h"
+#import "GFTodayWorthBuyViewController.h"
+#import "GFBuyByVideoViewController.h"
 // Models
 #import "DCGridItem.h"
 #import "DCRecommendItem.h"
@@ -59,7 +64,7 @@
 #import "PYTempViewController.h"
 
 
-@interface DCHandPickViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,PYSearchViewControllerDelegate>
+@interface GFHomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,PYSearchViewControllerDelegate>
 
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -72,11 +77,17 @@
 /* 首页5张图片数据（今日值得买，今日关注。。。。） */
 @property (nonatomic,strong)  NSArray *hotViewCellImageArr;
 @property (nonatomic,strong)  NSArray *hotViewCellImageURLArray;
+//双十一购物连接
+@property (nonatomic,strong)  NSString *shop11Url;
+
+
 /* 10个属性 */
 @property (strong , nonatomic)NSMutableArray<DCGridItem *> *gridItem;
 /* 推荐商品属性 */
 @property (strong , nonatomic)NSMutableArray<DCRecommendItem *> *youLikeItem;
-@property (strong , nonatomic)NSMutableArray<DCRecommendItem2 *> *youLikeItem2;
+//@property (strong , nonatomic)NSMutableArray<DCRecommendItem2 *> *youLikeItem2;
+@property (strong , nonatomic)NSMutableArray *youLikeItem2;
+@property (nonatomic, assign) NSInteger page;                          /**<页码*/
 /* 顶部工具View */
 @property (nonatomic, strong) DCHomeTopToolView *topToolView;
 /* 滚回顶部按钮 */
@@ -86,6 +97,9 @@
 
 //headerView点击 btn
 @property (nonatomic,strong) UIButton *headerViewBtn;
+
+
+
 
 @end
 /* cell */
@@ -105,7 +119,7 @@ static NSString *const DCTopLineFootViewID = @"DCTopLineFootView";
 static NSString *const DCOverFootViewID = @"DCOverFootView";
 static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 
-@implementation DCHandPickViewController
+@implementation GFHomeViewController
 
 #pragma mark - LazyLoad
 - (UICollectionView *)collectionView
@@ -134,16 +148,22 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         [_collectionView registerClass:[DCCountDownHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCCountDownHeadViewID];
         
         [self.view addSubview:_collectionView];
+        WEAKSELF;
+        [weakSelf requestData];
+        _collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            [weakSelf loadMoreData];
+        }];
     }
     return _collectionView;
 }
 
-//-(NSMutableArray *)adBanerArr{
-//    if (!_adBanerArr) {
-//        _adBanerArr = [[NSMutableArray alloc]initWithObjects:@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128",@"icon_default_loadError128"];
-//    }
-//    return _adBanerArr;
-//}
+
+-(NSMutableArray *)youLikeItem2{
+    if (!_youLikeItem2) {
+        _youLikeItem2 = [NSMutableArray array];
+    }
+    return _youLikeItem2;
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -211,7 +231,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //    _youLikeItem2 = [DCRecommendItem mj_objectArrayWithFilename:@"HomeHighGoods2.plist"];
 }
 
-- (void)requestData{
+- (void)requestDataOld{
     /*
 //    NSString *NewCheckCode = [self makeCheckCodeWithUserID:[NSString stringWithFormat:@"%@",userID] loginID:[NSString stringWithFormat:@"%@",loginID] loginCheckCode:checkCode rand:rand];
 //    NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
@@ -274,6 +294,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     NSMutableArray *hotViewCellImageURLArray = [NSMutableArray array];
     
     NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
+    NSMutableArray *shop11UrlArray = [NSMutableArray array];
 //    NSMutableArray *mAraayVo = [NSMutableArray new];
     
     // 创建信号量
@@ -310,14 +331,21 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             for (NSDictionary *dict in dataArray) {
                 [hotViewCellImageArr addObject:dict[@"img"]];
                 [hotViewCellImageURLArray addObject:dict[@"url"]];
+                if ([dict[@"id"] intValue] == 1) {
+                    [shop11UrlArray addObject:dict[@"url"]];
+                }
             }
+            //回到主线程更新UI -> 撤销遮罩
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.shop11Url = shop11UrlArray[0];
+                [self.collectionView reloadData];
+            });
 //            self.adBanerArr = adBanerArr;
             dispatch_semaphore_signal(semaphore);
         } failure:^(MQError *error) {
             
             [SVProgressHUD showErrorWithStatus:error.msg];
         }];
-        
     });
     dispatch_group_async(group, queue, ^{
         // 【请求三】猜你喜欢列表
@@ -373,8 +401,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //            self.adBanerURLArr = adBanerURLArr;
             self.hotViewCellImageArr = hotViewCellImageArr;
             self.hotViewCellImageURLArray = hotViewCellImageURLArray;
-            
+//            self.shop11Url =
 //            self.youLikeItem2 = [youLikeItem2 copy];
+            
             [self.collectionView reloadData];
         });
     });
@@ -726,15 +755,37 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //    return (section == 4 || section == 5) ? 4 : 0;
     return section == 4 ? 1:section == 5 ? 4 : 0;
 }
-
+#pragma mark -cell点击事件
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {//10
         DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
         goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
         goodSetVc.typeNumber = indexPath.row;
         [self.navigationController pushViewController:goodSetVc animated:YES];
-        
     }else if (indexPath.section == 4) {
+        if (indexPath.row == 0) {
+            GFReturnWebViewController *vc = [GFReturnWebViewController new];
+            vc.webViewUrl = self.shop11Url;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        //方案二
+        else{
+            GFHandPinkViewController *vc = [GFHandPinkViewController new];
+            vc.typeNumber = indexPath.row-1;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
+        
+        //方案一
+//        else if(indexPath.row == 1){
+//            GFTodayWorthBuyViewController *vc = [GFTodayWorthBuyViewController new];
+////            vc.goodPlisName = @"ClasiftyGoods.plist";
+////            vc.typeNumber = indexPath.row;
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }else if(indexPath.row == 2){
+//            GFBuyByVideoViewController *vc = [GFBuyByVideoViewController new];
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }
         
     }else if (indexPath.section == 5){
         NSLog(@"点击了推荐的第%ld个商品",(long)indexPath.row);
@@ -800,6 +851,99 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 #pragma mark - 消息
 - (void)messageItemClick
 {
-
 }
+#pragma mark -底部collectionView下拉刷新
+//今日值得买
+-(void)requestData{
+    [SVProgressHUD showWithStatus:@"正在加载"];
+    self.page = 1;
+    NSDictionary *dict=@{
+                         @"page":@(self.page)
+                         };
+    // 【请求三】猜你喜欢列表
+    [GCHttpDataTool getGuestLikeWithDict:dict success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        [self loadSuccessBlockWith:responseObject];
+        //回到主线程更新UI -> 撤销遮罩
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.youLikeItem2 = [youLikeItem2 copy];
+//            [self.collectionView reloadData];
+//        });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+    
+    [self.collectionView.mj_footer resetNoMoreData];
+}
+
+-(void)loadMoreData{
+    [SVProgressHUD showWithStatus:@"正在加载"];
+    NSDictionary *dict=@{
+                         @"page":@(self.page)
+                         };
+    [GCHttpDataTool getGuestLikeWithDict:dict success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        [self loadSuccessBlockWith:responseObject];
+        //回到主线程更新UI -> 撤销遮罩
+        //            dispatch_async(dispatch_get_main_queue(), ^{
+        //                self.goodsItems = [goodsItems copy];
+        //                [self.collectionView reloadData];
+        //            });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+        [SVProgressHUD dismiss];
+    }];
+    [self.collectionView.mj_footer resetNoMoreData];
+}
+
+-(void)loadSuccessBlockWith:(id)responseObject{
+//    NSMutableArray<DCRecommendItem2 *> *goodsItems = [NSMutableArray array];
+    NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
+    self.page = self.page + 1;
+    [self.collectionView.mj_header endRefreshing];
+    NSArray *dataArray = responseObject[@"data"];
+    for (NSDictionary *dict in dataArray) {
+        DCRecommendItem2 *model = [DCRecommendItem2 new];
+        //                model.itemid = [dict[@"itemid"] intValue];
+        model.itemid = [dict objectForKey:@"itemid"];
+        model.itemtitle = dict[@"itemtitle"];
+        model.itemdesc = dict[@"itemdesc"];
+        model.itemprice = dict[@"itemprice"];
+        model.itemsale = dict[@"itemsale"];
+        //                model.todaysale = [dict[@"todaysale"] intValue];
+        model.todaysale = [dict objectForKey:@"todaysale"];
+        if ((NSNull*)model.todaysale == [NSNull null]) {
+            model.todaysale = @"";
+        }
+        model.itempic = dict[@"itempic"];
+        model.itemendprice = dict[@"itemendprice"];
+        model.shoptype = dict[@"shoptype"];
+        model.couponurl = dict[@"couponurl"];
+        model.couponmoney = dict[@"couponmoney"];
+        model.videoid = dict[@"videoid"];
+        model.tkmoney = dict[@"tkmoney"];
+        [youLikeItem2 addObject:model];
+//        [self.youLikeItem2 addObject:model];
+    }
+    
+////    回到主线程更新UI -> 撤销遮罩
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.youLikeItem2 addObjectsFromArray:[youLikeItem2 copy]];
+//            [self.collectionView reloadData];
+//        });
+//    [self.youLikeItem2 addObjectsFromArray:[youLikeItem2 copy]];
+    self.youLikeItem2 = [youLikeItem2 copy];
+    self.collectionView.mj_footer.hidden = NO;
+    if (dataArray.count == 0) {
+        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+        self.collectionView.mj_footer.hidden = YES;
+        return;
+    }
+    self.collectionView.mj_footer.hidden = NO;
+    [self.collectionView.mj_footer endRefreshing];
+    [self.collectionView reloadData];
+}
+
+
+
 @end

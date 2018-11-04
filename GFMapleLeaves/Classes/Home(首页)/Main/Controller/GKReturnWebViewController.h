@@ -1,5 +1,5 @@
 //
-//  GKGoodsDetailsGetTicketWebViewController.h
+//  GKReturnWebViewController.h
 //  GFMapleLeaves
 //
 //  Created by 王宁 on 2018/11/4.
@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "GFBaseSetViewController.h"
-@interface GKGoodsDetailsGetTicketWebViewController : GFBaseSetViewController
+@interface GKReturnWebViewController : GFBaseSetViewController
+
 
 @property (strong , nonatomic)NSString *webViewUrl;
 

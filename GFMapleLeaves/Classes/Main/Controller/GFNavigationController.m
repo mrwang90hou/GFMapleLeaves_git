@@ -37,7 +37,6 @@
 #pragma mark - LifeCyle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [GQGesVCTransition validateGesBackWithType:GQGesVCTransitionTypePanWithPercentRight withRequestFailToLoopScrollView:YES]; //手势返回
 }
 
@@ -46,18 +45,18 @@
 {
     UINavigationBar *bar = [UINavigationBar appearance];
 //    bar.barTintColor = DCBGColor;
-//    bar.barTintColor = GFPink2Cokor;
-    bar.barTintColor = GFOrgangeCokor;
-    [bar setTintColor:[UIColor darkGrayColor]];
-    bar.translucent = YES; 
+    bar.barTintColor = GFPink2Cokor;
+//    bar.barTintColor = GFOrgangeCokor;
+//    [bar setTintColor:[UIColor darkGrayColor]];
+    bar.translucent = YES;
     [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     // 设置导航栏字体颜色
     UIColor * naiColor = [UIColor blackColor];
     attributes[NSForegroundColorAttributeName] = naiColor;
     attributes[NSFontAttributeName] = PFR18Font;
     bar.titleTextAttributes = attributes;
+    
 }
 
 #pragma mark - 返回

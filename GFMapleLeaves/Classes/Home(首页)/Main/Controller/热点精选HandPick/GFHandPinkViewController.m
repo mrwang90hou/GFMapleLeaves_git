@@ -258,26 +258,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
     button.frame = CGRectMake(0, 0, 44, 44);
     [button addTarget:self action:@selector(switchViewButtonBarItemClick:) forControlEvents:UIControlEventTouchUpInside];
     self.switchViewButton = button;
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-//    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
-    _topSearchView = [[UIView alloc] init];
-    _topSearchView.backgroundColor = [UIColor whiteColor];
-    _topSearchView.layer.cornerRadius = 16;
-    [_topSearchView.layer masksToBounds];
-    _topSearchView.frame = CGRectMake(50, 6, ScreenW - 110, 32);
-//    self.navigationItem.titleView = _topSearchView;
-    _searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_searchButton setTitle:@"搜索商品/店铺" forState:0];
-    [_searchButton setTitleColor:[UIColor lightGrayColor] forState:0];
-    _searchButton.titleLabel.font = PFR13Font;
-    [_searchButton setImage:[UIImage imageNamed:@"group_home_search_gray"] forState:0];
-    [_searchButton adjustsImageWhenHighlighted];
-    _searchButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    _searchButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2 * DCMargin, 0, 0);
-    _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, DCMargin, 0, 0);
-    [_searchButton addTarget:self action:@selector(searchButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    _searchButton.frame = CGRectMake(0, 0, _topSearchView.dc_width - 2 * DCMargin, _topSearchView.dc_height);
-    [_topSearchView addSubview:_searchButton];
 }
 
 #pragma mark - 悬浮按钮
@@ -341,9 +321,9 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
         
         DCCustionHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCCustionHeadViewID forIndexPath:indexPath];
         WEAKSELF
-//        headerView.filtrateClickBlock = ^{//点击了筛选
-//            [weakSelf filtrateButtonClick];
-//        };
+        headerView.filtrateClickBlock = ^{//点击了筛选
+            [weakSelf filtrateButtonClick];
+        };
         headerView.changeViewClickBlock = ^{
 //            [weakSelf filtrateButtonClick];
             [weakSelf switchViewButtonBarItemClick:self.switchViewButton];
@@ -476,12 +456,6 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
 - (void)filtrateButtonClick
 {
     [DCSildeBarView dc_showSildBarViewController];
-}
-
-#pragma mark - 点击搜索
-- (void)searchButtonClick
-{
-    
 }
 
 #pragma mark - 转场动画弹出控制器

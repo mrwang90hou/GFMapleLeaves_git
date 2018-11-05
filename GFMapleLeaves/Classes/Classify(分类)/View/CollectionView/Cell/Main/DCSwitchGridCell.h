@@ -19,5 +19,4 @@
 /* 最终数据 */
 @property (strong , nonatomic)DCRecommendItem2 *youSelectItem;
 
-
 @end

@@ -48,10 +48,10 @@
 {
     self.backgroundColor = [UIColor whiteColor];
 //    NSArray *titles = @[@"推荐",@"价格",@"销量",@"筛选"];
-    NSArray *titles = @[@"综合",@"券后价",@"销量",@""];
+//    NSArray *titles = @[@"综合",@"券后价",@"销量",@""];
+    NSArray *titles = @[@"优惠券",@"券后价",@"销量",@""];
 //    NSArray *noImage = @[@"icon_Arrow2",@"icon_Arrowup",@"icon_Arrowup",@"icon_shaixuan"];
     NSArray *noImage = @[@"icon_Arrow2",@"icon_Arrowup",@"icon_Arrowup",@"flzq_nav_jiugongge"];
-    
     CGFloat btnW = self.dc_width / titles.count;
     CGFloat btnH = self.dc_height;
     CGFloat btnY = 0;
@@ -95,7 +95,9 @@
         _selectBottomRedView.hidden = YES;
         [_selectBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        
+        [button setImage:[UIImage imageNamed:@"icon_Arrow2"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"icon_Arrowup"] forState:UIControlStateSelected];
+        button.selected = !button.selected;
         UIView *bottomRedView = [[UIView alloc] init];
         [self addSubview:bottomRedView];
         bottomRedView.backgroundColor = [UIColor redColor];
@@ -104,7 +106,6 @@
         bottomRedView.dc_y = button.dc_height - bottomRedView.dc_height;
         bottomRedView.dc_x = button.dc_x;
         bottomRedView.hidden = NO;
-        
         _selectBtn = button;
         _selectBottomRedView = bottomRedView;
     }

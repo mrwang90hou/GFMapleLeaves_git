@@ -216,7 +216,6 @@
 #pragma mark - Setter Getter Methods
 - (void)setYouSelectItem:(DCRecommendItem2 *)youSelectItem
 {
-    
      _youSelectItem = youSelectItem;
 //    [_gridImageView sd_setImageWithURL:[NSURL URLWithString:youSelectItem.image_url]];
 //    _priceLabel.text = [NSString stringWithFormat:@"¥ %.2f",[youSelectItem.price floatValue]];

@@ -155,11 +155,8 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
     button.frame = CGRectMake(0, 0, 44, 44);
     [button addTarget:self action:@selector(switchViewButtonBarItemClick:) forControlEvents:UIControlEventTouchUpInside];
     self.switchViewButton = button;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:button];
 //    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
-//    self.title = @"女装";
-    
     _topSearchView = [[UIView alloc] init];
     _topSearchView.backgroundColor = [UIColor whiteColor];
     _topSearchView.layer.cornerRadius = 16;

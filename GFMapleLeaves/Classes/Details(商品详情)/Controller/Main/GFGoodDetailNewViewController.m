@@ -194,6 +194,8 @@ static NSArray *lastSeleArray_;
     //    NSLog(@"json = %@",json);
 //    _dataArray = json[@"data"];
     _dataArray  = @[];
+//    self.shufflingArray = @[@"icon_default_loadError128"];
+    self.shufflingArray = @[@"小枫叶Logo.png"];
     [self requestData];
 }
 

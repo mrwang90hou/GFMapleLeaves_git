@@ -158,7 +158,7 @@ static NSString *const DCListGridCellID = @"DCListGridCell";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     
 //    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
-    self.title = @"女装";
+//    self.title = @"女装";
     
     _topSearchView = [[UIView alloc] init];
     _topSearchView.backgroundColor = [UIColor whiteColor];

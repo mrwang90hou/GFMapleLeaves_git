@@ -11,7 +11,7 @@
 // Controllers
 #import "GFNavigationController.h"
 #import "DCGoodsSetViewController.h"
-#import "DCCommodityViewController.h"
+#import "GFCommodityClassifyViewController.h"
 #import "DCMyTrolleyViewController.h"
 #import "DCGoodDetailViewController.h"
 #import "DCGMScanViewController.h"
@@ -20,6 +20,7 @@
 #import "GFGoodDetailNewViewController.h"
 #import "GFReturnWebViewController.h"
 
+#import "GFProjectClassificationViewController.h"
 #import "GFHandPinkViewController.h"
 #import "GFTodayWorthBuyViewController.h"
 #import "GFBuyByVideoViewController.h"
@@ -97,9 +98,6 @@
 
 //headerView点击 btn
 @property (nonatomic,strong) UIButton *headerViewBtn;
-
-
-
 
 @end
 /* cell */
@@ -347,8 +345,9 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             [SVProgressHUD showErrorWithStatus:error.msg];
         }];
     });
+    /*// 【请求三】猜你喜欢列表
     dispatch_group_async(group, queue, ^{
-        // 【请求三】猜你喜欢列表
+     
         [GCHttpDataTool getGuestLikeWithDict:nil success:^(id responseObject) {
             
             NSArray *dataArray = responseObject[@"data"];
@@ -385,12 +384,12 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
             [SVProgressHUD showErrorWithStatus:error.msg];
         }];
     });
-    
+    */
     dispatch_group_notify(group, queue, ^{
         // 三个请求对应三次信号等待
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         //在这里 进行请求后的方法，回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
             /*更新UI操作*/
@@ -438,7 +437,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
     };
     _topToolView.rightItemClickBlock = ^{
         NSLog(@"点击了消息页面");
-//        DCCommodityViewController *dcComVc = [DCCommodityViewController new];
+//        GFCommodityClassifyViewController *dcComVc = [GFCommodityClassifyViewController new];
 //        [weakSelf.navigationController pushViewController:dcComVc animated:YES];
     };
     _topToolView.rightRItemClickBlock = ^{
@@ -758,10 +757,13 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 #pragma mark -cell点击事件
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {//10
-        DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
-        goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
-        goodSetVc.typeNumber = indexPath.row;
-        [self.navigationController pushViewController:goodSetVc animated:YES];
+//        DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
+//        goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
+//        goodSetVc.typeNumber = indexPath.row;
+//        [self.navigationController pushViewController:goodSetVc animated:YES];
+        GFProjectClassificationViewController *vc = [[GFProjectClassificationViewController alloc]init];
+        vc.typeNumber = indexPath.row;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == 4) {
         if (indexPath.row == 0) {
             GFReturnWebViewController *vc = [GFReturnWebViewController new];
@@ -922,8 +924,8 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
         model.couponmoney = dict[@"couponmoney"];
         model.videoid = dict[@"videoid"];
         model.tkmoney = dict[@"tkmoney"];
-        [youLikeItem2 addObject:model];
-//        [self.youLikeItem2 addObject:model];
+//        [youLikeItem2 addObject:model];
+        [self.youLikeItem2 addObject:model];
     }
     
 ////    回到主线程更新UI -> 撤销遮罩
@@ -932,7 +934,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 //            [self.collectionView reloadData];
 //        });
 //    [self.youLikeItem2 addObjectsFromArray:[youLikeItem2 copy]];
-    self.youLikeItem2 = [youLikeItem2 copy];
+//    self.youLikeItem2 = [youLikeItem2 copy];
     self.collectionView.mj_footer.hidden = NO;
     if (dataArray.count == 0) {
         [self.collectionView.mj_footer endRefreshingWithNoMoreData];

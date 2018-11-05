@@ -132,7 +132,7 @@
  @param success 请求成功的回调
  @param failure 请求失败的回调
  */
-+ (void) getCatnameListWithDict:(NSDictionary *)dict success:(void (^)(id responseObject))success failure:(void (^)(MQError *error))failure;
++ (void) getCatnameListWithDict:(NSDictionary *)dict typeNumber:(NSInteger)type success:(void (^)(id responseObject))success failure:(void (^)(MQError *error))failure;
 
 
 /**

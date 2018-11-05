@@ -96,7 +96,7 @@
 //                              MallSelImgKey : @"tabr_02_down"},
 //                            DCMyTrolleyViewController *shopCarVc = [DCMyTrolleyViewController new];
 //                            shopCarVc.isTabBar = YES;
-                            @{MallClassKey  : @"DCCommodityViewController",
+                            @{MallClassKey  : @"GFCommodityClassifyViewController",
                               MallTitleKey  : @"分类",
 //                              MallImgKey    : @"tabr_02_up",
 //                              MallSelImgKey : @"tabr_02_down"},

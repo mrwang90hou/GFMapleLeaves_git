@@ -263,12 +263,22 @@
     }];
 }
 
-+ (void)getCatnameListWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
++ (void)getCatnameListWithDict:(NSDictionary *)dict typeNumber:(NSInteger)type success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@",CatNameList_URL];
-    NSLog(@"当前URL请求【通过分类名称点击进入列表信息】为：%@",urlString);
-    NSLog(@"parameters参数为：%@",dict);
     
+//    NSArray *typeArrStr =  @[@"女装",@"男装",@"内衣",@"美妆",@"配饰",@"鞋品",@"箱包",@"儿童",@"母婴",@"居家",@"美食",@"数码",@"家电",@"其他",@"车品",@"文体"];
+    NSArray *typeArrStr = @[@"女装",@"母婴",@"美妆",@"家居",@"内衣",@"男装",@"美食",@"数码",@"鞋包",@"全部"];
+//    NSString *urlString=[NSString stringWithFormat:@"%@?%@&",CatNameList_URL,[typeArrStr objectAtIndex:type]];
+    
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@?",CatNameList_URL];
+    // Step1:拼接请求的参数
+    for (NSString *key in [dict allKeys]) {
+        urlString = [NSString stringWithFormat:@"%@%@=%@&", urlString, key, [dict objectForKey:key]];
+    }
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"当前URL请求【通过分类名称点击进入列表信息[%@]】为：%@",[typeArrStr objectAtIndex:type],urlString);
+    NSLog(@"parameters参数为：%@",dict);
     
     [GCHttpTool GET:urlString parameters:dict success:^(id responseObject) {
         
@@ -343,7 +353,6 @@
 + (void)getGoodsDetailWithDict:(NSDictionary *)dict success:(void (^)(id))success failure:(void (^)(MQError *))failure
 {
 //    NSString *urlString=[NSString stringWithFormat:@"%@",GoodsDetail_URL];
-    
     // Step1:拼接请求的参数
     NSString *url = [NSString stringWithFormat:@"%@?", GoodsDetail_URL];
     for (NSString *key in [dict allKeys]) {

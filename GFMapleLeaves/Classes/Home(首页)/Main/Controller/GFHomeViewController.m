@@ -855,7 +855,7 @@ static NSString *const DCScrollAdFootViewID = @"DCScrollAdFootView";
 {
 }
 #pragma mark -底部collectionView下拉刷新
-//今日值得买
+//猜你喜欢列表
 -(void)requestData{
     [SVProgressHUD showWithStatus:@"正在加载"];
     self.page = 1;

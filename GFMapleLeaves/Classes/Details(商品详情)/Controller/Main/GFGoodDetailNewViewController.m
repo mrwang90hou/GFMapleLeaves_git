@@ -88,7 +88,9 @@
 @property(nonatomic,assign)Boolean *setDetailsImageHidden;
 
 /* 猜你喜欢 */
-@property (strong , nonatomic)NSMutableArray<DCRecommendItem2 *> *youLikeItem2;
+//@property (strong , nonatomic)NSMutableArray<DCRecommendItem2 *> *youLikeItem2;
+@property (strong , nonatomic)NSMutableArray *youLikeItem2;
+@property (nonatomic, assign) NSInteger page;
 /*跳转的连接*/
 @property(strong,nonatomic)NSString *couponurl;
 @end
@@ -159,17 +161,28 @@ static NSArray *lastSeleArray_;
         //注册Footer
         [_collectionView registerClass:[GFDetailOverFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:GFDetailOverFooterViewID];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"UICollectionElementKindSectionFooter"]; //间隔
-        
+        WEAKSELF;
+        [weakSelf requestData];
+        _collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            [weakSelf loadMoreData];
+        }];
     }
     return _collectionView;
 }
 
+-(NSMutableArray *)youLikeItem2{
+    if (!_youLikeItem2) {
+        _youLikeItem2 = [NSMutableArray array];
+    }
+    return _youLikeItem2;
+}
 #pragma mark - LifeCyle
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -196,10 +209,10 @@ static NSArray *lastSeleArray_;
     _dataArray  = @[];
 //    self.shufflingArray = @[@"icon_default_loadError128"];
     self.shufflingArray = @[@"小枫叶Logo.png"];
-    [self requestData];
+    [self requestAllData];
 }
 
-- (void)requestData{
+- (void)requestAllData{
     //【商品详情页面数据】
     
     NSDictionary *dic = @{
@@ -239,8 +252,8 @@ static NSArray *lastSeleArray_;
     }];
     
     
-    NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
-    /*猜你喜欢*/
+//    NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
+    /*//猜你喜欢
     // 【请求三】猜你喜欢列表
     [GCHttpDataTool getGuestLikeWithDict:nil success:^(id responseObject) {
         
@@ -277,10 +290,11 @@ static NSArray *lastSeleArray_;
         [SVProgressHUD showErrorWithStatus:error.msg];
     }];
     
-    
+    */
     
     
 }
+
 //过滤后台返回字符串中的标签
 - (NSString *)flattenHTML:(NSString *)html {
     
@@ -353,6 +367,97 @@ static NSArray *lastSeleArray_;
         }
     }
     return imageurlArray;
+}
+
+#pragma mark -底部collectionView下拉刷新
+//猜你喜欢列表
+-(void)requestData{
+    [SVProgressHUD showWithStatus:@"正在加载"];
+    self.page = 1;
+    NSDictionary *dict=@{
+                         @"page":@(self.page)
+                         };
+    // 【请求三】猜你喜欢列表
+    [GCHttpDataTool getGuestLikeWithDict:dict success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        [self loadSuccessBlockWith:responseObject];
+        //回到主线程更新UI -> 撤销遮罩
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //            self.youLikeItem2 = [youLikeItem2 copy];
+        //            [self.collectionView reloadData];
+        //        });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+    }];
+    
+    [self.collectionView.mj_footer resetNoMoreData];
+}
+
+-(void)loadMoreData{
+    [SVProgressHUD showWithStatus:@"正在加载"];
+    NSDictionary *dict=@{
+                         @"page":@(self.page)
+                         };
+    [GCHttpDataTool getGuestLikeWithDict:dict success:^(id responseObject) {
+        [SVProgressHUD dismiss];
+        [self loadSuccessBlockWith:responseObject];
+        //回到主线程更新UI -> 撤销遮罩
+        //            dispatch_async(dispatch_get_main_queue(), ^{
+        //                self.goodsItems = [goodsItems copy];
+        //                [self.collectionView reloadData];
+        //            });
+    } failure:^(MQError *error) {
+        [SVProgressHUD showErrorWithStatus:error.msg];
+        [SVProgressHUD dismiss];
+    }];
+    [self.collectionView.mj_footer resetNoMoreData];
+}
+
+-(void)loadSuccessBlockWith:(id)responseObject{
+//    NSMutableArray<DCRecommendItem2 *> *youLikeItem2 = [NSMutableArray array];
+    self.page = self.page + 1;
+    [self.collectionView.mj_header endRefreshing];
+    NSArray *dataArray = responseObject[@"data"];
+    for (NSDictionary *dict in dataArray) {
+        DCRecommendItem2 *model = [DCRecommendItem2 new];
+        //                model.itemid = [dict[@"itemid"] intValue];
+        model.itemid = [dict objectForKey:@"itemid"];
+        model.itemtitle = dict[@"itemtitle"];
+        model.itemdesc = dict[@"itemdesc"];
+        model.itemprice = dict[@"itemprice"];
+        model.itemsale = dict[@"itemsale"];
+        //                model.todaysale = [dict[@"todaysale"] intValue];
+        model.todaysale = [dict objectForKey:@"todaysale"];
+        if ((NSNull*)model.todaysale == [NSNull null]) {
+            model.todaysale = @"";
+        }
+        model.itempic = dict[@"itempic"];
+        model.itemendprice = dict[@"itemendprice"];
+        model.shoptype = dict[@"shoptype"];
+        model.couponurl = dict[@"couponurl"];
+        model.couponmoney = dict[@"couponmoney"];
+        model.videoid = dict[@"videoid"];
+        model.tkmoney = dict[@"tkmoney"];
+//        [youLikeItem2 addObject:model];
+        [self.youLikeItem2 addObject:model];
+    }
+    ////    回到主线程更新UI -> 撤销遮罩
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    //            [self.youLikeItem2 addObjectsFromArray:[youLikeItem2 copy]];
+    //            [self.collectionView reloadData];
+    //        });
+    //    [self.youLikeItem2 addObjectsFromArray:[youLikeItem2 copy]];
+//    self.youLikeItem2 = [youLikeItem2 copy];
+    self.collectionView.mj_footer.hidden = NO;
+    if (dataArray.count == 0) {
+        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+        self.collectionView.mj_footer.hidden = YES;
+        return;
+    }
+    self.collectionView.mj_footer.hidden = NO;
+    [self.collectionView.mj_footer endRefreshing];
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+//    [self.collectionView reloadData];
 }
 
 #pragma mark - initialize
@@ -536,7 +641,6 @@ static NSArray *lastSeleArray_;
 //            GFCheckBabyDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:GFCheckBabyDetailsCellID forIndexPath:indexPath];
 //            gridcell = cell;
 //        }else{
-        
             static NSString *GFGoodDetailNewCellIdentifier = @"GFGoodDetailNewCellID";
             //在这里注册自定义的XIBcell 否则会提示找不到标示符指定的cell
             UINib *nib = [UINib nibWithNibName:@"GFGoodDetailNewCell" bundle: [NSBundle mainBundle]];
@@ -757,4 +861,5 @@ static NSArray *lastSeleArray_;
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD dismissWithDelay:1.0];
 }
+
 @end
